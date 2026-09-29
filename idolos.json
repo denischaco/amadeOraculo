@@ -1,0 +1,457 @@
+[
+    {
+        "name": "Daniel Willington",
+        "nickname": "El Gran Daniel",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1962 - 1978",
+        "desc": "El prócer mayor de barrio Jardín. Maestro lírico con una pegada legendaria y una elegancia que maravilló al país entero.",
+        "image": "imagenes/fotos_idolos/Willington.jpg",
+        "hashtags": [
+            "#GolAlRealMadrid",
+            "#LaBoutiqueDeFiesta",
+            "#ZapatazoInolvidable",
+            "#MagiaPura",
+            "#MísticaAlbiazul"
+        ],
+        "searchQuery": "Daniel Willington mejores jugadas gol de tiro libre Talleres Belgrano 1974"
+    },
+    {
+        "name": "Luis Galván",
+        "nickname": "El Mariscal",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1970 - 1982",
+        "desc": "El jugador con más partidos en la historia del club (502 encuentros). Campeón del Mundo en 1978 con la Selección jugando en la T y capitán del subcampeonato Nacional 1977.",
+        "image": "imagenes/fotos_idolos/Luis_Galván.jpg",
+        "hashtags": [
+            "#502Partidos",
+            "#CampeonMundial78",
+            "#CapitánHistórico",
+            "#SubcampeónNacional77",
+            "#DefensaDeHierro",
+            "#LeyendaAlbiazul"
+        ],
+        "searchQuery": "Luis Galván final del mundo 1978 Talleres de Córdoba historia"
+    },
+    {
+        "name": "Daniel Valencia",
+        "nickname": "El Rana",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1975 - 1988",
+        "desc": "La zurda más descollante del interior de la República. Campeón Mundial en 1978, compadre futbolístico de Maradona y récord de presencias albiazules en la Selección (41 partidos).",
+        "image": "imagenes/fotos_idolos/Jose_daniel_valencia.jpg",
+        "hashtags": [
+            "#ZurdaMágica",
+            "#CampeonMundial78",
+            "#Nacional77",
+            "#CompadreDeMaradona",
+            "#ToqueLíricoAlbiazul"
+        ],
+        "searchQuery": "Daniel Valencia El Rana Talleres de Córdoba jugadas históricas"
+    },
+    {
+        "name": "Luis Antonio Ludueña",
+        "nickname": "El Hacha",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1974 - 1982",
+        "desc": "Volante extraordinario de deslumbrante pegada que convirtió 113 goles con la camiseta albiazul. Ídolo popular, brilló en la gira por Zaire en 1976 y en los Torneos Nacionales.",
+        "image": "imagenes/fotos_idolos/Ludueña.jpg",
+        "hashtags": [
+            "#ElHacha",
+            "#113Goles",
+            "#GiraZaire1976",
+            "#Nacional77",
+            "#ÍdoloPopular"
+        ],
+        "searchQuery": "Luis Antonio Luduena El Hacha Talleres Zaire 1976 goles"
+    },
+    {
+        "name": "José Omar Reinaldi",
+        "nickname": "La Pepona",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1977 - 1986",
+        "desc": "Goleador de raza, estampa clásica y definición letal. Máximo artillero del Torneo Nacional 1978 con 16 goles y autor de 96 tantos con la camiseta de Talleres.",
+        "image": "imagenes/fotos_idolos/Reinaldi.jpg",
+        "hashtags": [
+            "#LaPepona",
+            "#GoleadorNacional78",
+            "#96Goles",
+            "#ChateauEnLlamas",
+            "#RompeRedes"
+        ],
+        "searchQuery": "José Omar Reinaldi La Pepona mejores goles Talleres Nacional 78"
+    },
+    {
+        "name": "Ángel Bocanelli",
+        "nickname": "El Negro",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1973 - 1981",
+        "desc": "Delantero picante e intuitivo, puntero derecho veloz y desequilibrante. Autor de goles imborrables en los torneos nacionales y en los clásicos cordobeses.",
+        "image": "imagenes/fotos_idolos/Ángel Bocanelli.jpg",
+        "hashtags": [
+            "#DelanteroPicante",
+            "#Nacional77",
+            "#GolesClásicos",
+            "#MísticaDeOro"
+        ],
+        "searchQuery": "Ángel Bocanelli goles Talleres de Córdoba Nacional 77"
+    },
+    {
+        "name": "Victorio Ocaño",
+        "nickname": "Tito",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1974 - 1985",
+        "desc": "Defensor histórico de inquebrantable entrega con 377 partidos disputados en el club. Representó a la Selección Argentina siendo un baluarte de la era dorada de Don Amadeo Nuccetelli.",
+        "image": "imagenes/fotos_idolos/Ocano.jpeg",
+        "hashtags": [
+            "#TitoOcaño",
+            "#377Partidos",
+            "#Nacional77",
+            "#EraNuccetelli",
+            "#MurallaAlbiazul"
+        ],
+        "searchQuery": "Victorio Ocaño defensor Talleres de Córdoba historia"
+    },
+    {
+        "name": "Diego Garay",
+        "nickname": "El Diez del Ascenso",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1995 - 2001",
+        "desc": "Gambeta endiablada y talento descomunal. Manija absoluta y figura consagratoria en la histórica final del 5 de julio de 1998 ante Belgrano.",
+        "image": "imagenes/fotos_idolos/garay.jpg",
+        "hashtags": [
+            "#FinalDelSiglo",
+            "#5DeJulio1998",
+            "#GambetaYCaño",
+            "#ElDiezDeLaGente",
+            "#ÍdoloDeBarrioJardín"
+        ],
+        "searchQuery": "Diego Garay final Talleres Belgrano 5 de julio 1998 jugadas"
+    },
+    {
+        "name": "Julián Maidana",
+        "nickname": "El Gran Capitán",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1998 - 2004",
+        "desc": "Zaguero central y caudillo. Autor del agónico e inolvidable cabezazo a los 90 minutos en el Chateau para conquistar la Copa Conmebol 1999 ante CSA.",
+        "image": "imagenes/fotos_idolos/Julian-maidana.png",
+        "hashtags": [
+            "#CopaConmebol1999",
+            "#CabezazoAgónico",
+            "#8DeDiciembre1999",
+            "#GolDelTítulo",
+            "#HéroeDelChateau"
+        ],
+        "searchQuery": "Julián Maidana gol de cabeza final Copa Conmebol 1999 Talleres CSA"
+    },
+    {
+        "name": "Mario Cuenca",
+        "nickname": "Supermario",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1995 - 2002",
+        "desc": "Seguridad bajo los palos y especialista letal en penales. Clave en las tandas definitorias de la final del 98 y en las noches coperas de la Conmebol 1999.",
+        "image": "imagenes/fotos_idolos/Supermario cuenca.jpg",
+        "hashtags": [
+            "#ArqueroGoleador",
+            "#CampeónConmebol99",
+            "#5DeJulio1998",
+            "#PenalesInolvidables",
+            "#LíderDelArco"
+        ],
+        "searchQuery": "Mario Cuenca arquero Talleres penales Copa Conmebol y Mercosur"
+    },
+    {
+        "name": "Rodrigo Astudillo",
+        "nickname": "El Potro",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1996 - 2001",
+        "desc": "Potencia, velocidad y gol. Pibe del club, determinante en la delantera de la hazaña internacional de 1999 convirtiendo en semifinales y en la gran final.",
+        "image": "imagenes/fotos_idolos/astudillo.jpg",
+        "hashtags": [
+            "#ElPotro",
+            "#CampeónConmebol99",
+            "#5DeJulio1998",
+            "#VelocidadYGol",
+            "#PibeDelClub"
+        ],
+        "searchQuery": "Rodrigo Astudillo goles Copa Conmebol Talleres 1999"
+    },
+    {
+        "name": "Ricardo Silva",
+        "nickname": "El Gol de la Conmebol",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1998 - 2001",
+        "desc": "Volante dinámico y determinante en el camino a la gloria continental. Marcó el primer gol en la gran final de vuelta de la Copa Conmebol 1999 que inició la remontada épica.",
+        "image": "imagenes/fotos_idolos/El Gol de la Conmebol.jpg",
+        "hashtags": [
+            "#CopaConmebol1999",
+            "#8DeDiciembre1999",
+            "#GolEnLaFinal",
+            "#VolanteGoleador"
+        ],
+        "searchQuery": "Ricardo Silva Talleres gol final Copa Conmebol 1999"
+    },
+    {
+        "name": "Gonzalo Klusener",
+        "nickname": "Klusegol",
+        "era": "eraResurreccion",
+        "eraTitle": "La Resurrección",
+        "decade": "2012 - 2017",
+        "desc": "Goleador místico del resurgimiento albiazul. Máximo anotador en el ascenso del Argentino A 2013 y autor del empate clave en Floresta para el campeonato invicto de 2016.",
+        "image": "imagenes/fotos_idolos/Klusegol.jpg",
+        "hashtags": [
+            "#Klusegol",
+            "#GoleadorArgentinoA",
+            "#CampeonInvicto2016",
+            "#ElRegresoSoñado",
+            "#EmpujeAlbiazul"
+        ],
+        "searchQuery": "Gonzalo Klusener goles Talleres Argentino A y B Nacional"
+    },
+    {
+        "name": "Victorio Ramis",
+        "nickname": "Pipe",
+        "era": "eraResurreccion",
+        "eraTitle": "La Resurrección",
+        "decade": "2014 - 2017",
+        "desc": "Pibe criado en el club que mandó a guardar el gol de la victoria en Formosa para sellar el ascenso invicto a Primera, y luego anotó en el histórico 2-1 a Boca en La Bombonera.",
+        "image": "imagenes/fotos_idolos/ramis.jpg",
+        "hashtags": [
+            "#AscensoInvicto2016",
+            "#GolEnFormosa",
+            "#SemilleroAlbiazul",
+            "#GolEnLaBombonera",
+            "#DeLaBAPrimera"
+        ],
+        "searchQuery": "Victorio Ramis gol Formosa All Boys Talleres ascenso invicto 2016"
+    },
+    {
+        "name": "Nery Leyes",
+        "nickname": "El Motor Silencioso",
+        "era": "eraResurreccion",
+        "eraTitle": "La Resurrección",
+        "decade": "2010 - 2016",
+        "desc": "El corazón y la garra en el mediocampo durante las batallas más ásperas del Argentino A y la B. Patrono oficial de nuestra Filial Chaco por su entrega total a la camiseta.",
+        "image": "imagenes/fotos_idolos/El Motor Silencioso.jpg",
+        "hashtags": [
+            "#PatronoDeLaFilial",
+            "#GarraYCorazón",
+            "#ElAguanteTotal",
+            "#CamisetaBienPuesta",
+            "#GuerreroDelMedio"
+        ],
+        "searchQuery": "Nery Leyes mediocampista Talleres de Córdoba ascensos"
+    },
+    {
+        "name": "Javier Villarreal",
+        "nickname": "Villita",
+        "era": "eraResurreccion",
+        "eraTitle": "La Resurrección",
+        "decade": "1996 - 2013",
+        "desc": "Surgido de la cantera albiazul y campeón del 98, volvió con toda su jerarquía en el momento más crítico para ser el capitán del ascenso 2013 ante 62 mil personas en el Kempes.",
+        "image": "imagenes/fotos_idolos/Villita.jpg",
+        "hashtags": [
+            "#Ascenso2013",
+            "#CapitánAlbiazul",
+            "#KempesMultitudinario",
+            "#AmorPorLosColores",
+            "#SentidoDePertenencia"
+        ],
+        "searchQuery": "Javier Villarreal Talleres ascenso San Jorge 2013 Kempes"
+    },
+    {
+        "name": "Ivo Chaves",
+        "nickname": "El Salteño",
+        "era": "eraResurreccion",
+        "eraTitle": "La Resurrección",
+        "decade": "2014 - 2017",
+        "desc": "Entrega total e incansable ida y vuelta por el lateral derecho en los dos ascensos consecutivos. Corazón, nobleza y sacrificio para devolver a la T al lugar que le pertenece.",
+        "image": "imagenes/fotos_idolos/El Salteño.jpg",
+        "hashtags": [
+            "#BicampeónDeAscenso",
+            "#EntregaTotal",
+            "#Formosa2016",
+            "#LomoYCorazón",
+            "#PundonorAlbiazul"
+        ],
+        "searchQuery": "Ivo Chaves Talleres ascensos 2015 2016 lateral"
+    },
+    {
+        "name": "Nazareno Solís",
+        "nickname": "Solís",
+        "era": "eraResurreccion",
+        "eraTitle": "La Resurrección",
+        "decade": "2016",
+        "desc": "Extremo explosivo y figura estelar en el ataque del equipo de Kudelka. Marcó 7 goles determinantes en el campeonato invicto de la Primera B Nacional 2016.",
+        "image": "imagenes/fotos_idolos/nazareno-soli.jpg",
+        "hashtags": [
+            "#CampeonInvicto2016",
+            "#BNacional2016",
+            "#Ascenso2016",
+            "#AtaqueLetal",
+            "#VelocidadYGol"
+        ],
+        "searchQuery": "Nazareno Solís Talleres B Nacional 2016 goles"
+    },
+    {
+        "name": "Pablo Guiñazú",
+        "nickname": "El Cholo Eterno",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2016 - 2019",
+        "desc": "El zapatazo inolvidable con la de palo en el minuto 94 en Floresta para volver a Primera. Capitán, líder espiritual y símbolo máximo de entrega en el retorno a la Copa Libertadores.",
+        "image": "imagenes/fotos_idolos/El Cholo Eterno.jpg",
+        "hashtags": [
+            "#ElZapatazoDelCholo",
+            "#FormosaEterna",
+            "#CapitánDeCapitanes",
+            "#GarraYMística",
+            "#Minuto94"
+        ],
+        "searchQuery": "Pablo Guiñazu gol a All Boys relato minuto 94 ascenso Talleres"
+    },
+    {
+        "name": "Guido Herrera",
+        "nickname": "El Guardián del Kempes",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2016 - Actualidad",
+        "desc": "Capitán histórico con récord de presencias en torneos de AFA y poseedor del récord absoluto de imbatibilidad del club con 701 minutos invicto. Cervecero y seguro en Copa Libertadores.",
+        "image": "imagenes/fotos_idolos/El Guardián del Kempes.jpg",
+        "hashtags": [
+            "#Record701Minutos",
+            "#GuardiánAlbiazul",
+            "#PenaleroSerial",
+            "#NochesDeLibertadores",
+            "#CapitánRecord"
+        ],
+        "searchQuery": "Guido Herrera mejores atajadas penales Talleres Copa Libertadores"
+    },
+    {
+        "name": "Nahuel Bustos",
+        "nickname": "NB10",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2017 - 2024",
+        "desc": "Golazos extraordinarios en los clásicos ante Belgrano en el Kempes, potencia cordobesa y categoría pura formada en el predio Amadeo Nuccetelli.",
+        "image": "imagenes/fotos_idolos/NB10.jpg",
+        "hashtags": [
+            "#GolazoEnElClásico",
+            "#PotenciaCordobesa",
+            "#CategoríaPura",
+            "#DeBarrioJardínAlMundo",
+            "#NB10"
+        ],
+        "searchQuery": "Nahuel Bustos golazo Belgrano clásico cordobés Kempes"
+    },
+    {
+        "name": "Diego Valoyes",
+        "nickname": "La Pantera",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2018 - 2023",
+        "desc": "Velocidad supersónica y gambeta indescifrable. Gran figura en las campañas de Copa Libertadores y subcampeonatos nacionales con actuaciones memorables.",
+        "image": "imagenes/fotos_idolos/valoyes.jpg",
+        "hashtags": [
+            "#LaPantera",
+            "#VelocidadPura",
+            "#NochesDeCopa",
+            "#DesequilibrioTotal",
+            "#CrackColombiano"
+        ],
+        "searchQuery": "Diego Valoyes mejores jugadas y goles Talleres Libertadores"
+    },
+    {
+        "name": "Michael Santos",
+        "nickname": "Pelo",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2021 - 2023",
+        "desc": "Goleador de la Liga Profesional 2023. Garra charrúa, oportunismo y triplete inolvidable en Rosario para quedar en la historia dorada albiazul contemporánea.",
+        "image": "imagenes/fotos_idolos/santos.jpg",
+        "hashtags": [
+            "#GoleadorDeLaLiga",
+            "#GarraCharrúa",
+            "#TripleteEnRosario",
+            "#DelanteroLetal"
+        ],
+        "searchQuery": "Michael Santos goles y triplete Talleres Rosario Central Liga 2023"
+    },
+    {
+        "name": "Emanuel Reynoso",
+        "nickname": "Bebelo",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2014 - 2018",
+        "desc": "Talentoso zurdo de la cantera albiazul. Asistió con clase en el partido del ascenso 2016 y anotó el gol de la histórica victoria 2-1 ante Boca en La Bombonera.",
+        "image": "imagenes/fotos_idolos/Bebelo.jpg",
+        "hashtags": [
+            "#BebeloReynoso",
+            "#CanteraAlbiazul",
+            "#GolEnLaBombonera",
+            "#CampeonInvicto2016"
+        ],
+        "searchQuery": "Bebelo Reynoso gol Boca La Bombonera Talleres 2017"
+    },
+    {
+        "name": "Florencia Pianello",
+        "nickname": "Flor",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2018 - 2023",
+        "desc": "Máxima goleadora histórica de 'Las Matadoras'. Convirtió 27 goles en 26 partidos en 2022 y lideró al fútbol femenino albiazul en su ingreso triunfal a las competencias de AFA.",
+        "image": "imagenes/fotos_idolos/Pianello.jpg",
+        "hashtags": [
+            "#LasMatadoras",
+            "#GoleadoraHistórica",
+            "#FutbolFemenino",
+            "#AscensoAFA",
+            "#OrgulloAlbiazul"
+        ],
+        "searchQuery": "Florencia Pianello Talleres futbol femenino goles"
+    },
+    {
+        "name": "Juan Cruz Komar",
+        "nickname": "Juan Cruz",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2016 - 2022",
+        "desc": "Zaguero central y capitán. Pilar de la defensa campeona invicta de la B Nacional 2016 y caudillo en la consolidación en Primera y torneos continentales.",
+        "image": "imagenes/fotos_idolos/komar.jpg",
+        "hashtags": [
+            "#CampeonInvicto2016",
+            "#DefensaAlbiazul",
+            "#CapitánAlbiazul",
+            "#CopaLibertadores"
+        ],
+        "searchQuery": "Juan Cruz Komar Talleres de Córdoba capitan defensor"
+    },
+    {
+        "name": "Eliana Capdevila",
+        "nickname": "Eli",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2023 - 2025",
+        "desc": "Goleadora implacable de 'Las Matadoras' en la campaña del campeonato 2024 de Primera B de AFA, consagrando el histórico ascenso a Primera A con 94 goles de equipo.",
+        "image": "imagenes/fotos_idolos/Eliana-Capdevila.jpg",
+        "hashtags": [
+            "#LasMatadoras",
+            "#Campeonas2024",
+            "#AscensoAPrimeraA",
+            "#Goleadora",
+            "#FútbolFemeninoTalleres"
+        ],
+        "searchQuery": "Eliana Capdevila Talleres femenino campeonas 2024 ascenso"
+    }
+]

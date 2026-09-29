@@ -1,0 +1,10 @@
+{
+  "name": "amade-oraculo",
+  "version": "1.0.0",
+  "description": "El Oráculo Albiazul - Filial Chaco T",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
