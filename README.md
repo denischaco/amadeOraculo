@@ -64,7 +64,7 @@ Al solicitar la **"Parada Cordobesa"** (a partir del 5to jugador) o finalizar el
 ├── el_or_culo_albiazul.html   # Aplicación principal interactiva
 ├── index.html                 # Punto de entrada / redirección
 ├── idolos.json                # Base de datos de 27 ídolos albiazules
-├── server.js                  # Servidor HTTP Node.js multi-dispositivo
+├── local-server.js            # Servidor HTTP Node.js multi-dispositivo
 ├── package.json               # Configuración del proyecto
 └── imagenes/
     ├── logo_filial_chaco.png  # Escudo oficial transparente
