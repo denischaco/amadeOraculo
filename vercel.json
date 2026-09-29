@@ -1,4 +1,14 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true
+  "version": 2,
+  "functions": {
+    "server.js": {
+      "includeFiles": "{idolos.json,index.html,el_or_culo_albiazul.html,imagenes/**}"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
+    }
+  ]
 }
