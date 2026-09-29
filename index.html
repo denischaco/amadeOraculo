@@ -47,7 +47,7 @@
       overflow-x: hidden;
       user-select: none;
       -webkit-user-select: none;
-      background-image: url('imagenes/trama_filial_chaco.png');
+      background-image: url('imagenes/trama_filial_chaco.png?v=2');
       background-repeat: repeat;
       background-size: 180px 180px;
     }
@@ -144,14 +144,14 @@
   <!-- Barra Superior Albiazul -->
   <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-100 sticky top-0 z-40 px-4 py-3 shadow-sm">
     <div class="max-w-5xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-3 cursor-pointer select-none group" onclick="goToStartScreen()" title="Ir a la portada de inicio">
         <div
-          class="w-11 h-11 rounded-xl bg-albiazul-950 p-1 shadow-md flex items-center justify-center border-2 border-albiazul-600 overflow-hidden">
+          class="w-11 h-11 rounded-xl bg-albiazul-950 p-1 shadow-md flex items-center justify-center border-2 border-albiazul-600 overflow-hidden group-hover:scale-105 transition-transform">
           <img src="imagenes/logo_filial_chaco.png" alt="Logo Filial Chaco" class="w-full h-full object-contain">
         </div>
         <div>
           <h1
-            class="font-display font-black text-base sm:text-lg text-albiazul-950 tracking-tight leading-none uppercase">
+            class="font-display font-black text-base sm:text-lg text-albiazul-950 tracking-tight leading-none uppercase group-hover:text-blue-800 transition-colors">
             El
             Oráculo Albiazul</h1>
           <span class="text-[11px] sm:text-xs text-blue-700 font-bold tracking-wide uppercase">una idea de la Filial
@@ -178,8 +178,53 @@
 
   <main class="flex-1 w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center relative">
 
+    <!-- PANTALLA 0: PORTADA DE COMIENZO -->
+    <div id="startScreen" class="w-full max-w-[340px] sm:max-w-[380px] mx-auto flex flex-col items-center animate-fadeIn my-auto py-1">
+      
+      <!-- Portada interactiva de Don Amadeo e Ídolos -->
+      <div onclick="startGame()"
+        class="group relative rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-300/80 bg-white cursor-pointer active:scale-[0.98] transition-all duration-300 hover:shadow-blue-900/25 hover:border-blue-500 flex items-center justify-center">
+        <img src="imagenes/INICIO.png" alt="El Oráculo Albiazul - Comienzo"
+          class="max-h-[58vh] sm:max-h-[64vh] w-auto h-auto object-contain block select-none pointer-events-none group-hover:scale-[1.01] transition-transform duration-300" />
+        
+        <!-- Overlay sutil con invitación en hover -->
+        <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+          <span class="text-white text-xs font-black tracking-wider uppercase bg-albiazul-950/90 px-3.5 py-1.5 rounded-full backdrop-blur border border-sky-400/60 shadow-lg">
+            ¡Tocá para comenzar! 👆
+          </span>
+        </div>
+      </div>
+
+      <!-- BOTÓN PRINCIPAL DE COMIENZO -->
+      <button id="btnStartGame" onclick="startGame()"
+        class="w-full mt-3 py-3 sm:py-3.5 px-6 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-700 hover:from-blue-900 hover:to-sky-600 text-white font-display font-black text-base sm:text-lg uppercase tracking-wider shadow-xl shadow-blue-950/25 hover:shadow-sky-500/30 active:scale-95 transition-all duration-200 border-2 border-sky-400/50 flex items-center justify-center space-x-3 group">
+        <span class="text-xl group-hover:scale-125 group-hover:rotate-12 transition-transform">⚽</span>
+        <span>¡COMENZAR EL TEST!</span>
+        <span class="text-sky-300 font-black text-lg group-hover:translate-x-1.5 transition-transform">➔</span>
+      </button>
+
+      <!-- Fila de características / detalles rápidos -->
+      <div class="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 mt-2.5 text-slate-600 text-[11px] sm:text-xs font-semibold text-center">
+        <span class="flex items-center space-x-1">
+          <span>🃏</span>
+          <span>27 Ídolos</span>
+        </span>
+        <span class="text-slate-300">•</span>
+        <span class="flex items-center space-x-1">
+          <span>🏟️</span>
+          <span>Cancha, Video o Ni lo juno</span>
+        </span>
+        <span class="text-slate-300">•</span>
+        <span class="flex items-center space-x-1">
+          <span>🔮</span>
+          <span>Consejos de Don Amadeo</span>
+        </span>
+      </div>
+
+    </div>
+
     <!-- PANTALLA 1: MAZO TINDER ALBIAZUL -->
-    <div id="deckScreen" class="w-full max-w-md mx-auto flex flex-col items-center">
+    <div id="deckScreen" class="w-full max-w-md mx-auto flex flex-col items-center hidden">
 
       <!-- Progreso y botón de parada cordobés -->
       <div class="w-full flex items-center justify-between mb-3 px-1">
@@ -551,12 +596,19 @@
           </div>
         </div>
 
-        <!-- Botón reiniciar -->
-        <button onclick="restartTest()"
-          class="mt-4 text-xs font-bold text-slate-600 hover:text-blue-800 transition flex items-center space-x-1.5 pb-4">
-          <span>🔄</span>
-          <span>Volver a jugar de nuevo, culiau</span>
-        </button>
+        <!-- Botones de navegación final -->
+        <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 pb-4">
+          <button onclick="restartTest()"
+            class="text-xs font-bold text-slate-800 hover:text-blue-950 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-4 py-2.5 rounded-xl transition flex items-center space-x-1.5 shadow-sm active:scale-95">
+            <span>🔄</span>
+            <span>Volver a jugar de nuevo, culiau</span>
+          </button>
+          <button onclick="goToStartScreen()"
+            class="text-xs font-bold text-slate-600 hover:text-blue-800 transition flex items-center space-x-1.5 py-2 px-3 hover:underline">
+            <span>🏠</span>
+            <span>Pantalla de inicio</span>
+          </button>
+        </div>
 
       </div>
 
@@ -1111,6 +1163,40 @@
       }, 2200);
     }
 
+    function startGame() {
+      initAudio();
+      // Acorde triunfal de bienvenida con tres notas albiazules
+      playTone(523.25, 'triangle', 0.15);
+      setTimeout(() => playTone(659.25, 'triangle', 0.2), 100);
+      setTimeout(() => playTone(783.99, 'triangle', 0.28), 200);
+
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('deckScreen').classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStartScreen() {
+      currentCardIndex = 0;
+      votesProcessed = 0;
+      sessionHistory = [];
+      votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+
+      btnStopEl.classList.add('opacity-0', 'pointer-events-none', 'translate-y-1');
+      btnStopEl.classList.remove('opacity-100', 'translate-y-0');
+
+      document.getElementById('deckScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+
+      resetCardVisuals();
+      renderCard();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function restartTest() {
       currentCardIndex = 0;
       votesProcessed = 0;
@@ -1122,6 +1208,7 @@
       btnStopEl.classList.add('opacity-0', 'pointer-events-none', 'translate-y-1');
       btnStopEl.classList.remove('opacity-100', 'translate-y-0');
 
+      document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('resultScreen').classList.add('hidden');
       document.getElementById('deckScreen').classList.remove('hidden');
 
@@ -1137,6 +1224,15 @@
 
       // Atajos de teclado en PC / Desktop
       window.addEventListener('keydown', (e) => {
+        const startScreen = document.getElementById('startScreen');
+        if (startScreen && !startScreen.classList.contains('hidden')) {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            startGame();
+            return;
+          }
+        }
+
         const deckScreen = document.getElementById('deckScreen');
         if (deckScreen && !deckScreen.classList.contains('hidden')) {
           if (e.key === 'ArrowLeft') {
