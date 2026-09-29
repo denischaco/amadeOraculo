@@ -1,13 +1,1159 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=el_or_culo_albiazul.html">
-  <title>El Oráculo Albiazul</title>
-</head>
-<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>El Oráculo Albiazul - Filial Chaco T</title>
+  <link rel="icon" type="image/png" href="imagenes/logo_filial_chaco.png">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter and Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Inter:wght@300;400;500;700;800&display=swap"
+    rel="stylesheet">
+
   <script>
-    window.location.replace("el_or_culo_albiazul.html");
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            albiazul: {
+              50: '#f0f5ff',
+              100: '#e5edff',
+              600: '#0038a8',
+              800: '#002266',
+              900: '#001a49',
+              950: '#000f2e',
+              accent: '#0284c7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fondo institucional con sutil tramado en mosaico de la Filial Chaco */
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      background-image: url('imagenes/trama_filial_chaco.png');
+      background-repeat: repeat;
+      background-size: 180px 180px;
+    }
+
+    /* Permitir selección de texto en resultados, tablas y prompts */
+    #aiPromptText,
+    #resultScreen p,
+    #resultScreen td,
+    .selectable {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+    }
+
+    /* Retrato de Don Amadeo (Tríptico de Veredicto) */
+    .amadeo-portrait-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+      flex-shrink: 0;
+      background-color: #001a49;
+    }
+
+    .amadeo-portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Suavizado de cartas */
+    .card-transition {
+      transition: transform 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.28s ease;
+    }
+
+    .swipe-cancha {
+      transform: translateX(130%) rotate(20deg) !important;
+      opacity: 0 !important;
+    }
+
+    .swipe-no {
+      transform: translateX(-130%) rotate(-20deg) !important;
+      opacity: 0 !important;
+    }
+
+    .swipe-video {
+      transform: translateY(-130%) scale(0.85) !important;
+      opacity: 0 !important;
+    }
+
+    /* Triángulos de dirección en bordes */
+    .triangle-up {
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 12px solid currentColor;
+    }
+
+    .triangle-left {
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-right: 12px solid currentColor;
+    }
+
+    .triangle-right {
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 12px solid currentColor;
+    }
+
+    /* Barra de scroll personalizada */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #002266;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-blue-600 selection:text-white">
+
+  <!-- Barra Superior Albiazul -->
+  <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-100 sticky top-0 z-40 px-4 py-3 shadow-sm">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div
+          class="w-11 h-11 rounded-xl bg-albiazul-950 p-1 shadow-md flex items-center justify-center border-2 border-albiazul-600 overflow-hidden">
+          <img src="imagenes/logo_filial_chaco.png" alt="Logo Filial Chaco" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <h1
+            class="font-display font-black text-base sm:text-lg text-albiazul-950 tracking-tight leading-none uppercase">
+            El
+            Oráculo Albiazul</h1>
+          <span class="text-[11px] sm:text-xs text-blue-700 font-bold tracking-wide uppercase">una idea de la Filial
+            Chaco T "Nery
+            Leyes"</span>
+        </div>
+      </div>
+
+      <!-- Control de audio y atajos de teclado -->
+      <div class="flex items-center space-x-2">
+        <span
+          class="hidden sm:inline-block text-[11px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200"
+          title="Atajos de teclado en PC">
+          ⌨️ ⬅️ ⬆️ ➡️
+        </span>
+        <button id="soundToggle" onclick="toggleAudio()"
+          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition shadow-sm active:scale-95"
+          title="Activar/Silenciar chiche sonoro">
+          <span id="soundIcon">🔊</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center relative">
+
+    <!-- PANTALLA 1: MAZO TINDER ALBIAZUL -->
+    <div id="deckScreen" class="w-full max-w-md mx-auto flex flex-col items-center">
+
+      <!-- Progreso y botón de parada cordobés -->
+      <div class="w-full flex items-center justify-between mb-3 px-1">
+        <div class="flex flex-col">
+          <span id="progressText" class="text-xs font-bold text-slate-600">Revisando el muñeco 1 de 27</span>
+          <div class="w-32 h-2 bg-slate-200 rounded-full mt-1 overflow-hidden border border-slate-300">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-blue-700 to-sky-500 transition-all duration-300"
+              style="width: 8%;"></div>
+          </div>
+        </div>
+
+        <!-- Botón DETENER (Aparece a partir del 5to jugador) -->
+        <button id="btnStop" onclick="finishAndConsult()"
+          class="opacity-0 pointer-events-none transition-all duration-500 transform translate-y-1 bg-gradient-to-r from-blue-800 to-sky-600 hover:from-blue-700 hover:to-sky-500 text-white font-display font-black text-xs px-3.5 py-2 rounded-xl shadow-lg border border-sky-300 flex items-center space-x-1.5 active:scale-95 animate-bounce">
+          <span>🔮</span>
+          <span>¡PARÁ UN TOQUE, CULIAU!</span>
+        </button>
+      </div>
+
+      <!-- Tarjeta con Guías Triangulares de Swipe -->
+      <div class="relative w-full aspect-[3/4] max-w-[340px] max-h-[460px] flex items-center justify-center my-1">
+
+        <!-- Sombra y carta de fondo apilada -->
+        <div
+          class="absolute inset-0 w-full h-full rounded-3xl bg-slate-200 border-2 border-slate-300 transform scale-95 translate-y-3 z-0 shadow-md">
+        </div>
+
+        <!-- Carta Activa -->
+        <div id="activeCard"
+          class="card-transition absolute inset-0 w-full h-full rounded-3xl overflow-hidden bg-white border-2 border-slate-300 shadow-2xl flex flex-col justify-end p-5 z-10 cursor-grab active:cursor-grabbing touch-none select-none">
+
+          <!-- Imagen de fondo -->
+          <div class="absolute inset-0 w-full h-full bg-slate-900">
+            <img id="cardImage" src="" alt="Jugador" class="w-full h-full object-cover object-top filter brightness-95">
+            <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950 via-albiazul-950/60 to-transparent"></div>
+          </div>
+
+          <!-- GUÍAS TRIANGULARES PERMANENTES EN LOS BORDES -->
+          <!-- Arriba: En video -->
+          <div
+            class="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-1.5 bg-amber-500/90 text-slate-950 font-display font-black text-[10px] px-2.5 py-1 rounded-full shadow-md backdrop-blur border border-amber-300">
+            <span class="triangle-up text-slate-950"></span>
+            <span>SOLO LO VI EN VIDEO</span>
+          </div>
+
+          <!-- Izquierda: No lo conozco -->
+          <div
+            class="absolute top-1/2 left-2 -translate-y-1/2 z-30 flex items-center space-x-1 bg-rose-600/90 text-white font-display font-black text-[10px] px-2 py-1.5 rounded-xl shadow-md backdrop-blur border border-rose-400">
+            <span class="triangle-left text-white"></span>
+            <span class="writing-mode-vertical">NI LO JUNO</span>
+          </div>
+
+          <!-- Derecha: En cancha -->
+          <div
+            class="absolute top-1/2 right-2 -translate-y-1/2 z-30 flex items-center space-x-1 bg-emerald-600/90 text-white font-display font-black text-[10px] px-2 py-1.5 rounded-xl shadow-md backdrop-blur border border-emerald-400">
+            <span class="writing-mode-vertical">¡EN CANCHA!</span>
+            <span class="triangle-right text-white"></span>
+          </div>
+
+          <!-- Carteles de feedback dinámico al arrastrar -->
+          <div id="badgeCancha"
+            class="opacity-0 absolute top-12 right-4 rotate-12 border-2 border-emerald-400 text-emerald-300 bg-emerald-950/90 backdrop-blur font-display font-black text-xs px-3 py-1 rounded-xl uppercase tracking-wider transition-opacity shadow-xl z-30">
+            ¡EN CANCHA, VARÓN! 🏟️
+          </div>
+          <div id="badgeNo"
+            class="opacity-0 absolute top-12 left-4 -rotate-12 border-2 border-rose-400 text-rose-300 bg-rose-950/90 backdrop-blur font-display font-black text-xs px-3 py-1 rounded-xl uppercase tracking-wider transition-opacity shadow-xl z-30">
+            NI IDEA, FIERA ❓
+          </div>
+          <div id="badgeVideo"
+            class="opacity-0 absolute top-12 left-1/2 -translate-x-1/2 border-2 border-amber-400 text-amber-300 bg-amber-950/90 backdrop-blur font-display font-black text-xs px-3 py-1 rounded-xl uppercase tracking-wider transition-opacity shadow-xl z-30">
+            LO VI EN VIDEO 📺
+          </div>
+
+          <!-- Información del jugador -->
+          <div class="relative z-20 pointer-events-none text-white">
+            <div class="flex items-center space-x-2">
+              <span id="cardBadgeEra"
+                class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-600 text-white border border-blue-400 shadow-sm">
+                Época Dorada
+              </span>
+              <span id="cardDecade" class="text-[11px] font-semibold text-slate-200">
+                1970 - 1980
+              </span>
+            </div>
+            <h2 id="cardPlayerName" class="font-display font-black text-2xl mt-1 leading-tight text-white drop-shadow">
+              Daniel Willington
+            </h2>
+            <p id="cardPlayerNick" class="text-sky-300 font-bold text-xs">
+              "El Gran Daniel"
+            </p>
+            <p id="cardPlayerBio" class="text-slate-200 text-xs mt-1 line-clamp-2 leading-relaxed font-sans">
+              El prócer máximo de barrio Jardín. Elegancia pura y una pegada que hacía poner de pie al país entero.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN (Con flechas triangulares de guía) -->
+      <div class="w-full max-w-[340px] grid grid-cols-3 gap-2.5 mt-4">
+
+        <!-- Opción: Ni lo juno -->
+        <button onclick="triggerDecision('no')"
+          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-rose-50 border-2 border-slate-200 hover:border-rose-400 transition-all duration-200 active:scale-95 shadow-sm">
+          <div class="flex items-center space-x-1 text-rose-600 font-black text-xs mb-1">
+            <span class="triangle-left text-rose-600"></span>
+            <span>Izquierda</span>
+          </div>
+          <div
+            class="w-9 h-9 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <span class="text-[11px] font-bold text-slate-800 mt-1 text-center leading-tight">
+            Ni lo juno, fiera
+          </span>
+        </button>
+
+        <!-- Opción: Lo vi en video -->
+        <button onclick="triggerDecision('video')"
+          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 transition-all duration-200 active:scale-95 shadow-sm">
+          <div class="flex items-center space-x-1 text-amber-600 font-black text-xs mb-1">
+            <span class="triangle-up text-amber-600"></span>
+            <span>Arriba</span>
+          </div>
+          <div
+            class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 3l-4 4-4-4" />
+            </svg>
+          </div>
+          <span class="text-[11px] font-bold text-slate-800 mt-1 text-center leading-tight">
+            Por video culiau
+          </span>
+        </button>
+
+        <!-- Opción: En la cancha -->
+        <button onclick="triggerDecision('cancha')"
+          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-emerald-50 border-2 border-slate-200 hover:border-emerald-400 transition-all duration-200 active:scale-95 shadow-sm">
+          <div class="flex items-center space-x-1 text-emerald-600 font-black text-xs mb-1">
+            <span>Derecha</span>
+            <span class="triangle-right text-emerald-600"></span>
+          </div>
+          <div
+            class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <span class="text-[11px] font-bold text-slate-800 mt-1 text-center leading-tight">
+            ¡En la cancha!
+          </span>
+        </button>
+
+      </div>
+
+      <!-- Ayuda interactiva cordobesa -->
+      <p class="text-[11px] font-semibold text-slate-500 mt-3 text-center">
+        Deslizá la carta con el dedo o dale clic a los botones de abajo, negro.
+      </p>
+
+    </div>
+
+    <!-- PANTALLA 2: EL HOLOGRAMA DEL AMADEO Y EL VEREDICTO -->
+    <div id="resultScreen" class="w-full hidden flex-col items-center py-2 animate-fadeIn">
+
+      <!-- ENCABEZADO DEL VEREDICTO DE DON AMADEO -->
+      <div class="text-center my-3 px-2">
+        <span
+          class="inline-block px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-blue-100 text-albiazul-900 border border-blue-200">
+          Veredicto Albiazul de Don Amadeo
+        </span>
+        <h2 class="font-display font-black text-2xl text-albiazul-950 mt-1 uppercase tracking-tight">
+          ¡Mirá cómo te ve el Amadeo, culiau!
+        </h2>
+        <p class="text-xs text-slate-500 font-semibold mt-0.5">
+          Tres miradas del prócer para entender tu ADN albiazul
+        </p>
+      </div>
+
+      <!-- Cuadro de Devolución Estilo White Card -->
+      <div
+        class="w-full bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl relative overflow-hidden mt-1 text-slate-800">
+
+        <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 mb-5">
+          <div class="flex items-center space-x-2">
+            <span class="inline-block w-3 h-3 rounded-full bg-blue-600 animate-pulse"></span>
+            <span class="text-xs sm:text-sm uppercase font-display font-black tracking-wider text-albiazul-900">
+              La Devolución de Don Amadeo en Persona
+            </span>
+          </div>
+          <span
+            class="text-[10px] sm:text-xs text-blue-800 bg-blue-50 border border-blue-200 px-3 py-1 rounded-full font-black">
+            Mística Tallarín
+          </span>
+        </div>
+
+        <!-- 3 Tarjetas de Don Amadeo en Grid Responsive: 1 columna en móvil, 3 columnas en desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 items-stretch">
+
+          <!-- PÁRRAFO 1: CANCHA (Figura 1: Aplaudiendo / festejando) -->
+          <div
+            class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
+            <div class="amadeo-portrait-box w-28 h-40 border-2 border-emerald-400 shadow-md mb-3 flex-shrink-0">
+              <img src="imagenes/Amadeo1.jpg" alt="El Amadeo aplaudiendo con una sonrisa de oreja a oreja"
+                class="amadeo-portrait-img"
+                onerror="this.src='https://placehold.co/120x180/065f46/ffffff?text=Amadeo+Aplausos'">
+            </div>
+            <div class="w-full flex-1 flex flex-col">
+              <div class="flex items-center justify-center space-x-1.5 text-emerald-900 font-black mb-2">
+                <span class="text-base">🏟️</span>
+                <span class="text-xs uppercase tracking-wide">El Amadeo te aplaude de pie</span>
+              </div>
+              <p id="resCancha" class="text-xs text-slate-700 leading-relaxed text-justify sm:text-left"></p>
+            </div>
+          </div>
+
+          <!-- PÁRRAFO 2: VIDEO (Figura 2: Pulgar arriba / aprobando la curiosidad) -->
+          <div
+            class="p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
+            <div class="amadeo-portrait-box w-28 h-40 border-2 border-amber-400 shadow-md mb-3 flex-shrink-0">
+              <img src="imagenes/Amadeo2.jpg" alt="El Amadeo aprobando con pulgar arriba" class="amadeo-portrait-img"
+                onerror="this.src='https://placehold.co/120x180/92400e/ffffff?text=Amadeo+Pulgar'">
+            </div>
+            <div class="w-full flex-1 flex flex-col">
+              <div class="flex items-center justify-center space-x-1.5 text-amber-900 font-black mb-2">
+                <span class="text-base">📺</span>
+                <span class="text-xs uppercase tracking-wide">El Amadeo te da el pulgar arriba</span>
+              </div>
+              <p id="resVideo" class="text-xs text-slate-700 leading-relaxed text-justify sm:text-left"></p>
+            </div>
+          </div>
+
+          <!-- PÁRRAFO 3: LO QUE NO CONOCE (Figura 3: Mano abierta explicando / pedagógico) -->
+          <div
+            class="p-4 rounded-2xl bg-blue-50 border-2 border-blue-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
+            <div class="amadeo-portrait-box w-28 h-40 border-2 border-blue-400 shadow-md mb-3 flex-shrink-0">
+              <img src="imagenes/Amadeo3.jpg" alt="El Amadeo explicando con calma y afecto" class="amadeo-portrait-img"
+                onerror="this.src='https://placehold.co/120x180/1e3a8a/ffffff?text=Amadeo+Explica'">
+            </div>
+            <div class="w-full flex-1 flex flex-col">
+              <div class="flex items-center justify-center space-x-1.5 text-blue-900 font-black mb-2">
+                <span class="text-base">📖</span>
+                <span class="text-xs uppercase tracking-wide">El Amadeo te pasa la posta</span>
+              </div>
+              <p id="resNo" class="text-xs text-slate-700 leading-relaxed text-justify sm:text-left"></p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RECOMENDACIONES Y PROMPT IA EN 2 COLUMNAS EN DESKTOP -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+
+          <!-- RECOMENDACIONES PUNTUALES DE GOOGLE -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 flex flex-col">
+            <div class="flex items-center space-x-1.5 text-albiazul-900 font-extrabold mb-2">
+              <span class="text-base">🔍</span>
+              <span class="text-[11px] uppercase tracking-wide">Googleá esto si no queré' pasar vergüenza en el
+                asado:</span>
+            </div>
+            <ul id="googleRecommendations" class="space-y-1.5 flex-1"></ul>
+          </div>
+
+          <!-- PROMPT GENERADO PARA LA IA -->
+          <div class="p-4 rounded-2xl bg-sky-50 border border-sky-200 text-slate-800 flex flex-col">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-1.5 text-sky-900 font-extrabold">
+                <span class="text-base">🤖</span>
+                <span class="text-[11px] uppercase tracking-wide">Copiá este choclo y pegáselo a la IA:</span>
+              </div>
+              <button onclick="copyAiPrompt()"
+                class="bg-sky-600 hover:bg-sky-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition active:scale-95 flex items-center space-x-1 shadow-sm">
+                <span>📋</span>
+                <span id="copyPromptBtn">Copiar prompt</span>
+              </button>
+            </div>
+            <p id="aiPromptText"
+              class="text-[11px] font-mono bg-white p-3 rounded-xl border border-sky-200 text-slate-700 leading-normal select-all flex-1">
+            </p>
+          </div>
+
+        </div>
+
+        <!-- FRASE DE CIERRE DEL AMADEO -->
+        <div class="pt-5 mt-6 border-t-2 border-slate-100 text-center">
+          <p
+            class="font-display font-bold text-xs sm:text-sm text-albiazul-900 italic leading-relaxed max-w-2xl mx-auto">
+            "La grandeza de Talleres no se mide solo en copas, sino en la memoria viva de su gente. Amar este club es
+            honrar a quienes lo fundaron, alentar a quienes lo defienden hoy y soñar con todo lo que todavía vamos a
+            conquistar."
+          </p>
+        </div>
+
+        <!-- FIRMA INSTITUCIONAL Y REDES -->
+        <div class="pt-4 border-t-2 border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="text-center sm:text-left flex items-center space-x-3">
+            <img src="imagenes/logo_filial_chaco.png" alt="Filial Chaco"
+              class="w-8 h-8 rounded-full border border-blue-900/30 shadow-sm hidden sm:block">
+            <div>
+              <p class="font-display font-black text-xs sm:text-sm text-albiazul-950 tracking-wide uppercase">
+                Filial Chaco T "El Nery Leyes"
+              </p>
+              <a href="https://www.instagram.com/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
+                class="inline-flex items-center text-[11px] text-blue-700 hover:text-blue-900 transition font-bold">
+                <svg class="w-3.5 h-3.5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+                <span>@talleresfilialchaco</span>
+              </a>
+            </div>
+
+            <!-- Compartir -->
+            <button onclick="shareDiagnosis()"
+              class="px-4 py-2.5 rounded-xl bg-albiazul-900 hover:bg-albiazul-800 text-white text-xs font-black flex items-center space-x-1.5 transition active:scale-95 shadow-md">
+              <span>📤</span>
+              <span id="shareBtnText">Pasale el test a otro fiera</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TABLA RESUMEN CON DECISIÓN Y HASHTAGS -->
+        <div
+          class="w-full bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-3xl p-4 sm:p-6 shadow-xl mt-5">
+          <div class="flex items-center space-x-2 border-b border-slate-200 pb-3 mb-4">
+            <span class="text-lg">📋</span>
+            <h3 class="font-display font-black text-xs sm:text-sm text-albiazul-950 uppercase tracking-wider">
+              La Bitácora del Hincha: Tu pasada jugador por jugador
+            </h3>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b-2 border-slate-200 text-[10px] uppercase font-black text-slate-500">
+                  <th class="py-2.5 px-2">Jugador</th>
+                  <th class="py-2.5 px-2 text-center">Tu Elección</th>
+                  <th class="py-2.5 px-2">Momentos cumbre & Títulos</th>
+                </tr>
+              </thead>
+              <tbody id="playerLogTableBody" class="divide-y divide-slate-100">
+                <!-- Renderizado dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CENSO COMUNITARIO CORDOBÉS -->
+        <div
+          class="w-full mt-5 bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-2xl p-4 flex items-center justify-between shadow-md">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Censo Albiazul
+                Federal</span>
+              <span class="text-xs font-semibold text-slate-800">Hinchas que ya consultaron al Amadeo:</span>
+            </div>
+          </div>
+          <div class="font-display font-black text-blue-700 text-xl tracking-tight" id="communityCounter">
+            7.418
+          </div>
+        </div>
+
+        <!-- Botón reiniciar -->
+        <button onclick="restartTest()"
+          class="mt-4 text-xs font-bold text-slate-600 hover:text-blue-800 transition flex items-center space-x-1.5 pb-4">
+          <span>🔄</span>
+          <span>Volver a jugar de nuevo, culiau</span>
+        </button>
+
+      </div>
+
+  </main>
+
+  <!-- Notificación Toast -->
+  <div id="toast"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-albiazul-950 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 border border-sky-400">
+    ¡Copiado, fiera!
+  </div>
+
+  <script>
+    /* Sistema de Sonido con Web Audio API */
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, type, duration) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) { }
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').innerText = soundEnabled ? '🔊' : '🔇';
+      showToast(soundEnabled ? '¡Sonido activado, culiau!' : 'Sonido apagado, che');
+    }
+
+    /* Base de datos de jugadores: cargada dinámicamente desde idolos.json */
+    let playerDeck = [];
+
+    async function loadPlayerDeck() {
+      try {
+        const response = await fetch('idolos.json');
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+          playerDeck = data;
+          renderCard();
+        } else {
+          throw new Error('idolos.json no contiene un array válido');
+        }
+      } catch (err) {
+        console.error('Error cargando idolos.json:', err);
+        if (window.location.protocol === 'file:') {
+          cardPlayerNameEl.innerText = "Servidor Local Requerido";
+          cardPlayerNickEl.innerText = "Protocolo file:// detectado";
+          cardBadgeEraEl.innerText = "Aviso CORS";
+          cardDecadeEl.innerText = "";
+          cardPlayerBioEl.innerText = "Los navegadores bloquean fetch() en archivos locales (file://). Para cargar idolos.json de forma externa, abrí este proyecto con Live Server en VS Code o ejecutá un servidor local (npx serve).";
+          showToast('⚠️ Abrí el proyecto con Live Server para permitir fetch("idolos.json")');
+        } else {
+          showToast('⚠️ No se pudo cargar idolos.json');
+        }
+      }
+    }
+
+    /* Estado de la Sesión */
+    let currentCardIndex = 0;
+    let votesProcessed = 0;
+    const MIN_VOTES_TO_STOP = 5;
+
+    // Bitácora de elecciones
+    let sessionHistory = [];
+
+    // Votos por Era
+    const votesRegistry = {
+      cancha: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 },
+      video: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 },
+      no: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 }
+    };
+
+    // Elementos DOM
+    const activeCardEl = document.getElementById('activeCard');
+    const cardImageEl = document.getElementById('cardImage');
+    const cardBadgeEraEl = document.getElementById('cardBadgeEra');
+    const cardDecadeEl = document.getElementById('cardDecade');
+    const cardPlayerNameEl = document.getElementById('cardPlayerName');
+    const cardPlayerNickEl = document.getElementById('cardPlayerNick');
+    const cardPlayerBioEl = document.getElementById('cardPlayerBio');
+    const progressBarEl = document.getElementById('progressBar');
+    const progressTextEl = document.getElementById('progressText');
+    const btnStopEl = document.getElementById('btnStop');
+
+    const badgeCancha = document.getElementById('badgeCancha');
+    const badgeNo = document.getElementById('badgeNo');
+    const badgeVideo = document.getElementById('badgeVideo');
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    function setupGestures() {
+      activeCardEl.addEventListener('touchstart', onTouchStart, { passive: true });
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+      window.addEventListener('touchend', onTouchEnd);
+
+      activeCardEl.addEventListener('mousedown', onMouseDown);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    }
+
+    function onTouchStart(e) {
+      if (e.touches.length !== 1) return;
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      activeCardEl.classList.remove('card-transition');
+    }
+
+    function onTouchMove(e) {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX - startX;
+      currentY = e.touches[0].clientY - startY;
+
+      if (Math.abs(currentX) > 10 || Math.abs(currentY) > 10) {
+        if (e.cancelable) e.preventDefault();
+      }
+
+      applyCardTransform(currentX, currentY);
+    }
+
+    function onTouchEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      finalizeDrag(currentX, currentY);
+    }
+
+    function onMouseDown(e) {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      activeCardEl.classList.remove('card-transition');
+    }
+
+    function onMouseMove(e) {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
+      applyCardTransform(currentX, currentY);
+    }
+
+    function onMouseUp() {
+      if (!isDragging) return;
+      isDragging = false;
+      finalizeDrag(currentX, currentY);
+    }
+
+    function applyCardTransform(x, y) {
+      const rot = x * 0.08;
+      activeCardEl.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+
+      const opacityRight = Math.min(Math.max(x / 75, 0), 1);
+      const opacityLeft = Math.min(Math.max(-x / 75, 0), 1);
+      const opacityUp = Math.min(Math.max(-y / 75, 0), 1);
+
+      badgeCancha.style.opacity = opacityRight;
+      badgeNo.style.opacity = opacityLeft;
+      badgeVideo.style.opacity = (opacityUp > 0.35 && Math.abs(x) < 55) ? opacityUp : 0;
+    }
+
+    function finalizeDrag(x, y) {
+      activeCardEl.classList.add('card-transition');
+      badgeCancha.style.opacity = 0;
+      badgeNo.style.opacity = 0;
+      badgeVideo.style.opacity = 0;
+
+      if (x > 85) {
+        triggerDecision('cancha');
+      } else if (x < -85) {
+        triggerDecision('no');
+      } else if (y < -85 && Math.abs(x) < 70) {
+        triggerDecision('video');
+      } else {
+        activeCardEl.style.transform = 'translate(0px, 0px) rotate(0deg)';
+      }
+      currentX = 0;
+      currentY = 0;
+    }
+
+    function triggerDecision(type) {
+      if (currentCardIndex >= playerDeck.length) return;
+
+      const player = playerDeck[currentCardIndex];
+      votesRegistry[type][player.era]++;
+      votesProcessed++;
+
+      // Guardar en la bitácora
+      sessionHistory.push({
+        player: player,
+        decision: type
+      });
+
+      // Efecto sonoro
+      if (type === 'cancha') playTone(523.25, 'triangle', 0.22);
+      else if (type === 'video') playTone(440.00, 'sine', 0.22);
+      else playTone(329.63, 'sawtooth', 0.2);
+
+      // Clases visuales de arrastre
+      activeCardEl.classList.add('card-transition');
+      if (type === 'cancha') activeCardEl.classList.add('swipe-cancha');
+      else if (type === 'no') activeCardEl.classList.add('swipe-no');
+      else if (type === 'video') activeCardEl.classList.add('swipe-video');
+
+      // Habilitar botón detener
+      if (votesProcessed >= MIN_VOTES_TO_STOP) {
+        btnStopEl.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-1');
+        btnStopEl.classList.add('opacity-100', 'translate-y-0');
+      }
+
+      setTimeout(() => {
+        currentCardIndex++;
+        if (currentCardIndex >= playerDeck.length) {
+          finishAndConsult();
+        } else {
+          resetCardVisuals();
+          renderCard();
+        }
+      }, 250);
+    }
+
+    function resetCardVisuals() {
+      activeCardEl.classList.remove('card-transition', 'swipe-cancha', 'swipe-no', 'swipe-video');
+      activeCardEl.style.transform = 'translate(0px, 0px) rotate(0deg)';
+      badgeCancha.style.opacity = 0;
+      badgeNo.style.opacity = 0;
+      badgeVideo.style.opacity = 0;
+    }
+
+    function renderCard() {
+      const p = playerDeck[currentCardIndex];
+      cardPlayerNameEl.innerText = p.name;
+      cardPlayerNickEl.innerText = `"${p.nickname}"`;
+      cardBadgeEraEl.innerText = p.eraTitle;
+      cardDecadeEl.innerText = p.decade;
+      cardPlayerBioEl.innerText = p.desc;
+      cardImageEl.src = p.image;
+
+      const currentNum = currentCardIndex + 1;
+      const total = playerDeck.length;
+      progressTextEl.innerText = `Revisando el muñeco ${currentNum} de ${total}`;
+      const percentage = Math.round((currentNum / total) * 100);
+      progressBarEl.style.width = `${percentage}%`;
+    }
+
+    function getDominantEra(typeKey) {
+      const counts = votesRegistry[typeKey];
+      let topEra = 'eraModerna';
+      let maxVotes = -1;
+      for (const [era, score] of Object.entries(counts)) {
+        if (score > maxVotes) {
+          maxVotes = score;
+          topEra = era;
+        }
+      }
+      return { era: topEra, count: maxVotes };
+    }
+
+    function finishAndConsult() {
+      playTone(659.25, 'triangle', 0.45);
+      document.getElementById('deckScreen').classList.add('hidden');
+      document.getElementById('resultScreen').classList.remove('hidden');
+
+      const topCancha = getDominantEra('cancha');
+      const topVideo = getDominantEra('video');
+      const topNo = getDominantEra('no');
+
+      // Análisis específico de Las Matadoras (Fútbol Femenino)
+      const matadorasInSession = sessionHistory.filter(h =>
+        h.player.name === 'Florencia Pianello' || h.player.name === 'Eliana Capdevila'
+      );
+      const matadorasCancha = matadorasInSession.filter(h => h.decision === 'cancha');
+      const matadorasVideo = matadorasInSession.filter(h => h.decision === 'video');
+      const matadorasNo = matadorasInSession.filter(h => h.decision === 'no');
+
+      // 1. PÁRRAFO CANCHA (En cordobés de pura cepa)
+      let pCancha = "";
+      if (topCancha.count === 0) {
+        pCancha = "¡Pero mirá vos, negro! Se ve que todavía no tuviste la suerte de pisar los escalones de cemento de la Boutique o del Kempes, o te queda lejazo por vivir en el Chaco. Pero sabé una cosa: la pasión por la T no sabe de distancias. Ya llevás la camiseta albiazul cosida al pecho con el mismo aguante que el que no falta ni un domingo a la popular.";
+      } else if (topCancha.era === 'era70') {
+        pCancha = "¡Qué pedazo de prócer que sos, culiau! Tuviste el orgullo inmenso de hacer temblar la Boutique y copar el Chateau cuando el Daniel Willington la acariciaba con guante blanco y el Luis Galván no dejaba pasar ni el viento. Te cagaste de gusto viendo al Talleres del 77 que bailó a la República entera y le puso la firma cordobesa a la Selección campeona del mundo. ¡Caminar la cancha en esa época es una locura hermosa, hermano!";
+      } else if (topCancha.era === 'era90') {
+        pCancha = "¡Tené' el corazón blindado de pura gloria albiazul, varón! Te tocó abrazarte con medio Córdoba bajo una lluvia de papelitos en la final del siglo del 5 de julio del 98 con el Diego Garay endemoniado, y gritaste hasta quedarte mudo el frentazo agónico del Julián Maidana en la Conmebol del 99 contra los brasileños. Esos festejos multitudinarios nos consagraron para siempre.";
+      } else if (topCancha.era === 'eraResurreccion') {
+        pCancha = "¡Pusiste el lomo en la trinchera más brava de todas, fiera! Te bancaste el barro del Argentino A y la B Nacional viajando a canchas insólitas donde nadie nos regalaba nada. El ascenso invicto del 2016 en Formosa con el gol del Pipe Ramis y el Cholo fue tu propio desahogo, porque al club no lo abandonaste jamás en la mala.";
+      } else {
+        pCancha = "¡Sos testigo de lujo del Talleres de elite, negro! Te tocó ver a la T plantarse en cualquier cancha del país y de América sin arrugar un milímetro, metiendo 60 mil almas en el Kempes y jugando la Copa Libertadores con una presencia bárbara. Disfrutás de un club sólido, competitivo y de fiesta permanente.";
+      }
+
+      // Mención en cancha si vio a Las Matadoras en vivo
+      if (matadorasCancha.length > 0) {
+        pCancha += " Y te aplaudo con el alma por haber estado en la tribuna bancando a Las Matadoras: vivir en vivo los goles de las pibas demuestra que tu corazón albiazul late con cada rincón del club.";
+      }
+
+      // 2. PÁRRAFO VIDEO (Curiosidad cordobesa de archivo)
+      let pVideo = "";
+      if (topVideo.count === 0) {
+        pVideo = "Tu amor por la T es puro instinto y presente, fiera. Te recomiendo muy mucho que te pongas a vichar videos viejos en YouTube con un buen fernet en mano: te vas a emocionar al ver cómo nació esta mística.";
+      } else if (topVideo.era === 'era70') {
+        pVideo = "¡Muy mucho te felicito por la curiosidad, negro! Ponerse a buscar grabaciones viejas del Daniel Willington, el Mariscal Galván y el Rana Valencia demuestra que no te conformás con el hoy: sabés que para entender lo gigante que es Talleres hay que haber visto cómo acariciaban la redonda esos monstruos sagrados.";
+      } else if (topVideo.era === 'era90') {
+        pVideo = "¡Qué buenazo que te tomes el tiempo de revivir las batallas de los 90! Repetir una y mil veces los resúmenes del 98 y esa noche copera épica del 99 mantiene viva la llama de las hazañas que ningún hincha albiazul tiene derecho a olvidar.";
+      } else {
+        pVideo = "Valoro un montón las horas que le metés a mirar compactos y goles de archivo, fiera. En tiempos donde todo pasa volando, investigar la historia del club es el gesto de amor más noble que se le puede hacer a la camiseta.";
+      }
+
+      // Mención en video si vio a las pibas en compactos
+      if (matadorasVideo.length > 0 && matadorasCancha.length === 0) {
+        pVideo += " ¡Y tremendo acierto ponerte a ver a Las Matadoras! Ver jugar a la Flor Pianello y a la Eli Capdevila en los resúmenes del ascenso de AFA demuestra que entendés que la grandeza albiazul se defiende en todas las canchas.";
+      }
+
+      // 3. PÁRRAFO NO CONOZCO (Didáctico, sin reproche)
+      let pNo = "";
+      if (topNo.count === 0) {
+        pNo = "¡Conocé' el paño de punta a punta, varón! No se te escapa una sola figurita de barrio Jardín. Sos una enciclopedia viviente del club, culiau.";
+      } else if (topNo.era === 'era70') {
+        pNo = "¿Qué lo que pasó con los próceres de los 70, che? Te resultan medio lejanos, y está perfecto, no te vamo' a cagar a pedos por eso. En esos años rompimos el centralismo de Buenos Aires con fútbol champagne y metimos tres campeones del mundo en el 78. Íte a buscarlos que te vas a caer de espaldas con lo que jugaban.";
+      } else if (topNo.era === 'era90') {
+        pNo = "Te falta meterle una ojeada a la camada brava de fines de los 90, negro. Fueron años donde la T conquistó Sudamérica ganando la Conmebol frente a los brasileños y escribiendo páginas de heroísmo puro. Pegále una mirada y te vas a llenar de orgullo.";
+      } else if (topNo.era === 'eraResurreccion') {
+        pNo = "Te faltó repasar los años durísimos del Federal y la resurrección, varón. Ahí se forjó el aguante inquebrantable del hincha de Talleres que llenó canchas en cualquier categoría. Descubrir esas batallas te va a hacer valorar el doble lo que tenemos hoy.";
+      } else {
+        pNo = "Hay un par de muñecos que todavía no cruzaron tu radar, pero cada uno dejó la piel para que hoy la T esté de pie. Tomalo como un viaje pendiente para seguir nutriendo esta locura hermosa.";
+      }
+
+      // Mensaje pedagógico si Las Matadoras no fueron conocidas o no se vieron en cancha
+      if (matadorasNo.length > 0) {
+        pNo += " ¡Y ojo al piojo con Las Matadoras, fiera! Si a la Flor Pianello o a la Eli Capdevila todavía no las junás bien, es normalísimo porque al fútbol femenino le costó años tener la vidriera que merecía. Pero ponete pillo: entre las dos metieron más de un centenar de goles y dejaron el alma para llevar a Talleres a Primera A de AFA. La gloria de la T hoy también se escribe con ellas.";
+      } else if (matadorasVideo.length > 0 && matadorasCancha.length === 0) {
+        pNo += " Te queda pendiente la frutilla del postre: pegarte una vuelta por la Boutique para ver a Las Matadoras en vivo; el empuje de las pibas te va a enamorar.";
+      }
+
+      // Asignar textos
+      document.getElementById('resCancha').innerText = pCancha;
+      document.getElementById('resVideo').innerText = pVideo;
+      document.getElementById('resNo').innerText = pNo;
+
+      // Generar recomendaciones de Google y Prompt IA
+      generateGoogleRecommendations();
+      generateAiPrompt(topCancha.era, topVideo.era, topNo.era);
+
+      // Renderizar tabla bitácora de jugadores
+      renderPlayerLogTable();
+
+      // Actualizar contador federal
+      updateCommunityCounter();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function generateGoogleRecommendations() {
+      const container = document.getElementById('googleRecommendations');
+      container.innerHTML = '';
+
+      // Tomar jugadores que el usuario no conoce o vio en video
+      const prioritized = sessionHistory.filter(h => h.decision === 'no' || h.decision === 'video');
+      const pool = prioritized.length > 0 ? prioritized : sessionHistory;
+
+      // Detectar si hay Matadoras pendientes de descubrir o vistas en video
+      const matadoraPending = pool.find(item =>
+        item.player.name === 'Florencia Pianello' || item.player.name === 'Eliana Capdevila'
+      );
+
+      const uniqueItems = [];
+
+      // Si hay una Matadora pendiente o en video, garantizar que forme parte de las recomendaciones
+      if (matadoraPending) {
+        uniqueItems.push(matadoraPending);
+      }
+
+      for (const item of pool) {
+        if (!uniqueItems.some(u => u.player.name === item.player.name)) {
+          uniqueItems.push(item);
+        }
+        if (uniqueItems.length >= 3) break;
+      }
+
+      uniqueItems.forEach(item => {
+        const isMatadora = item.player.name === 'Florencia Pianello' || item.player.name === 'Eliana Capdevila';
+        const badgeTag = isMatadora ? `<span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-1.5 py-0.5 rounded-md border border-sky-200 ml-1">⚽ Las Matadoras</span>` : '';
+        const li = document.createElement('li');
+        const queryUrl = `https://www.google.com/search?q=${encodeURIComponent(item.player.searchQuery)}`;
+        li.innerHTML = `
+          <a href="${queryUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 transition group shadow-xs">
+            <div class="flex items-center space-x-2">
+              <span class="text-blue-600 font-bold group-hover:translate-x-0.5 transition-transform">🔎</span>
+              <span class="font-semibold text-slate-800 text-[11px]">${item.player.searchQuery}</span>
+              ${badgeTag}
+            </div>
+            <span class="text-[10px] text-blue-700 font-bold underline shrink-0 ml-2">Buscar en Google</span>
+          </a>
+        `;
+        container.appendChild(li);
+      });
+    }
+
+    function generateAiPrompt(eraCancha, eraVideo, eraNo) {
+      const notKnownNames = sessionHistory
+        .filter(h => h.decision === 'no')
+        .map(h => h.player.name);
+
+      const videoNames = sessionHistory
+        .filter(h => h.decision === 'video')
+        .map(h => h.player.name);
+
+      const canchaNames = sessionHistory
+        .filter(h => h.decision === 'cancha')
+        .map(h => h.player.name);
+
+      const matadorasEvaluated = sessionHistory
+        .filter(h => h.player.name === 'Florencia Pianello' || h.player.name === 'Eliana Capdevila');
+
+      const matadorasNoOrVideo = matadorasEvaluated
+        .filter(h => h.decision === 'no' || h.decision === 'video')
+        .map(h => h.player.name);
+
+      let promptText = `Actuá como un historiador apasionado y cordobés de Talleres de Córdoba. Acabo de hacer el test del Oráculo Albiazul de la Filial Chaco. Te paso mi resultado:
+- En la cancha vi jugar a: ${canchaNames.length > 0 ? canchaNames.join(', ') : 'Ninguno todavía'}
+- Por videos de archivo conozco a: ${videoNames.length > 0 ? videoNames.join(', ') : 'Poco material'}
+- No conozco o tengo pendiente descubrir a: ${notKnownNames.length > 0 ? notKnownNames.join(', ') : 'Conozco a todos'}`;
+
+      if (matadorasNoOrVideo.length > 0) {
+        promptText += `\n- Capítulo Las Matadoras (Fútbol Femenino): Tengo pendiente descubrir a fondo a ${matadorasNoOrVideo.join(' y ')}.`;
+      }
+
+      promptText += `\n\nContame con detalles, anécdotas bien cordobesas, hitos y mística de barrio Jardín por qué esos jugadores que no conozco fueron próceres albiazules.`;
+
+      if (matadorasEvaluated.length > 0) {
+        promptText += ` Hacé una mención especial y emocionante sobre Las Matadoras: contame la gesta de Florencia Pianello (máxima goleadora histórica con más de 150 goles) y Eliana Capdevila (artillera del ascenso invicto a Primera A), explicando por qué su lucha y sus campeonatos en AFA son un orgullo albiazul que todo hincha debe reivindicar.`;
+      }
+
+      promptText += ` Por último, recomendame qué 3 partidos históricos debería ver completos para terminar de graduarme de hincha de oro de la T.`;
+
+      document.getElementById('aiPromptText').innerText = promptText;
+    }
+
+    function copyAiPrompt() {
+      const text = document.getElementById('aiPromptText').innerText;
+      const dummy = document.createElement('textarea');
+      dummy.value = text;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+
+      const btn = document.getElementById('copyPromptBtn');
+      btn.innerText = '¡Copiado, fiera!';
+      showToast('¡Prompt copiado para pegarlo en ChatGPT o Gemini!');
+      setTimeout(() => {
+        btn.innerText = 'Copiar prompt';
+      }, 2000);
+    }
+
+    function renderPlayerLogTable() {
+      const tbody = document.getElementById('playerLogTableBody');
+      tbody.innerHTML = '';
+
+      sessionHistory.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+
+        let decisionBadge = "";
+        if (item.decision === 'cancha') {
+          decisionBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">🏟️ En Cancha</span>`;
+        } else if (item.decision === 'video') {
+          decisionBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300">📺 En Video</span>`;
+        } else {
+          decisionBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-800 border border-rose-300">❓ No lo vi</span>`;
+        }
+
+        const tagsHtml = item.player.hashtags
+          .map(tag => `<span class="inline-block bg-blue-50 text-blue-700 font-semibold px-1.5 py-0.5 rounded text-[9px] mr-1 mb-1 border border-blue-100">${tag}</span>`)
+          .join('');
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-1 font-bold text-slate-800">
+            <div>${item.player.name}</div>
+            <div class="text-[10px] text-slate-400 font-normal">"${item.player.nickname}"</div>
+          </td>
+          <td class="py-2.5 px-1 text-center">${decisionBadge}</td>
+          <td class="py-2.5 px-1 flex flex-wrap items-center">${tagsHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateCommunityCounter() {
+      let storedCount = localStorage.getItem('oraculo_talleres_counter');
+      if (!storedCount) {
+        storedCount = 7418 + Math.floor(Math.random() * 8) + 1;
+      } else {
+        storedCount = parseInt(storedCount) + 1;
+      }
+      localStorage.setItem('oraculo_talleres_counter', storedCount);
+      document.getElementById('communityCounter').innerText = storedCount.toLocaleString('es-AR');
+    }
+
+    function shareDiagnosis() {
+      const shareData = {
+        title: 'El Oráculo Albiazul',
+        text: '¡Consulté a Don Amadeo Nuccetelli en el juego de la Filial Chaco de Talleres! Mirá tu ADN Albiazul, fiera.',
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => copyToClipboard());
+      } else {
+        copyToClipboard();
+      }
+    }
+
+    function copyToClipboard() {
+      const dummy = document.createElement('textarea');
+      dummy.value = `¡Hice el test del Oráculo Albiazul de la Filial Chaco T con Don Amadeo Nuccetelli! Fijáte qué tan hincha sos en: https://www.instagram.com/talleresfilialchaco`;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      showToast('¡Texto copiado para compartir!');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2200);
+    }
+
+    function restartTest() {
+      currentCardIndex = 0;
+      votesProcessed = 0;
+      sessionHistory = [];
+      votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+
+      btnStopEl.classList.add('opacity-0', 'pointer-events-none', 'translate-y-1');
+      btnStopEl.classList.remove('opacity-100', 'translate-y-0');
+
+      document.getElementById('resultScreen').classList.add('hidden');
+      document.getElementById('deckScreen').classList.remove('hidden');
+
+      resetCardVisuals();
+      renderCard();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Inicio de la app
+    window.addEventListener('DOMContentLoaded', async () => {
+      setupGestures();
+      await loadPlayerDeck();
+
+      // Atajos de teclado en PC / Desktop
+      window.addEventListener('keydown', (e) => {
+        const deckScreen = document.getElementById('deckScreen');
+        if (deckScreen && !deckScreen.classList.contains('hidden')) {
+          if (e.key === 'ArrowLeft') {
+            triggerDecision('no');
+          } else if (e.key === 'ArrowRight') {
+            triggerDecision('cancha');
+          } else if (e.key === 'ArrowUp') {
+            triggerDecision('video');
+          } else if (e.key === ' ' || e.key === 'Enter') {
+            if (votesProcessed >= MIN_VOTES_TO_STOP) {
+              finishAndConsult();
+            }
+          }
+        }
+      });
+    });
   </script>
 </body>
+
 </html>

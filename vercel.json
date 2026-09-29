@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/el_or_culo_albiazul.html", "destination": "/index.html" }
+  ]
+}

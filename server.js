@@ -35,7 +35,7 @@ function getLocalIp() {
 const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') {
-    reqPath = '/el_or_culo_albiazul.html';
+    reqPath = '/index.html';
   }
 
   const filePath = path.join(__dirname, reqPath);
