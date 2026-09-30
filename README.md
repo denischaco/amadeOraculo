@@ -7,13 +7,13 @@
 
 ## 🌟 ¿Qué es El Oráculo Albiazul?
 
-**El Oráculo Albiazul** es una experiencia interactiva tipo *Tinder/Swipe* diseñada para hinchas del Club Atlético Talleres. A través de un mazo de cartas con 27 ídolos y figuras trascendentales de la historia albiazul (desde la era dorada de los años 70 de Don Amadeo Nuccetelli hasta la actualidad y las hazañas de Las Matadoras), el usuario indica para cada jugador:
+**El Oráculo Albiazul** es una experiencia interactiva tipo *Tinder/Swipe* diseñada para hinchas del Club Atlético Talleres. A través de un mazo de cartas con 27 ídolos y figuras trascendentales de la historia albiazul (desde la era dorada de los años 70 de Don Amadeo hasta la actualidad y las hazañas de Las Matadoras), el usuario indica para cada jugador:
 
 - 🏟️ **¡En Cancha!** (Swipe a la derecha / Flecha Derecha)
 - 📺 **Lo vi en video** (Swipe hacia arriba / Flecha Arriba)
 - ❓ **Ni lo juno** (Swipe a la izquierda / Flecha Izquierda)
 
-Al solicitar la **"Parada Cordobesa"** (a partir del 5to jugador) o finalizar el mazo, **Don Amadeo Nuccetelli en persona** devuelve un veredicto personalizado analizando el ADN del hincha, un desglose jugador por jugador, sugerencias directas de Google y un prompt generado para profundizar en Inteligencia Artificial.
+Al solicitar la **"Parada Cordobesa"** (a partir del 5to jugador) o finalizar el mazo, **Don Amadeo en persona** devuelve un veredicto personalizado analizando el ADN del hincha, un desglose jugador por jugador, sugerencias directas de Google y un prompt generado para profundizar en Inteligencia Artificial.
 
 ---
 
