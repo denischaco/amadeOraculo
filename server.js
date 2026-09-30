@@ -68,6 +68,26 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Configuración de Firebase (soporta variable de entorno en Vercel o archivo local ignorado en git)
+  if (reqPath === '/firebase-config.js') {
+    res.writeHead(200, {
+      'Content-Type': 'text/javascript; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-cache'
+    });
+    if (process.env.FIREBASE_CONFIG) {
+      res.end(`window.FIREBASE_CONFIG = ${process.env.FIREBASE_CONFIG};`);
+      return;
+    }
+    const localConfigPath = path.join(__dirname, 'firebase-config.js');
+    if (fs.existsSync(localConfigPath)) {
+      res.end(fs.readFileSync(localConfigPath, 'utf8'));
+      return;
+    }
+    res.end('window.FIREBASE_CONFIG = null;');
+    return;
+  }
+
   const filePath = resolveFilePath(reqPath);
 
   if (!filePath) {

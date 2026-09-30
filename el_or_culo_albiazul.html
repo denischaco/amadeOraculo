@@ -12,6 +12,9 @@
     gtag('config', 'G-LP0PEDD4KD');
   </script>
 
+  <!-- Configuración de Firebase (archivo local ignorado en Git / Vercel Env) -->
+  <script src="firebase-config.js"></script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>El Oráculo Albiazul - Filial Chaco T</title>
@@ -285,9 +288,54 @@
       <!-- Tarjeta con Guías Triangulares de Swipe -->
       <div class="relative w-full aspect-[3/4] max-w-[340px] max-h-[460px] flex items-center justify-center my-1">
 
-        <!-- Sombra y carta de fondo apilada -->
-        <div
-          class="absolute inset-0 w-full h-full rounded-3xl bg-slate-200 border-2 border-slate-300 transform scale-95 translate-y-3 z-0 shadow-md">
+        <!-- Carta Siguiente Apilada (Pre-renderizada debajo para eliminar parpadeos) -->
+        <div id="nextCard"
+          class="absolute inset-0 w-full h-full rounded-3xl overflow-hidden bg-white border-2 border-slate-300 shadow-md flex flex-col justify-end p-5 z-0 transform scale-95 translate-y-3 pointer-events-none select-none transition-transform duration-200">
+
+          <!-- Imagen de fondo -->
+          <div class="absolute inset-0 w-full h-full bg-slate-900">
+            <img id="nextCardImage" src="" alt="Siguiente Jugador" class="w-full h-full object-cover object-top filter brightness-95">
+            <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950 via-albiazul-950/60 to-transparent"></div>
+          </div>
+
+          <!-- GUÍAS TRIANGULARES PERMANENTES EN LOS BORDES -->
+          <div
+            class="absolute top-2.5 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-1.5 bg-amber-500/90 text-slate-950 font-display font-black text-[10px] px-2.5 py-1 rounded-full shadow-md backdrop-blur border border-amber-300">
+            <span class="triangle-up text-slate-950"></span>
+            <span>SOLO LO VI EN VIDEO</span>
+          </div>
+          <div
+            class="absolute top-1/2 left-2 -translate-y-1/2 z-30 flex items-center space-x-1 bg-rose-600/90 text-white font-display font-black text-[10px] px-2 py-1.5 rounded-xl shadow-md backdrop-blur border border-rose-400">
+            <span class="triangle-left text-white"></span>
+            <span class="writing-mode-vertical">NI LO JUNO</span>
+          </div>
+          <div
+            class="absolute top-1/2 right-2 -translate-y-1/2 z-30 flex items-center space-x-1 bg-emerald-600/90 text-white font-display font-black text-[10px] px-2 py-1.5 rounded-xl shadow-md backdrop-blur border border-emerald-400">
+            <span class="writing-mode-vertical">¡EN CANCHA!</span>
+            <span class="triangle-right text-white"></span>
+          </div>
+
+          <!-- Información del siguiente jugador -->
+          <div class="relative z-20 pointer-events-none text-white">
+            <div class="flex items-center space-x-2">
+              <span id="nextCardBadgeEra"
+                class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-600 text-white border border-blue-400 shadow-sm">
+                Época Dorada
+              </span>
+              <span id="nextCardDecade" class="text-[11px] font-semibold text-slate-200">
+                1970 - 1980
+              </span>
+            </div>
+            <h2 id="nextCardPlayerName" class="font-display font-black text-2xl mt-1 leading-tight text-white drop-shadow">
+              ...
+            </h2>
+            <p id="nextCardPlayerNick" class="text-sky-300 font-bold text-xs">
+              ""
+            </p>
+            <p id="nextCardPlayerBio" class="text-slate-200 text-xs mt-1 line-clamp-2 leading-relaxed font-sans">
+              ...
+            </p>
+          </div>
         </div>
 
         <!-- Carta Activa -->
@@ -696,6 +744,17 @@
     /* Base de datos de jugadores: cargada dinámicamente desde idolos.json */
     let playerDeck = [];
 
+    // Precarga integral de imágenes en memoria para eliminar retrasos de red durante la partida
+    function preloadAllImages() {
+      if (!Array.isArray(playerDeck) || playerDeck.length === 0) return;
+      playerDeck.forEach(player => {
+        if (player.image) {
+          const img = new Image();
+          img.src = player.image;
+        }
+      });
+    }
+
     async function loadPlayerDeck() {
       try {
         const response = await fetch('idolos.json');
@@ -705,6 +764,7 @@
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
           playerDeck = data;
+          preloadAllImages();
           renderCard();
         } else {
           throw new Error('idolos.json no contiene un array válido');
@@ -739,7 +799,7 @@
       no: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 }
     };
 
-    // Elementos DOM
+    // Elementos DOM - Carta Activa
     const activeCardEl = document.getElementById('activeCard');
     const cardImageEl = document.getElementById('cardImage');
     const cardBadgeEraEl = document.getElementById('cardBadgeEra');
@@ -751,11 +811,21 @@
     const progressTextEl = document.getElementById('progressText');
     const btnStopEl = document.getElementById('btnStop');
 
+    // Elementos DOM - Carta Siguiente (Debajo)
+    const nextCardEl = document.getElementById('nextCard');
+    const nextCardImageEl = document.getElementById('nextCardImage');
+    const nextCardBadgeEraEl = document.getElementById('nextCardBadgeEra');
+    const nextCardDecadeEl = document.getElementById('nextCardDecade');
+    const nextCardPlayerNameEl = document.getElementById('nextCardPlayerName');
+    const nextCardPlayerNickEl = document.getElementById('nextCardPlayerNick');
+    const nextCardPlayerBioEl = document.getElementById('nextCardPlayerBio');
+
     const badgeCancha = document.getElementById('badgeCancha');
     const badgeNo = document.getElementById('badgeNo');
     const badgeVideo = document.getElementById('badgeVideo');
 
     let isDragging = false;
+    let isTransitioning = false; // Bloqueo de seguridad para evitar dobles toques/swipes
     let startX = 0;
     let startY = 0;
     let currentX = 0;
@@ -772,6 +842,7 @@
     }
 
     function onTouchStart(e) {
+      if (isTransitioning) return;
       if (e.touches.length !== 1) return;
       isDragging = true;
       startX = e.touches[0].clientX;
@@ -780,7 +851,7 @@
     }
 
     function onTouchMove(e) {
-      if (!isDragging) return;
+      if (!isDragging || isTransitioning) return;
       currentX = e.touches[0].clientX - startX;
       currentY = e.touches[0].clientY - startY;
 
@@ -794,10 +865,12 @@
     function onTouchEnd() {
       if (!isDragging) return;
       isDragging = false;
+      if (isTransitioning) return;
       finalizeDrag(currentX, currentY);
     }
 
     function onMouseDown(e) {
+      if (isTransitioning) return;
       isDragging = true;
       startX = e.clientX;
       startY = e.clientY;
@@ -805,7 +878,7 @@
     }
 
     function onMouseMove(e) {
-      if (!isDragging) return;
+      if (!isDragging || isTransitioning) return;
       currentX = e.clientX - startX;
       currentY = e.clientY - startY;
       applyCardTransform(currentX, currentY);
@@ -814,6 +887,7 @@
     function onMouseUp() {
       if (!isDragging) return;
       isDragging = false;
+      if (isTransitioning) return;
       finalizeDrag(currentX, currentY);
     }
 
@@ -828,10 +902,18 @@
       badgeCancha.style.opacity = opacityRight;
       badgeNo.style.opacity = opacityLeft;
       badgeVideo.style.opacity = (opacityUp > 0.35 && Math.abs(x) < 55) ? opacityUp : 0;
+
+      // Escalar sutilmente la carta siguiente conforme se arrastra la carta activa
+      if (nextCardEl && nextCardEl.style.display !== 'none') {
+        const dragDist = Math.max(Math.abs(x), Math.max(-y, 0));
+        const progress = Math.min(dragDist / 120, 1);
+        const scale = 0.95 + 0.05 * progress;
+        const translateY = 12 * (1 - progress);
+        nextCardEl.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+      }
     }
 
     function finalizeDrag(x, y) {
-      activeCardEl.classList.add('card-transition');
       badgeCancha.style.opacity = 0;
       badgeNo.style.opacity = 0;
       badgeVideo.style.opacity = 0;
@@ -843,35 +925,48 @@
       } else if (y < -85 && Math.abs(x) < 70) {
         triggerDecision('video');
       } else {
+        activeCardEl.classList.add('card-transition');
         activeCardEl.style.transform = 'translate(0px, 0px) rotate(0deg)';
+        if (nextCardEl) {
+          nextCardEl.style.transform = 'scale(0.95) translateY(12px)';
+        }
       }
       currentX = 0;
       currentY = 0;
     }
 
     function triggerDecision(type) {
+      if (isTransitioning) return; // BLOQUEO: Evita doble registro mientras la carta viaja
       if (currentCardIndex >= playerDeck.length) return;
+
+      isTransitioning = true;
 
       const player = playerDeck[currentCardIndex];
       votesRegistry[type][player.era]++;
       votesProcessed++;
 
-      // Guardar en la bitácora
+      // Guardar en la bitácora de sesión y sincronizar buffer local
       sessionHistory.push({
         player: player,
         decision: type
       });
+      saveCurrentBufferToStorage();
 
       // Efecto sonoro
       if (type === 'cancha') playTone(523.25, 'triangle', 0.22);
       else if (type === 'video') playTone(440.00, 'sine', 0.22);
       else playTone(329.63, 'sawtooth', 0.2);
 
-      // Clases visuales de arrastre
+      // Clases visuales de arrastre para la carta saliente
       activeCardEl.classList.add('card-transition');
       if (type === 'cancha') activeCardEl.classList.add('swipe-cancha');
       else if (type === 'no') activeCardEl.classList.add('swipe-no');
       else if (type === 'video') activeCardEl.classList.add('swipe-video');
+
+      // La carta de abajo escala suavemente al frente en su lugar
+      if (nextCardEl && nextCardEl.style.display !== 'none') {
+        nextCardEl.style.transform = 'scale(1) translateY(0px)';
+      }
 
       // Habilitar botón detener
       if (votesProcessed >= MIN_VOTES_TO_STOP) {
@@ -883,11 +978,19 @@
         currentCardIndex++;
         if (currentCardIndex >= playerDeck.length) {
           finishAndConsult();
+          isTransitioning = false;
         } else {
+          // Desactivar temporalmente la transición para reposicionar la carta activa sin parpadeo
+          activeCardEl.style.transition = 'none';
           resetCardVisuals();
           renderCard();
+          // Forzar reflujo de renderizado del navegador
+          void activeCardEl.offsetHeight;
+          // Restaurar transición normal
+          activeCardEl.style.transition = '';
+          isTransitioning = false;
         }
-      }, 250);
+      }, 260);
     }
 
     function resetCardVisuals() {
@@ -899,6 +1002,9 @@
     }
 
     function renderCard() {
+      if (currentCardIndex >= playerDeck.length) return;
+
+      // 1. Renderizar Carta Activa (Frontal)
       const p = playerDeck[currentCardIndex];
       cardPlayerNameEl.innerText = p.name;
       cardPlayerNickEl.innerText = `"${p.nickname}"`;
@@ -906,6 +1012,24 @@
       cardDecadeEl.innerText = p.decade;
       cardPlayerBioEl.innerText = p.desc;
       cardImageEl.src = p.image;
+
+      // 2. Renderizar Carta Siguiente (Debajo, ya pre-cargada)
+      const nextIndex = currentCardIndex + 1;
+      if (nextCardEl) {
+        if (nextIndex < playerDeck.length) {
+          const nextP = playerDeck[nextIndex];
+          nextCardPlayerNameEl.innerText = nextP.name;
+          nextCardPlayerNickEl.innerText = `"${nextP.nickname}"`;
+          nextCardBadgeEraEl.innerText = nextP.eraTitle;
+          nextCardDecadeEl.innerText = nextP.decade;
+          nextCardPlayerBioEl.innerText = nextP.desc;
+          nextCardImageEl.src = nextP.image;
+          nextCardEl.style.display = 'flex';
+          nextCardEl.style.transform = 'scale(0.95) translateY(12px)';
+        } else {
+          nextCardEl.style.display = 'none';
+        }
+      }
 
       const currentNum = currentCardIndex + 1;
       const total = playerDeck.length;
@@ -1015,6 +1139,9 @@
 
       // Actualizar contador federal
       updateCommunityCounter();
+
+      // Registrar telemetría de respuestas (Firebase Firestore + LocalStorage)
+      recordTelemetrySession(topCancha.era, topVideo.era, topNo.era);
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1215,10 +1342,92 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    /* Telemetría y Registro Anónimo en Buffer Local & Firebase Firestore */
+    function saveCurrentBufferToStorage() {
+      try {
+        const minimalBuffer = sessionHistory.map(h => ({
+          j: h.player.name,
+          d: h.decision
+        }));
+        localStorage.setItem('oraculo_partida_en_curso', JSON.stringify(minimalBuffer));
+      } catch (e) { }
+    }
+
+    async function recordTelemetrySession(eraCancha, eraVideo, eraNo) {
+      if (!sessionHistory || sessionHistory.length === 0) return;
+
+      const totalVotos = sessionHistory.length;
+      const cantCancha = sessionHistory.filter(h => h.decision === 'cancha').length;
+      const cantVideo = sessionHistory.filter(h => h.decision === 'video').length;
+      const cantNo = sessionHistory.filter(h => h.decision === 'no').length;
+
+      let storedUserSeed = localStorage.getItem('oraculo_anon_uid');
+      if (!storedUserSeed) {
+        storedUserSeed = 'hincha_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
+        localStorage.setItem('oraculo_anon_uid', storedUserSeed);
+      }
+
+      // Estructura de respuestas por jugador (ideal para métricas y porcentajes de difusión)
+      const respuestasDetalladas = {};
+      sessionHistory.forEach(h => {
+        respuestasDetalladas[h.player.name] = h.decision;
+      });
+
+      const payload = {
+        anonUid: storedUserSeed,
+        fechaLocal: new Date().toLocaleString('es-AR'),
+        fechaIso: new Date().toISOString(),
+        totalMuñecos: totalVotos,
+        totalCancha: cantCancha,
+        totalVideo: cantVideo,
+        totalNo: cantNo,
+        porcentajeCancha: Math.round((cantCancha / totalVotos) * 100),
+        eraDominanteCancha: eraCancha,
+        eraDominanteVideo: eraVideo,
+        eraDominanteNo: eraNo,
+        respuestas: respuestasDetalladas
+      };
+
+      // 1. Guardar siempre en LocalStorage (resguardo ante falta de conexión)
+      try {
+        localStorage.setItem('oraculo_ultima_partida', JSON.stringify(payload));
+        localStorage.removeItem('oraculo_partida_en_curso');
+      } catch (e) { }
+
+      // 2. Si no hay configuración de Firebase, terminar en silencio
+      if (!window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.apiKey) {
+        console.log('[Telemetry] Partida guardada en buffer local (Firebase no configurado).');
+        return;
+      }
+
+      // 3. Envío en segundo plano con import dinámico asíncrono (0ms impacto en fluidez)
+      try {
+        const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js");
+        const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+
+        const app = getApps().length === 0 ? initializeApp(window.FIREBASE_CONFIG) : getApps()[0];
+        const db = getFirestore(app);
+
+        // Guardar 1 único documento consolidado por partida completa en 'respuestas_partidas'
+        addDoc(collection(db, "respuestas_partidas"), {
+          ...payload,
+          timestampServidor: serverTimestamp()
+        }).then(docRef => {
+          console.log('[Telemetry] Partida registrada en Firebase Firestore. ID:', docRef.id);
+        }).catch(err => {
+          console.warn('[Telemetry] Error registrando en Firebase (quedó en localStorage):', err);
+        });
+      } catch (err) {
+        console.warn('[Telemetry] No se pudo cargar el SDK modular de Firebase:', err);
+      }
+    }
+
     function goToStartScreen() {
+      isTransitioning = false;
       currentCardIndex = 0;
       votesProcessed = 0;
       sessionHistory = [];
+      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch(e) {}
       votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
@@ -1236,9 +1445,11 @@
     }
 
     function restartTest() {
+      isTransitioning = false;
       currentCardIndex = 0;
       votesProcessed = 0;
       sessionHistory = [];
+      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch(e) {}
       votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
@@ -1273,6 +1484,7 @@
 
         const deckScreen = document.getElementById('deckScreen');
         if (deckScreen && !deckScreen.classList.contains('hidden')) {
+          if (isTransitioning) return;
           if (e.key === 'ArrowLeft') {
             triggerDecision('no');
           } else if (e.key === 'ArrowRight') {
