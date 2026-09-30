@@ -6,7 +6,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LP0PEDD4KD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-LP0PEDD4KD');
@@ -18,10 +18,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>El Oráculo Albiazul - Filial Chaco T</title>
-  
+
   <!-- Primarios y SEO -->
   <meta name="title" content="El Oráculo Albiazul - Filial Chaco T">
-  <meta name="description" content="Un test matador: Repasá los ídolos de nuestra historia con Don Amadeo y descubrí qué tan Tallarín es tu ADN Albiazul.">
+  <meta name="description"
+    content="Un test matador: Repasá los ídolos de nuestra historia con Don Amadeo y descubrí qué tan Tallarín es tu ADN Albiazul.">
   <meta name="author" content="Filial Chaco T 'Nery Leyes'">
   <meta name="theme-color" content="#001a49">
   <link rel="canonical" href="https://amadeoraculo.ar/">
@@ -32,7 +33,8 @@
   <meta property="og:url" content="https://amadeoraculo.ar/">
   <meta property="og:site_name" content="El Oráculo Albiazul - Filial Chaco T">
   <meta property="og:title" content="El Oráculo Albiazul - Filial Chaco T">
-  <meta property="og:description" content="Un test matador: Repasá los ídolos de nuestra historia con Don Amadeo y descubrí qué tan Tallarín es tu ADN Albiazul.">
+  <meta property="og:description"
+    content="Un test matador: Repasá los ídolos de nuestra historia con Don Amadeo y descubrí qué tan Tallarín es tu ADN Albiazul.">
   <meta property="og:image" content="https://amadeoraculo.ar/imagenes/og_preview.jpg?v=3">
   <meta property="og:image:secure_url" content="https://amadeoraculo.ar/imagenes/og_preview.jpg?v=3">
   <meta property="og:image:type" content="image/jpeg">
@@ -45,7 +47,8 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:url" content="https://amadeoraculo.ar/">
   <meta name="twitter:title" content="El Oráculo Albiazul - Filial Chaco T">
-  <meta name="twitter:description" content="Un test matador: Repasá los ídolos de nuestra historia con Don Amadeo y descubrí qué tan Tallarín es tu ADN Albiazul.">
+  <meta name="twitter:description"
+    content="Un test matador: Repasá los ídolos de nuestra historia con Don Amadeo y descubrí qué tan Tallarín es tu ADN Albiazul.">
   <meta name="twitter:image" content="https://amadeoraculo.ar/imagenes/og_preview.jpg?v=3">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -185,7 +188,8 @@
   <!-- Barra Superior Albiazul -->
   <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-100 sticky top-0 z-40 px-4 py-3 shadow-sm">
     <div class="max-w-5xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer select-none group" onclick="goToStartScreen()" title="Ir a la portada de inicio">
+      <div class="flex items-center space-x-3 cursor-pointer select-none group" onclick="goToStartScreen()"
+        title="Ir a la portada de inicio">
         <div
           class="w-11 h-11 rounded-xl bg-albiazul-950 p-1 shadow-md flex items-center justify-center border-2 border-albiazul-600 overflow-hidden group-hover:scale-105 transition-transform">
           <img src="imagenes/logo_filial_chaco.png" alt="Logo Filial Chaco" class="w-full h-full object-contain">
@@ -220,17 +224,20 @@
   <main class="flex-1 w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center relative">
 
     <!-- PANTALLA 0: PORTADA DE COMIENZO -->
-    <div id="startScreen" class="w-full max-w-[340px] sm:max-w-[380px] mx-auto flex flex-col items-center animate-fadeIn my-auto py-1">
-      
+    <div id="startScreen"
+      class="w-full max-w-[340px] sm:max-w-[380px] mx-auto flex flex-col items-center animate-fadeIn my-auto py-1">
+
       <!-- Portada interactiva de Don Amadeo e Ídolos -->
       <div onclick="startGame()"
         class="group relative rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-300/80 bg-white cursor-pointer active:scale-[0.98] transition-all duration-300 hover:shadow-blue-900/25 hover:border-blue-500 flex items-center justify-center">
         <img src="imagenes/INICIO.png?v=2" alt="El Oráculo Albiazul - Comienzo"
           class="max-h-[58vh] sm:max-h-[64vh] w-auto h-auto object-contain block select-none pointer-events-none group-hover:scale-[1.01] transition-transform duration-300" />
-        
+
         <!-- Overlay sutil con invitación en hover -->
-        <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-          <span class="text-white text-xs font-black tracking-wider uppercase bg-albiazul-950/90 px-3.5 py-1.5 rounded-full backdrop-blur border border-sky-400/60 shadow-lg">
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-albiazul-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+          <span
+            class="text-white text-xs font-black tracking-wider uppercase bg-albiazul-950/90 px-3.5 py-1.5 rounded-full backdrop-blur border border-sky-400/60 shadow-lg">
             ¡Tocá para comenzar! 👆
           </span>
         </div>
@@ -244,8 +251,19 @@
         <span class="text-sky-300 font-black text-lg group-hover:translate-x-1.5 transition-transform">➔</span>
       </button>
 
+      <!-- BOTÓN DEL MINI-TUTORIAL EN VIDEO -->
+      <button id="btnOpenVideoTutorial" onclick="openVideoTutorialModal()"
+        class="w-full mt-2.5 py-2.5 px-4 rounded-2xl bg-white hover:bg-blue-50/90 border-2 border-slate-300 hover:border-blue-500 text-albiazul-950 font-display font-black text-xs uppercase tracking-wide shadow-sm hover:shadow-md active:scale-95 transition-all duration-200 flex items-center justify-center space-x-2 group">
+        <span
+          class="w-6 h-6 rounded-full bg-blue-700 text-white flex items-center justify-center text-[10px] pl-0.5 group-hover:scale-110 group-hover:bg-blue-800 transition-transform shadow-xs">
+          ▶
+        </span>
+        <span class="text-albiazul-950 group-hover:text-blue-900">¿Cómo se juega? Mirá el mini-spot (27s)</span>
+      </button>
+
       <!-- Fila de características / detalles rápidos -->
-      <div class="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 mt-2.5 text-slate-600 text-[11px] sm:text-xs font-semibold text-center">
+      <div
+        class="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 mt-2.5 text-slate-600 text-[11px] sm:text-xs font-semibold text-center">
         <span class="flex items-center space-x-1">
           <span>🃏</span>
           <span>27 Ídolos</span>
@@ -294,7 +312,8 @@
 
           <!-- Imagen de fondo -->
           <div class="absolute inset-0 w-full h-full bg-slate-900">
-            <img id="nextCardImage" src="" alt="Siguiente Jugador" class="w-full h-full object-cover object-top filter brightness-95">
+            <img id="nextCardImage" src="" alt="Siguiente Jugador"
+              class="w-full h-full object-cover object-top filter brightness-95">
             <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950 via-albiazul-950/60 to-transparent"></div>
           </div>
 
@@ -326,7 +345,8 @@
                 1970 - 1980
               </span>
             </div>
-            <h2 id="nextCardPlayerName" class="font-display font-black text-2xl mt-1 leading-tight text-white drop-shadow">
+            <h2 id="nextCardPlayerName"
+              class="font-display font-black text-2xl mt-1 leading-tight text-white drop-shadow">
               ...
             </h2>
             <p id="nextCardPlayerNick" class="text-sky-300 font-bold text-xs">
@@ -577,71 +597,79 @@
           </div>
 
           <!-- PROMPT GENERADO PARA LA IA -->
-          <div class="p-4 rounded-2xl bg-sky-50 border border-sky-200 text-slate-800 flex flex-col">
+          <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 text-slate-800 flex flex-col">
             <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center space-x-1.5 text-sky-900 font-extrabold">
+              <div class="flex items-center space-x-1.5 text-blue-950 font-extrabold">
                 <span class="text-base">🤖</span>
                 <span class="text-[11px] uppercase tracking-wide">Copiá este choclo y pegáselo a la IA:</span>
               </div>
               <button onclick="copyAiPrompt()"
-                class="bg-sky-600 hover:bg-sky-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition active:scale-95 flex items-center space-x-1 shadow-sm">
+                class="bg-blue-800 hover:bg-blue-900 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition active:scale-95 flex items-center space-x-1 shadow-sm">
                 <span>📋</span>
                 <span id="copyPromptBtn">Copiar prompt</span>
               </button>
             </div>
             <p id="aiPromptText"
-              class="text-[11px] font-mono bg-white p-3 rounded-xl border border-sky-200 text-slate-700 leading-normal select-all flex-1">
+              class="text-[11px] font-mono bg-white p-3 rounded-xl border border-blue-200 text-slate-700 leading-normal select-all flex-1">
             </p>
           </div>
 
         </div>
 
-        <!-- FRASE DE CIERRE DEL AMADEO -->
-        <div class="pt-5 mt-6 border-t-2 border-slate-100 text-center">
+        <!-- REFLEXIÓN DE CIERRE Y FRASE HISTÓRICA DE AMADEO -->
+        <div
+          class="w-full mt-8 p-6 sm:p-8 bg-gradient-to-br from-blue-50/70 via-white to-slate-50 border-2 border-slate-200 rounded-3xl shadow-lg text-center relative overflow-hidden">
+          <div class="text-3xl sm:text-5xl text-blue-900/20 font-serif leading-none select-none mb-1">“</div>
           <p
-            class="font-display font-bold text-xs sm:text-sm text-albiazul-900 italic leading-relaxed max-w-2xl mx-auto">
-            "La grandeza de Talleres no se mide solo en copas, sino en la memoria viva de su gente. Amar este club es
+            class="font-display font-black text-base sm:text-xl md:text-2xl lg:text-[25px] text-albiazul-950 italic leading-snug sm:leading-relaxed tracking-tight w-full px-2 sm:px-4">
+            La grandeza de Talleres no se mide solo en copas, sino en la memoria viva de su gente. Amar este club es
             honrar a quienes lo fundaron, alentar a quienes lo defienden hoy y soñar con todo lo que todavía vamos a
-            conquistar."
+            conquistar.
           </p>
-        </div>
 
-        <!-- FIRMA INSTITUCIONAL Y REDES -->
-        <div class="pt-4 border-t-2 border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div class="text-center sm:text-left flex items-center space-x-3">
-            <img src="imagenes/logo_filial_chaco.png" alt="Filial Chaco"
-              class="w-8 h-8 rounded-full border border-blue-900/30 shadow-sm hidden sm:block">
-            <div>
-              <p class="font-display font-black text-xs sm:text-sm text-albiazul-950 tracking-wide uppercase">
-                Filial Chaco T "El Nery Leyes"
-              </p>
-              <a href="https://www.instagram.com/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center text-[11px] text-blue-700 hover:text-blue-900 transition font-bold">
-                <svg class="w-3.5 h-3.5 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-                <span>@talleresfilialchaco</span>
-              </a>
+          <!-- FRASE REAL HISTÓRICA CON LA FIRMA DE AMADEO NUCCETELLI -->
+          <div class="mt-6 pt-5 border-t border-slate-200 max-w-xl mx-auto flex flex-col items-center">
+            <p
+              class="font-display font-black text-sm sm:text-base md:text-lg text-albiazul-950 tracking-wide uppercase">
+              "Juntos lo haremos todo, separados nada"
+            </p>
+            <div class="mt-1.5 flex items-center justify-center space-x-2">
+              <span class="h-0.5 w-6 bg-albiazul-900"></span>
+              <span class="font-display font-bold text-[11px] sm:text-xs text-slate-600 tracking-wider">
+                Amadeo Nuccetelli
+              </span>
+              <span class="h-0.5 w-6 bg-albiazul-900"></span>
             </div>
-
-            <!-- Compartir -->
-            <button onclick="shareDiagnosis()"
-              class="px-4 py-2.5 rounded-xl bg-albiazul-900 hover:bg-albiazul-800 text-white text-xs font-black flex items-center space-x-1.5 transition active:scale-95 shadow-md">
-              <span>📤</span>
-              <span id="shareBtnText">Pasale el test a otro fiera</span>
-            </button>
           </div>
         </div>
 
-        <!-- TABLA RESUMEN CON DECISIÓN Y HASHTAGS -->
+        <!-- TABLA RESUMEN CON TOTALES, DECISIÓN Y HASHTAGS -->
         <div
-          class="w-full bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-3xl p-4 sm:p-6 shadow-xl mt-5">
+          class="w-full bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-3xl p-4 sm:p-6 shadow-xl mt-6">
           <div class="flex items-center space-x-2 border-b border-slate-200 pb-3 mb-4">
             <span class="text-lg">📋</span>
             <h3 class="font-display font-black text-xs sm:text-sm text-albiazul-950 uppercase tracking-wider">
               La Bitácora del Hincha: Tu pasada jugador por jugador
             </h3>
+          </div>
+
+          <!-- RESUMEN DE TOTALES EN LA BITÁCORA -->
+          <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-4">
+            <div class="p-2.5 sm:p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-200/80 text-center shadow-xs">
+              <span class="block text-[10px] sm:text-xs font-bold text-emerald-800 uppercase tracking-tight">🏟️ Visto
+                en cancha</span>
+              <span id="statTotalCancha" class="font-display font-black text-lg sm:text-2xl text-emerald-950">0</span>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-2xl bg-amber-50 border-2 border-amber-200/80 text-center shadow-xs">
+              <span class="block text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-tight">📺 Conocidos
+                en video</span>
+              <span id="statTotalVideo" class="font-display font-black text-lg sm:text-2xl text-amber-950">0</span>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-2xl bg-rose-50 border-2 border-rose-200/80 text-center shadow-xs">
+              <span class="block text-[10px] sm:text-xs font-bold text-rose-800 uppercase tracking-tight">❓ No
+                recordados</span>
+              <span id="statTotalNo" class="font-display font-black text-lg sm:text-2xl text-rose-950">0</span>
+            </div>
           </div>
 
           <div class="overflow-x-auto">
@@ -660,40 +688,82 @@
           </div>
         </div>
 
-        <!-- CENSO COMUNITARIO CORDOBÉS -->
+        <!-- CENSO COMUNITARIO CORDOBÉS (PERSONALIZADO CON NÚMERO DE HINCHA EN BLANCO ALBIAZUL) -->
         <div
-          class="w-full mt-5 bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-2xl p-4 flex items-center justify-between shadow-md">
-          <div class="flex items-center space-x-3">
-            <div
-              class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 uppercase tracking-widest block font-bold">Censo Albiazul
-                Federal</span>
-              <span class="text-xs font-semibold text-slate-800">Hinchas que ya consultaron al Amadeo:</span>
-            </div>
+          class="w-full mt-6 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-albiazul-950 border-2 border-white/25 rounded-3xl p-5 sm:p-6 shadow-xl text-white text-center flex flex-col items-center justify-center relative overflow-hidden">
+          <div
+            class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 text-blue-100 border border-white/20 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2">
+            <span>👥</span>
+            <span>Censo Albiazul Federal</span>
           </div>
-          <div class="font-display font-black text-blue-700 text-xl tracking-tight" id="communityCounter">
-            7.418
-          </div>
+          <p class="font-display font-extrabold text-base sm:text-xl md:text-2xl text-white leading-tight">
+            ¡Sos la consulta número <span id="communityCounter"
+              class="text-white font-black px-3 py-0.5 rounded-xl bg-white/20 border-2 border-white/40 inline-block shadow-inner tracking-normal">51</span>
+            fiera!
+          </p>
+          <p class="text-xs sm:text-sm text-slate-200 font-semibold mt-2">
+            ¡Vamos que cada vez somos más matadores consultando al Amadeo!
+          </p>
         </div>
 
-        <!-- Botones de navegación final -->
-        <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 pb-4">
+        <!-- BOTONES DE NAVEGACIÓN FINAL (MÁS GRANDES Y CÓMODOS) -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
           <button onclick="restartTest()"
-            class="text-xs font-bold text-slate-800 hover:text-blue-950 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-4 py-2.5 rounded-xl transition flex items-center space-x-1.5 shadow-sm active:scale-95">
-            <span>🔄</span>
+            class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-300 text-slate-900 hover:text-albiazul-950 font-display font-black text-sm sm:text-base transition-all duration-150 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg active:scale-95">
+            <span class="text-xl">🔄</span>
             <span>Volver a jugar de nuevo, culiau</span>
           </button>
           <button onclick="goToStartScreen()"
-            class="text-xs font-bold text-slate-600 hover:text-blue-800 transition flex items-center space-x-1.5 py-2 px-3 hover:underline">
-            <span>🏠</span>
+            class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-700 hover:text-slate-950 font-display font-extrabold text-sm sm:text-base transition-all duration-150 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md active:scale-95">
+            <span class="text-xl">🏠</span>
             <span>Pantalla de inicio</span>
           </button>
+        </div>
+
+        <!-- BOTÓN DE INVITAR / COMPARTIR (GRANDE Y EN EL MEDIO) -->
+        <div class="w-full flex justify-center mt-7">
+          <button onclick="shareDiagnosis()"
+            class="w-full sm:w-auto min-w-[280px] sm:min-w-[360px] px-8 py-4 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 hover:from-blue-900 hover:to-albiazul-950 text-white font-display font-black text-base sm:text-lg flex items-center justify-center space-x-3 transition-all duration-150 transform hover:-translate-y-0.5 active:scale-95 shadow-xl border-2 border-white/25">
+            <span class="text-xl">📤</span>
+            <span id="shareBtnText">Pasale el test a otro matador</span>
+          </button>
+        </div>
+
+        <!-- FIRMA INSTITUCIONAL E INSTAGRAM DE LA FILIAL -->
+        <div
+          class="mt-8 pt-6 border-t-2 border-slate-100 flex flex-col items-center justify-center text-center space-y-2">
+          <div class="flex items-center space-x-3">
+            <img src="imagenes/logo_filial_chaco.png" alt="Filial Chaco"
+              class="w-9 h-9 rounded-full border border-blue-900/30 shadow-md">
+            <div class="text-left">
+              <p class="font-display font-black text-sm text-albiazul-950 tracking-wide uppercase">
+                Filial Chaco T "El Nery Leyes"
+              </p>
+              <a href="https://www.instagram.com/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
+                class="inline-flex items-center text-xs text-blue-700 hover:text-blue-900 transition font-bold space-x-1 hover:underline">
+                <svg class="w-3.5 h-3.5 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+                <span>@talleresfilialchaco</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA SUGERIR ÍDOLO POR INSTAGRAM DIRECT -->
+        <div class="mt-4 pb-4 text-center max-w-md mx-auto">
+          <p class="text-xs text-slate-500 font-medium mb-2">
+            ¿Querés sugerir un ídolo albiazul o contarnos una anécdota para el Oráculo?
+          </p>
+          <a href="https://ig.me/m/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 text-xs font-black transition active:scale-95 shadow-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+            <span>Escribinos un mensaje directo al Instagram</span>
+          </a>
         </div>
 
       </div>
@@ -702,8 +772,55 @@
 
   <!-- Notificación Toast -->
   <div id="toast"
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-albiazul-950 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 border border-sky-400">
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-albiazul-950 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 border border-white/30">
     ¡Copiado, fiera!
+  </div>
+
+  <!-- Modal de Video Mini-Tutorial -->
+  <div id="videoTutorialModal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+
+    <!-- Contenedor del video con estilo teléfono/tarjeta albiazul -->
+    <div
+      class="relative w-full max-w-[340px] sm:max-w-[360px] bg-albiazul-950 border-2 border-white/30 rounded-3xl shadow-2xl overflow-hidden flex flex-col items-center">
+
+      <!-- Barra superior del modal -->
+      <div class="w-full px-4 py-2.5 bg-albiazul-900/90 border-b border-sky-400/30 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-sm">📺</span>
+          <span class="font-display font-black text-xs text-white uppercase tracking-wider">Mini-Spot: Cómo Jugar</span>
+        </div>
+        <button onclick="closeVideoTutorialModal()"
+          class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-black transition active:scale-90"
+          title="Cerrar video">
+          ✕
+        </button>
+      </div>
+
+      <!-- Reproductor de Video -->
+      <div
+        class="w-full aspect-[9/19.5] max-h-[66vh] sm:max-h-[72vh] bg-black relative flex items-center justify-center overflow-hidden">
+        <video id="spotVideoPlayer" playsinline controls preload="metadata" class="w-full h-full object-contain">
+          <source src="videos/spotAmadeOraculo_opt.mp4" type="video/mp4">
+          <source src="videos/spotAmadeOraculo.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video HTML5.
+        </video>
+      </div>
+
+      <!-- Pie del modal con botón de acción directa -->
+      <div class="w-full p-3 bg-albiazul-900/95 border-t border-sky-400/30 flex items-center justify-between gap-2">
+        <button onclick="closeVideoTutorialModal()"
+          class="flex-1 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition text-center">
+          Cerrar
+        </button>
+        <button onclick="closeVideoTutorialModal(); startGame();"
+          class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-500 hover:to-sky-400 text-white text-xs font-black uppercase tracking-wider transition active:scale-95 shadow-md flex items-center justify-center space-x-1.5">
+          <span>¡JUGAR!</span>
+          <span>➔</span>
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <script>
@@ -739,6 +856,30 @@
       soundEnabled = !soundEnabled;
       document.getElementById('soundIcon').innerText = soundEnabled ? '🔊' : '🔇';
       showToast(soundEnabled ? '¡Sonido activado, culiau!' : 'Sonido apagado, che');
+    }
+
+    /* Modal de Video Mini-Spot / Tutorial */
+    function openVideoTutorialModal() {
+      const modal = document.getElementById('videoTutorialModal');
+      const player = document.getElementById('spotVideoPlayer');
+      if (!modal || !player) return;
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+      try {
+        player.currentTime = 0;
+        player.play().catch(() => { });
+      } catch (e) { }
+    }
+
+    function closeVideoTutorialModal() {
+      const modal = document.getElementById('videoTutorialModal');
+      const player = document.getElementById('spotVideoPlayer');
+      if (!modal || !player) return;
+      modal.classList.remove('opacity-100');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      try {
+        player.pause();
+      } catch (e) { }
     }
 
     /* Base de datos de jugadores: cargada dinámicamente desde idolos.json */
@@ -1253,6 +1394,18 @@
       const tbody = document.getElementById('playerLogTableBody');
       tbody.innerHTML = '';
 
+      const countCancha = sessionHistory.filter(h => h.decision === 'cancha').length;
+      const countVideo = sessionHistory.filter(h => h.decision === 'video').length;
+      const countNo = sessionHistory.filter(h => h.decision === 'no').length;
+
+      const elCancha = document.getElementById('statTotalCancha');
+      const elVideo = document.getElementById('statTotalVideo');
+      const elNo = document.getElementById('statTotalNo');
+
+      if (elCancha) elCancha.innerText = countCancha;
+      if (elVideo) elVideo.innerText = countVideo;
+      if (elNo) elNo.innerText = countNo;
+
       sessionHistory.forEach(item => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
@@ -1282,15 +1435,28 @@
       });
     }
 
+    const BASE_HINCHAS_CENSO = 50;
+
     function updateCommunityCounter() {
-      let storedCount = localStorage.getItem('oraculo_talleres_counter');
-      if (!storedCount) {
-        storedCount = 7418 + Math.floor(Math.random() * 8) + 1;
+      // Purgar inmediatamente la clave antigua del contador simulado en 7.420
+      try { localStorage.removeItem('oraculo_talleres_counter'); } catch (e) { }
+
+      let stored = localStorage.getItem('oraculo_censo_hincha_num');
+      let count = stored ? parseInt(stored) : null;
+
+      // Si no existe, o si tiene un valor heredado de la simulación vieja (> 1000), reiniciar a Base + 1
+      if (!count || count > 1000 || count < BASE_HINCHAS_CENSO) {
+        count = BASE_HINCHAS_CENSO + 1;
       } else {
-        storedCount = parseInt(storedCount) + 1;
+        count += 1;
       }
-      localStorage.setItem('oraculo_talleres_counter', storedCount);
-      document.getElementById('communityCounter').innerText = storedCount.toLocaleString('es-AR');
+
+      localStorage.setItem('oraculo_censo_hincha_num', count);
+
+      const el = document.getElementById('communityCounter');
+      if (el) {
+        el.innerText = count.toLocaleString('es-AR');
+      }
     }
 
     function shareDiagnosis() {
@@ -1329,6 +1495,7 @@
     }
 
     function startGame() {
+      closeVideoTutorialModal();
       initAudio();
       // Acorde triunfal de bienvenida con tres notas albiazules
       playTone(523.25, 'triangle', 0.15);
@@ -1403,7 +1570,7 @@
       // 3. Envío en segundo plano con import dinámico asíncrono (0ms impacto en fluidez)
       try {
         const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js");
-        const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+        const { getFirestore, collection, addDoc, serverTimestamp, getCountFromServer } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
 
         const app = getApps().length === 0 ? initializeApp(window.FIREBASE_CONFIG) : getApps()[0];
         const db = getFirestore(app);
@@ -1412,8 +1579,25 @@
         addDoc(collection(db, "respuestas_partidas"), {
           ...payload,
           timestampServidor: serverTimestamp()
-        }).then(docRef => {
+        }).then(async docRef => {
           console.log('[Telemetry] Partida registrada en Firebase Firestore. ID:', docRef.id);
+
+          // Actualizar contador real con Firebase (Opción B: Base 50 + conteo en tiempo real)
+          try {
+            const coll = collection(db, "respuestas_partidas");
+            const countSnap = await getCountFromServer(coll);
+            const totalDocs = countSnap.data().count;
+            const totalHinchas = BASE_HINCHAS_CENSO + totalDocs;
+
+            localStorage.setItem('oraculo_censo_hincha_num', totalHinchas);
+            const counterEl = document.getElementById('communityCounter');
+            if (counterEl) {
+              counterEl.innerText = totalHinchas.toLocaleString('es-AR');
+            }
+            console.log(`[Telemetry] Censo actualizado con Firebase: ${BASE_HINCHAS_CENSO} base + ${totalDocs} partidas = ${totalHinchas}`);
+          } catch (countErr) {
+            console.warn('[Telemetry] Error obteniendo conteo de Firestore (verificar reglas de lectura en Firebase Console):', countErr);
+          }
         }).catch(err => {
           console.warn('[Telemetry] Error registrando en Firebase (quedó en localStorage):', err);
         });
@@ -1427,7 +1611,7 @@
       currentCardIndex = 0;
       votesProcessed = 0;
       sessionHistory = [];
-      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch(e) {}
+      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch (e) { }
       votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
@@ -1449,7 +1633,7 @@
       currentCardIndex = 0;
       votesProcessed = 0;
       sessionHistory = [];
-      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch(e) {}
+      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch (e) { }
       votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
       votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
@@ -1471,8 +1655,25 @@
       setupGestures();
       await loadPlayerDeck();
 
+      // Cerrar modal de video al tocar fuera
+      const modalEl = document.getElementById('videoTutorialModal');
+      if (modalEl) {
+        modalEl.addEventListener('click', (e) => {
+          if (e.target === modalEl) closeVideoTutorialModal();
+        });
+      }
+
       // Atajos de teclado en PC / Desktop
       window.addEventListener('keydown', (e) => {
+        // Cerrar modal con Escape
+        if (e.key === 'Escape') {
+          const modal = document.getElementById('videoTutorialModal');
+          if (modal && !modal.classList.contains('pointer-events-none')) {
+            closeVideoTutorialModal();
+            return;
+          }
+        }
+
         const startScreen = document.getElementById('startScreen');
         if (startScreen && !startScreen.classList.contains('hidden')) {
           if (e.key === ' ' || e.key === 'Enter') {

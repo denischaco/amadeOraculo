@@ -2,7 +2,7 @@
   "version": 2,
   "functions": {
     "server.js": {
-      "includeFiles": "{idolos.json,index.html,el_or_culo_albiazul.html,imagenes/**}"
+      "includeFiles": "{idolos.json,index.html,el_or_culo_albiazul.html,imagenes/**,videos/**}"
     }
   },
   "routes": [
