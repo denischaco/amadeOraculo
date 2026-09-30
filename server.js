@@ -76,7 +76,8 @@ const server = http.createServer((req, res) => {
       'Cache-Control': 'no-cache'
     });
     if (process.env.FIREBASE_CONFIG) {
-      res.end(`window.FIREBASE_CONFIG = ${process.env.FIREBASE_CONFIG};`);
+      const raw = process.env.FIREBASE_CONFIG.trim().replace(/^;+|;+$/g, '');
+      res.end(`window.FIREBASE_CONFIG = ${raw};`);
       return;
     }
     const localConfigPath = path.join(__dirname, 'firebase-config.js');
