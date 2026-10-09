@@ -244,6 +244,7 @@
         "decade": "2010 - 2016",
         "desc": "El corazón y la garra en el mediocampo durante las batallas más ásperas del Argentino A y la B. Patrono oficial de nuestra Filial Chaco por su entrega total a la camiseta.",
         "image": "imagenes/fotos_idolos/El Motor Silencioso.jpg",
+        "pedidoPor": "@talleresfilialchaco",
         "hashtags": [
             "#PatronoDeLaFilial",
             "#GarraYCorazón",
@@ -453,5 +454,174 @@
             "#FútbolFemeninoTalleres"
         ],
         "searchQuery": "Eliana Capdevila Talleres femenino campeonas 2024 ascenso"
+    },
+    {
+        "name": "José Alfredo Zelaya",
+        "nickname": "El Cachi",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1996 - 2001",
+        "desc": "Delantero tucumano de frialdad absoluta a la hora de definir. Rompió una mala racha en el clásico anotándole tres goles a Belgrano en un rotundo 5-0 en 1996. Además, logró el histórico ascenso a Primera en 1998 anotando el gol del 1-0 en el partido de ida de la Final del Siglo.",
+        "image": "imagenes/fotos_idolos/Zelaya.jpg",
+        "hashtags": [
+            "#ElCachi",
+            "#HatTrickClásico",
+            "#FinalDelSiglo",
+            "#GoleadaHistorica",
+            "#GoleadorTucumano"
+        ],
+        "searchQuery": "Cachi Zelaya goles Talleres Belgrano 5 a 0 Final del Siglo"
+    },
+    {
+        "name": "Miguel Oviedo",
+        "nickname": "La Cata",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1974 - 1982",
+        "desc": "Defensor y mediocampista polifuncional de jerarquía internacional. Fue parte de una de las líneas defensivas más sólidas del club y del equipo subcampeón del Nacional 1977. Se consagró Campeón del Mundo con la Selección Argentina en 1978 jugando para la 'T'.",
+        "image": "imagenes/fotos_idolos/Oviedo.jpg",
+        "hashtags": [
+            "#LaCata",
+            "#CampeonMundial78",
+            "#EraDeOro",
+            "#DefensorMultiuso",
+            "#LeyendaAlbiazul"
+        ],
+        "searchQuery": "Miguel Oviedo Talleres de Córdoba Campeón del Mundo 1978"
+    },
+    {
+        "name": "Miguel Antonio Romero",
+        "nickname": "La Wanora",
+        "era": "era50",
+        "eraTitle": "Años 50 y 60 · El Dominio Local",
+        "decade": "1955 - 1968",
+        "desc": "El máximo goleador histórico de la institución con 163 goles convertidos en 242 partidos. Popularmente conocido como 'La Wanora' porque pasaba la pelota por todo el cuerpo del rival antes de definir.",
+        "image": "imagenes/fotos_idolos/Wanora_Romero.jpg",
+        "hashtags": [
+            "#LaWanora",
+            "#MáximoGoleador",
+            "#163Goles",
+            "#LeyendaAbsoluta",
+            "#DominioCordobés"
+        ],
+        "searchQuery": "Miguel Wanora Romero máximo goleador historia Talleres"
+    },
+    {
+        "name": "Humberto Bravo",
+        "nickname": "El Tigre",
+        "era": "era70",
+        "eraTitle": "Años 70 · Era de Oro",
+        "decade": "1974 - 1981",
+        "desc": "Uno de los mayores artilleros en la historia del club, sumando 140 goles en 237 encuentros. Logró 13 títulos locales con Talleres aportando una capacidad goleadora inigualable.",
+        "image": "imagenes/fotos_idolos/Humberto_Bravo.jpg",
+        "hashtags": [
+            "#ElTigre",
+            "#140Goles",
+            "#Nacional77",
+            "#GoleadorLetal",
+            "#ArtilleroAlbiazul"
+        ],
+        "searchQuery": "Humberto Bravo goles Talleres de Córdoba"
+    },
+    {
+        "name": "Ricardo Gareca",
+        "nickname": "El Tigre",
+        "era": "era90",
+        "eraTitle": "Años 90 · Gloria Conmebol",
+        "decade": "1998 - 2001",
+        "desc": "Entrenador histórico responsable de dos hitos inolvidables: el triunfo ante Belgrano por penales para lograr el ascenso en 1998 y la consagración internacional de la Copa Conmebol 1999.",
+        "image": "imagenes/fotos_idolos/Gareca.jpg",
+        "hashtags": [
+            "#ElTigreGareca",
+            "#CampeónConmebol99",
+            "#Ascenso1998",
+            "#DirectorTécnico",
+            "#HitosHistóricos"
+        ],
+        "searchQuery": "Ricardo Gareca Talleres Copa Conmebol 1999 Ascenso 1998"
+    },
+    {
+        "name": "Rubén Botta",
+        "nickname": "El Distinto",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2024 - Actualidad",
+        "desc": "Enganche puro de los que ya casi no se ven. Una figura del presente que se ganó el cariño incondicional de los hinchas gracias a su inmenso talento, pases filtrados y compromiso.",
+        "image": "imagenes/fotos_idolos/Botta.jpg",
+        "hashtags": [
+            "#ElDistinto",
+            "#MagiaPura",
+            "#El10DeLaT",
+            "#TalentoYCompromiso",
+            "#FútbolLírico"
+        ],
+        "searchQuery": "Rubén Botta mejores jugadas asistencias Talleres"
+    },
+    {
+        "name": "Andrés Cubas",
+        "nickname": "Cubitas",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2018 - 2020",
+        "desc": "Volante paraguayo que fue el gran motor del equipo durante su paso por la institución entre 2018 y 2020. Conquistó el mediocampo a base de despliegue incansable, anticipos precisos y gran lectura de juego.",
+        "image": "imagenes/fotos_idolos/Cubas.jpg",
+        "hashtags": [
+            "#PatrónDelMedio",
+            "#DespliegueTotal",
+            "#CorazónAlbiazul",
+            "#RecuperaciónPrecisa"
+        ],
+        "searchQuery": "Andrés Cubas quites y jugadas Talleres"
+    },
+    {
+        "name": "Ramón Sosa",
+        "nickname": "El Rayo",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2023 - 2024",
+        "desc": "Extremo paraguayo que vistió los colores del club aportando desequilibrio constante. Brilló por su tremenda velocidad, capacidad de desborde y su cuota goleadora en el plano local e internacional.",
+        "image": "imagenes/fotos_idolos/Ramon_Sosa.jpg",
+        "hashtags": [
+            "#ElRayo",
+            "#VelocidadExtrema",
+            "#GambetaYGol",
+            "#DesbordeAlbiazul",
+            "#NochesDeCopa"
+        ],
+        "searchQuery": "Ramón Sosa goles velocidad Talleres"
+    },
+    {
+        "name": "Dayro Moreno",
+        "nickname": "Dayro",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2019 - 2020",
+        "desc": "Atacante colombiano que defendió el escudo de Talleres entre 2019 y 2020. Su jerarquía, olfato goleador y especial carisma lo conectaron rápidamente con la mística y la hinchada de la T.",
+        "image": "imagenes/fotos_idolos/Dayro_Moreno.jpg",
+        "pedidoPor": "@amigo_matador",
+        "hashtags": [
+            "#JerarquíaColombiana",
+            "#GoleadorLetal",
+            "#ToqueDeCalidad",
+            "#CarismaAlbiazul"
+        ],
+        "searchQuery": "Dayro Moreno goles lujos Talleres de Córdoba"
+    },
+    {
+        "name": "Matías Catalán",
+        "nickname": "Cata",
+        "era": "eraModerna",
+        "eraTitle": "Era Contemporánea",
+        "decade": "2022 - Actualidad",
+        "desc": "Sólido y férreo defensor que arribó al club en 2022. Gracias a su fortaleza física, excelente juego aéreo y compromiso, se transformó en un baluarte absoluto de las campañas recientes.",
+        "image": "imagenes/fotos_idolos/Catalan.jpg",
+        "hashtags": [
+            "#MurallaDefensiva",
+            "#CaudilloAlbiazul",
+            "#JuegoAéreo",
+            "#FuerzaYCorazón",
+            "#SeguridadTotal"
+        ],
+        "searchQuery": "Matías Catalán defensor goles Talleres"
     }
 ]

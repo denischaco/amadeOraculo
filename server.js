@@ -58,14 +58,105 @@ const server = http.createServer((req, res) => {
     reqPath = '/imagenes/logo_filial_chaco.png';
   }
 
-  // Respuesta directa desde memoria para idolos.json (0ms latencia)
+  // Respuesta directa para idolos.json (recarga dinámica ante cambios)
   if (reqPath === '/idolos.json') {
+    const jsonPath = path.join(__dirname, 'idolos.json');
+    let dataToSend = idolosData;
+    if (fs.existsSync(jsonPath)) {
+      try {
+        dataToSend = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+      } catch (e) {
+        dataToSend = idolosData;
+      }
+    }
     res.writeHead(200, {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'public, max-age=3600'
+      'Cache-Control': 'no-cache'
     });
-    res.end(JSON.stringify(idolosData));
+    res.end(JSON.stringify(dataToSend));
+    return;
+  }
+
+  // Endpoints de administración exclusivos para entorno local
+  if (reqPath === '/api/admin/guardar-figurita' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const item = JSON.parse(body);
+        if (!item.name) throw new Error('El campo name es obligatorio');
+        const jsonPath = path.join(__dirname, 'idolos.json');
+        let list = [];
+        if (fs.existsSync(jsonPath)) {
+          list = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        }
+        const idx = list.findIndex(p => p.name.trim().toLowerCase() === item.name.trim().toLowerCase());
+        if (idx >= 0) {
+          list[idx] = item;
+        } else {
+          list.push(item);
+        }
+        fs.writeFileSync(jsonPath, JSON.stringify(list, null, 4), 'utf8');
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: true, count: list.length, item }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  if (reqPath === '/api/admin/guardar-todos' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const list = JSON.parse(body);
+        if (!Array.isArray(list)) throw new Error('El cuerpo debe ser un array');
+        const jsonPath = path.join(__dirname, 'idolos.json');
+        fs.writeFileSync(jsonPath, JSON.stringify(list, null, 4), 'utf8');
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: true, count: list.length }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  if (reqPath === '/api/admin/eliminar-figurita' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const { name } = JSON.parse(body);
+        if (!name) throw new Error('El campo name es obligatorio');
+        const jsonPath = path.join(__dirname, 'idolos.json');
+        let list = [];
+        if (fs.existsSync(jsonPath)) {
+          list = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+        }
+        const filtered = list.filter(p => p.name.trim().toLowerCase() !== name.trim().toLowerCase());
+        fs.writeFileSync(jsonPath, JSON.stringify(filtered, null, 4), 'utf8');
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: true, count: filtered.length }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
     return;
   }
 

@@ -91,9 +91,20 @@
       overflow-x: hidden;
       user-select: none;
       -webkit-user-select: none;
+      position: relative;
+      backdrop-filter: blur(0px) sepia(24%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
       background-image: url('imagenes/trama_filial_chaco.png?v=2');
       background-repeat: repeat;
       background-size: 180px 180px;
+      filter: sepia(24%) opacity(0.9);
+      pointer-events: none;
+      z-index: -1;
     }
 
     /* Permitir selección de texto en resultados, tablas y prompts */
@@ -122,24 +133,94 @@
       display: block;
     }
 
-    /* Suavizado de cartas */
+    /* Suavizado de cartas de alta respuesta (Emil Kowalski / Apple Fluid Motion) */
     .card-transition {
-      transition: transform 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.28s ease;
+      transition: transform 0.22s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.18s ease-out;
     }
 
     .swipe-cancha {
-      transform: translateX(130%) rotate(20deg) !important;
+      transform: translateX(130%) rotate(18deg) !important;
       opacity: 0 !important;
     }
 
     .swipe-no {
-      transform: translateX(-130%) rotate(-20deg) !important;
+      transform: translateX(-130%) rotate(-18deg) !important;
       opacity: 0 !important;
     }
 
     .swipe-video {
-      transform: translateY(-130%) scale(0.85) !important;
+      transform: translateY(-130%) scale(0.88) !important;
       opacity: 0 !important;
+    }
+
+    /* Números tabulares para evitar saltos en contadores */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Stagger de entrada en el veredicto de Don Amadeo */
+    .stagger-card-1 {
+      animation: fadeInCard 0.35s cubic-bezier(0.23, 1, 0.32, 1) both;
+      animation-delay: 0.04s;
+    }
+
+    .stagger-card-2 {
+      animation: fadeInCard 0.35s cubic-bezier(0.23, 1, 0.32, 1) both;
+      animation-delay: 0.12s;
+    }
+
+    .stagger-card-3 {
+      animation: fadeInCard 0.35s cubic-bezier(0.23, 1, 0.32, 1) both;
+      animation-delay: 0.20s;
+    }
+
+    @keyframes fadeInCard {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Accesibilidad: Respetar preferencias de reducción de movimiento */
+    @media (prefers-reduced-motion: reduce) {
+
+      .card-transition,
+      #progressBar,
+      #toast,
+      .animate-fadeIn,
+      .stagger-card-1,
+      .stagger-card-2,
+      .stagger-card-3,
+      button,
+      .group {
+        transition: opacity 0.15s ease-out !important;
+        animation: none !important;
+        transform: none !important;
+      }
+
+      .swipe-cancha,
+      .swipe-no,
+      .swipe-video {
+        opacity: 0 !important;
+        transform: none !important;
+      }
+    }
+
+    /* Gating de :hover para evitar efectos pegados en pantallas táctiles */
+    @media (hover: none) or (pointer: coarse) {
+
+      .group:hover .group-hover\:scale-105,
+      .group:hover .group-hover\:scale-110,
+      .group:hover .group-hover\:scale-125,
+      .group:hover .group-hover\:scale-\[1\.01\],
+      .group:hover .group-hover\:translate-x-1\.5 {
+        transform: none !important;
+      }
     }
 
     /* Triángulos de dirección en bordes */
@@ -167,6 +248,109 @@
       border-left: 12px solid currentColor;
     }
 
+    /* =========================================================
+       EFECTO FAN-OUT PHOTO STACK & POKÉMON HOLO FOIL
+       (Inspirado en CodeFronts & Simey Holographic)
+       ========================================================= */
+    .mazote-stack-container {
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+      height: 380px;
+      perspective: 1000px;
+      margin: 0 auto;
+    }
+
+    .mazote-stack-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      transform-origin: 50% 125%;
+      transition: transform 0.42s cubic-bezier(0.2, 0.85, 0.2, 1), box-shadow 0.3s ease, filter 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Fan-out al posar el cursor o interactuar sobre el contenedor del mazo */
+    .mazote-stack-container:hover .mazote-card-layer-back-2 {
+      transform: rotate(-12deg) translateY(-8px) scale(0.95) !important;
+      opacity: 0.9 !important;
+    }
+
+    .mazote-stack-container:hover .mazote-card-layer-back-1 {
+      transform: rotate(11deg) translateY(-6px) scale(0.97) !important;
+      opacity: 0.95 !important;
+    }
+
+    .mazote-stack-container:hover .mazote-card-layer-top {
+      transform: rotate(0deg) translateY(-14px) scale(1.02) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 26, 73, 0.45) !important;
+    }
+
+    /* Brillo holográfico / Holo Foil estilo carta Pokémon */
+    .holo-sheen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background: linear-gradient(115deg,
+          transparent 20%,
+          rgba(255, 255, 255, 0.22) 40%,
+          rgba(244, 129, 56, 0.25) 50%,
+          rgba(56, 189, 248, 0.28) 60%,
+          transparent 80%);
+      mix-blend-mode: overlay;
+      opacity: 0.6;
+      transition: opacity 0.3s ease, background-position 0.5s ease;
+      background-size: 200% 200%;
+      background-position: 0% 0%;
+      z-index: 15;
+    }
+
+    .mazote-stack-container:hover .holo-sheen {
+      opacity: 0.95;
+      background-position: 100% 100%;
+    }
+
+    /* Bordes foil metalizados según mazo */
+    .holo-border-cancha {
+      box-shadow: 0 12px 32px -10px rgba(51, 145, 54, 0.45), inset 0 0 0 2px rgba(51, 145, 54, 0.7), inset 0 0 12px rgba(255, 255, 255, 0.35);
+    }
+
+    .holo-border-video {
+      box-shadow: 0 12px 32px -10px rgba(244, 129, 56, 0.45), inset 0 0 0 2px rgba(244, 129, 56, 0.7), inset 0 0 12px rgba(255, 255, 255, 0.35);
+    }
+
+    .holo-border-no {
+      box-shadow: 0 12px 32px -10px rgba(225, 29, 72, 0.45), inset 0 0 0 2px rgba(225, 29, 72, 0.7), inset 0 0 12px rgba(255, 255, 255, 0.35);
+    }
+
+    /* Animación de deslizamiento de carta estilo Solitario */
+    @keyframes solitaireSlideOut {
+      0% {
+        transform: scale(1) translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+
+      40% {
+        transform: scale(0.96) translateX(40px) translateY(-20px) rotate(8deg);
+        opacity: 0.75;
+      }
+
+      100% {
+        transform: scale(1) translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .solitaire-cycle-anim {
+      animation: solitaireSlideOut 0.28s cubic-bezier(0.2, 0.85, 0.2, 1);
+    }
+
     /* Barra de scroll personalizada */
     ::-webkit-scrollbar {
       width: 6px;
@@ -186,35 +370,63 @@
 <body class="min-h-screen flex flex-col justify-between relative selection:bg-blue-600 selection:text-white">
 
   <!-- Barra Superior Albiazul -->
-  <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-100 sticky top-0 z-40 px-4 py-3 shadow-sm">
+  <header
+    class="w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-100 sticky top-0 z-40 px-3 sm:px-4 py-2.5 shadow-sm">
     <div class="max-w-5xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer select-none group" onclick="goToStartScreen()"
+      <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer select-none group" onclick="goToStartScreen()"
         title="Ir a la portada de inicio">
         <div
-          class="w-11 h-11 rounded-xl bg-albiazul-950 p-1 shadow-md flex items-center justify-center border-2 border-albiazul-600 overflow-hidden group-hover:scale-105 transition-transform">
+          class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-albiazul-950 p-1 shadow-md flex items-center justify-center border-2 border-albiazul-600 overflow-hidden group-hover:scale-105 transition-transform">
           <img src="imagenes/logo_filial_chaco.png" alt="Logo Filial Chaco" class="w-full h-full object-contain">
         </div>
         <div>
           <h1
-            class="font-display font-black text-base sm:text-lg text-albiazul-950 tracking-tight leading-none uppercase group-hover:text-blue-800 transition-colors">
-            El
-            Oráculo Albiazul</h1>
-          <span class="text-[11px] sm:text-xs text-blue-700 font-bold tracking-wide uppercase">una idea de la Filial
-            Chaco T "Nery
-            Leyes"</span>
+            class="font-display font-black text-sm sm:text-base md:text-lg text-albiazul-950 tracking-tight leading-none uppercase group-hover:text-blue-800 transition-colors">
+            El Oráculo Albiazul</h1>
+          <span class="text-[10px] sm:text-xs text-blue-700 font-bold tracking-wide uppercase">una idea de la Filial
+            Chaco T "Nery Leyes"</span>
         </div>
       </div>
 
-      <!-- Control de audio y atajos de teclado -->
-      <div class="flex items-center space-x-2">
+      <!-- Acciones de Cabecera: MiToco, Pedir FiguriTa, Admin (solo localhost), Audio -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2">
+        <!-- Botón MiToco con badge de progreso -->
+        <button id="btnHeaderMitoco" onclick="openMyOwnToco()"
+          class="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-albiazul-900 border border-blue-200 text-xs font-black transition active:scale-95 shadow-xs"
+          title="Ver MiToco de FiguriTas (tus 3 MazoTes)">
+          <span>🃏</span>
+          <span class="hidden sm:inline">MiToco</span>
+          <span id="headerMitocoBadge"
+            class="bg-albiazul-900 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black">0</span>
+        </button>
+
+        <!-- Botón Pedir FiguriTa -->
+        <button onclick="openModalPedirFigurita()"
+          class="flex items-center space-x-1 px-2 sm:px-2.5 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#B95D0E] border border-orange-200 text-xs font-black transition active:scale-95 shadow-xs"
+          title="Pedir una FiguriTa para el próximo parche">
+          <span>💡</span>
+          <span class="hidden md:inline">Pedir FiguriTa</span>
+        </button>
+
+        <!-- Botón Admin (solo visible en localhost) -->
+        <button id="btnHeaderAdmin" onclick="openModalAdmin()"
+          class="hidden flex items-center space-x-1 px-2 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs font-black transition active:scale-95 shadow-xs"
+          title="Panel Admin Local (idolos.json)">
+          <span>🛠️</span>
+          <span class="hidden sm:inline">Admin</span>
+        </button>
+
+        <!-- Atajos de teclado en PC -->
         <span
-          class="hidden sm:inline-block text-[11px] font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200"
+          class="hidden lg:inline-block text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200"
           title="Atajos de teclado en PC">
           ⌨️ ⬅️ ⬆️ ➡️
         </span>
+
+        <!-- Audio toggle -->
         <button id="soundToggle" onclick="toggleAudio()"
-          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition shadow-sm active:scale-95"
-          title="Activar/Silenciar chiche sonoro">
+          class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition shadow-sm active:scale-95"
+          title="Activar/Silenciar sonido">
           <span id="soundIcon">🔊</span>
         </button>
       </div>
@@ -247,7 +459,7 @@
       <button id="btnStartGame" onclick="startGame()"
         class="w-full mt-3 py-3 sm:py-3.5 px-6 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-700 hover:from-blue-900 hover:to-sky-600 text-white font-display font-black text-base sm:text-lg uppercase tracking-wider shadow-xl shadow-blue-950/25 hover:shadow-sky-500/30 active:scale-95 transition-all duration-200 border-2 border-sky-400/50 flex items-center justify-center space-x-3 group">
         <span class="text-xl group-hover:scale-125 group-hover:rotate-12 transition-transform">⚽</span>
-        <span>¡COMENZAR EL TEST!</span>
+        <span id="btnStartGameText">¡DESCUBRIR FIGURITAS!</span>
         <span class="text-sky-300 font-black text-lg group-hover:translate-x-1.5 transition-transform">➔</span>
       </button>
 
@@ -261,17 +473,39 @@
         <span class="text-albiazul-950 group-hover:text-blue-900">¿Cómo se juega? Mirá el mini-spot (27s)</span>
       </button>
 
+      <!-- ACCESO DIRECTO A MITOCO DE FIGURITAS (SI YA TIENE CARTAS COLECCIONADAS) -->
+      <div id="startScreenMitocoBox" class="w-full mt-2.5 hidden">
+        <button onclick="openMyOwnToco()"
+          class="w-full py-2.5 px-3.5 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 hover:from-blue-900 hover:to-albiazul-950 text-white border-2 border-sky-400/50 text-xs font-black uppercase tracking-wider flex items-center justify-between shadow-md active:scale-95 transition group">
+          <div class="flex items-center space-x-2">
+            <span class="text-base group-hover:scale-110 transition-transform">🃏</span>
+            <span>Ver MiToco de FiguriTas</span>
+          </div>
+          <span id="startMitocoCountBadge"
+            class="bg-sky-400 text-albiazul-950 text-[10px] px-2 py-0.5 rounded-full font-black">
+            0 FiguriTas
+          </span>
+        </button>
+      </div>
+
+      <!-- BOTÓN PEDIR FIGURITA DESDE EL INICIO -->
+      <button onclick="openModalPedirFigurita()"
+        class="w-full mt-2 py-2 px-3 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#B95D0E] border border-orange-200 text-[11px] font-black uppercase tracking-wide flex items-center justify-center space-x-1.5 transition active:scale-95 shadow-2xs">
+        <span>💡</span>
+        <span>¿Falta algún ídolo o DT? Pedí tu FiguriTa</span>
+      </button>
+
       <!-- Fila de características / detalles rápidos -->
       <div
         class="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 mt-2.5 text-slate-600 text-[11px] sm:text-xs font-semibold text-center">
         <span class="flex items-center space-x-1">
           <span>🃏</span>
-          <span>27 Ídolos</span>
+          <span id="heroIdolsCount">27 FiguriTas</span>
         </span>
         <span class="text-slate-300">•</span>
         <span class="flex items-center space-x-1">
           <span>🏟️</span>
-          <span>Cancha, Video o Ni lo juno</span>
+          <span>3 MazoTes: Cancha, Video o Ni lo juno</span>
         </span>
         <span class="text-slate-300">•</span>
         <span class="flex items-center space-x-1">
@@ -288,17 +522,19 @@
       <!-- Progreso y botón de parada cordobés -->
       <div class="w-full flex items-center justify-between mb-3 px-1">
         <div class="flex flex-col">
-          <span id="progressText" class="text-xs font-bold text-slate-600">Revisando el muñeco 1 de 27</span>
+          <span id="progressText" class="text-xs font-bold text-slate-600 tabular-nums">Revisando el muñeco 1 de
+            27</span>
           <div class="w-32 h-2 bg-slate-200 rounded-full mt-1 overflow-hidden border border-slate-300">
-            <div id="progressBar" class="h-full bg-gradient-to-r from-blue-700 to-sky-500 transition-all duration-300"
+            <div id="progressBar"
+              class="h-full bg-gradient-to-r from-blue-700 to-sky-500 transition-[width] duration-200 ease-out"
               style="width: 8%;"></div>
           </div>
         </div>
 
         <!-- Botón DETENER (Aparece a partir del 5to jugador) -->
         <button id="btnStop" onclick="finishAndConsult()"
-          class="opacity-0 pointer-events-none transition-all duration-500 transform translate-y-1 bg-gradient-to-r from-blue-800 to-sky-600 hover:from-blue-700 hover:to-sky-500 text-white font-display font-black text-xs px-3.5 py-2 rounded-xl shadow-lg border border-sky-300 flex items-center space-x-1.5 active:scale-95 animate-bounce">
-          <span>🔮</span>
+          class="opacity-0 pointer-events-none transition-[opacity,transform] duration-300 transform translate-y-1 bg-gradient-to-r from-blue-800 to-sky-600 hover:from-blue-700 hover:to-sky-500 text-white font-display font-black text-xs px-3.5 py-2 rounded-xl shadow-lg border border-sky-300 flex items-center space-x-1.5 active:scale-[0.97] transition-transform">
+          <span class="animate-pulse">🔮</span>
           <span>¡PARÁ UN TOQUE, CULIAU!</span>
         </button>
       </div>
@@ -313,6 +549,7 @@
           <!-- Imagen de fondo -->
           <div class="absolute inset-0 w-full h-full bg-slate-900">
             <img id="nextCardImage" src="" alt="Siguiente Jugador"
+              onerror="this.onerror=null;this.src='imagenes/logo_filial_chaco.png'"
               class="w-full h-full object-cover object-top filter brightness-95">
             <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950 via-albiazul-950/60 to-transparent"></div>
           </div>
@@ -336,13 +573,18 @@
 
           <!-- Información del siguiente jugador -->
           <div class="relative z-20 pointer-events-none text-white">
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
               <span id="nextCardBadgeEra"
                 class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-600 text-white border border-blue-400 shadow-sm">
                 Época Dorada
               </span>
               <span id="nextCardDecade" class="text-[11px] font-semibold text-slate-200">
                 1970 - 1980
+              </span>
+              <span id="nextCardBadgePedidoPor"
+                class="hidden inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-[#F48138]/95 text-white border border-orange-300 shadow-sm backdrop-blur-xs">
+                <span>🙋 Pedida por</span>
+                <strong id="nextCardPedidoPorHandle">@usuario</strong>
               </span>
             </div>
             <h2 id="nextCardPlayerName"
@@ -364,7 +606,9 @@
 
           <!-- Imagen de fondo -->
           <div class="absolute inset-0 w-full h-full bg-slate-900">
-            <img id="cardImage" src="" alt="Jugador" class="w-full h-full object-cover object-top filter brightness-95">
+            <img id="cardImage" src="" alt="Jugador"
+              onerror="this.onerror=null;this.src='imagenes/logo_filial_chaco.png'"
+              class="w-full h-full object-cover object-top filter brightness-95">
             <div class="absolute inset-0 bg-gradient-to-t from-albiazul-950 via-albiazul-950/60 to-transparent"></div>
           </div>
 
@@ -406,13 +650,18 @@
 
           <!-- Información del jugador -->
           <div class="relative z-20 pointer-events-none text-white">
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
               <span id="cardBadgeEra"
                 class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-600 text-white border border-blue-400 shadow-sm">
                 Época Dorada
               </span>
               <span id="cardDecade" class="text-[11px] font-semibold text-slate-200">
                 1970 - 1980
+              </span>
+              <span id="cardBadgePedidoPor"
+                class="hidden inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-[#F48138]/95 text-white border border-orange-300 shadow-sm backdrop-blur-xs">
+                <span>🙋 Pedida por</span>
+                <strong id="cardPedidoPorHandle">@usuario</strong>
               </span>
             </div>
             <h2 id="cardPlayerName" class="font-display font-black text-2xl mt-1 leading-tight text-white drop-shadow">
@@ -433,7 +682,7 @@
 
         <!-- Opción: Ni lo juno -->
         <button onclick="triggerDecision('no')"
-          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-rose-50 border-2 border-slate-200 hover:border-rose-400 transition-all duration-200 active:scale-95 shadow-sm">
+          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-rose-50 border-2 border-slate-200 hover:border-rose-400 transition-[transform,background-color,border-color] duration-150 active:scale-[0.97] shadow-sm">
           <div class="flex items-center space-x-1 text-rose-600 font-black text-xs mb-1">
             <span class="triangle-left text-rose-600"></span>
             <span>Izquierda</span>
@@ -451,7 +700,7 @@
 
         <!-- Opción: Lo vi en video -->
         <button onclick="triggerDecision('video')"
-          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 transition-all duration-200 active:scale-95 shadow-sm">
+          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 transition-[transform,background-color,border-color] duration-150 active:scale-[0.97] shadow-sm">
           <div class="flex items-center space-x-1 text-amber-600 font-black text-xs mb-1">
             <span class="triangle-up text-amber-600"></span>
             <span>Arriba</span>
@@ -470,7 +719,7 @@
 
         <!-- Opción: En la cancha -->
         <button onclick="triggerDecision('cancha')"
-          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-emerald-50 border-2 border-slate-200 hover:border-emerald-400 transition-all duration-200 active:scale-95 shadow-sm">
+          class="group flex flex-col items-center justify-center p-2.5 rounded-2xl bg-white hover:bg-emerald-50 border-2 border-slate-200 hover:border-emerald-400 transition-[transform,background-color,border-color] duration-150 active:scale-[0.97] shadow-sm">
           <div class="flex items-center space-x-1 text-emerald-600 font-black text-xs mb-1">
             <span>Derecha</span>
             <span class="triangle-right text-emerald-600"></span>
@@ -534,7 +783,7 @@
 
           <!-- PÁRRAFO 1: CANCHA (Figura 1: Aplaudiendo / festejando) -->
           <div
-            class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
+            class="stagger-card-1 p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
             <div class="amadeo-portrait-box w-28 h-40 border-2 border-emerald-400 shadow-md mb-3 flex-shrink-0">
               <img src="imagenes/Amadeo1.jpg" alt="El Amadeo aplaudiendo con una sonrisa de oreja a oreja"
                 class="amadeo-portrait-img"
@@ -551,7 +800,7 @@
 
           <!-- PÁRRAFO 2: VIDEO (Figura 2: Pulgar arriba / aprobando la curiosidad) -->
           <div
-            class="p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
+            class="stagger-card-2 p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
             <div class="amadeo-portrait-box w-28 h-40 border-2 border-amber-400 shadow-md mb-3 flex-shrink-0">
               <img src="imagenes/Amadeo2.jpg" alt="El Amadeo aprobando con pulgar arriba" class="amadeo-portrait-img"
                 onerror="this.src='https://placehold.co/120x180/92400e/ffffff?text=Amadeo+Pulgar'">
@@ -567,7 +816,7 @@
 
           <!-- PÁRRAFO 3: LO QUE NO CONOCE (Figura 3: Mano abierta explicando / pedagógico) -->
           <div
-            class="p-4 rounded-2xl bg-blue-50 border-2 border-blue-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
+            class="stagger-card-3 p-4 rounded-2xl bg-blue-50 border-2 border-blue-200 text-slate-800 flex flex-col items-center text-center shadow-sm h-full hover:shadow-md transition">
             <div class="amadeo-portrait-box w-28 h-40 border-2 border-blue-400 shadow-md mb-3 flex-shrink-0">
               <img src="imagenes/Amadeo3.jpg" alt="El Amadeo explicando con calma y afecto" class="amadeo-portrait-img"
                 onerror="this.src='https://placehold.co/120x180/1e3a8a/ffffff?text=Amadeo+Explica'">
@@ -698,7 +947,7 @@
           </div>
           <p class="font-display font-extrabold text-base sm:text-xl md:text-2xl text-white leading-tight">
             ¡Sos la consulta número <span id="communityCounter"
-              class="text-white font-black px-3 py-0.5 rounded-xl bg-white/20 border-2 border-white/40 inline-block shadow-inner tracking-normal">51</span>
+              class="text-white font-black px-3 py-0.5 rounded-xl bg-white/20 border-2 border-white/40 inline-block shadow-inner tracking-normal tabular-nums">51</span>
             fiera!
           </p>
           <p class="text-xs sm:text-sm text-slate-200 font-semibold mt-2">
@@ -706,26 +955,34 @@
           </p>
         </div>
 
-        <!-- BOTONES DE NAVEGACIÓN FINAL (MÁS GRANDES Y CÓMODOS) -->
-        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
-          <button onclick="restartTest()"
-            class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-300 text-slate-900 hover:text-albiazul-950 font-display font-black text-sm sm:text-base transition-all duration-150 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg active:scale-95">
-            <span class="text-xl">🔄</span>
-            <span>Volver a jugar de nuevo, culiau</span>
+        <!-- BOTONES DE ACCIÓN PRINCIPALES DE MITOCO Y RESULTADOS -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
+          <!-- Ver MiToco -->
+          <button onclick="openMitocoScreen()"
+            class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 hover:from-blue-900 hover:to-albiazul-950 text-white font-display font-black text-sm sm:text-base transition-all duration-150 flex items-center justify-center space-x-2.5 shadow-xl border-2 border-white/20 active:scale-95 group">
+            <span class="text-xl group-hover:scale-110 transition-transform">🃏</span>
+            <span>Ver MiToco de FiguriTas</span>
           </button>
-          <button onclick="goToStartScreen()"
-            class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-700 hover:text-slate-950 font-display font-extrabold text-sm sm:text-base transition-all duration-150 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md active:scale-95">
-            <span class="text-xl">🏠</span>
-            <span>Pantalla de inicio</span>
+
+          <!-- Compartir MiToco -->
+          <button onclick="openModalCompartirMitoco()"
+            class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white font-display font-black text-sm sm:text-base transition-all duration-150 flex items-center justify-center space-x-2.5 shadow-xl border-2 border-emerald-300/40 active:scale-95">
+            <span class="text-xl">📤</span>
+            <span>Compartir MiToco por WhatsApp</span>
           </button>
         </div>
 
-        <!-- BOTÓN DE INVITAR / COMPARTIR (GRANDE Y EN EL MEDIO) -->
-        <div class="w-full flex justify-center mt-7">
-          <button onclick="shareDiagnosis()"
-            class="w-full sm:w-auto min-w-[280px] sm:min-w-[360px] px-8 py-4 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 hover:from-blue-900 hover:to-albiazul-950 text-white font-display font-black text-base sm:text-lg flex items-center justify-center space-x-3 transition-all duration-150 transform hover:-translate-y-0.5 active:scale-95 shadow-xl border-2 border-white/25">
-            <span class="text-xl">📤</span>
-            <span id="shareBtnText">Pasale el test a otro matador</span>
+        <!-- BOTONES DE NAVEGACIÓN SECUNDARIOS -->
+        <div class="mt-3 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 w-full">
+          <button onclick="restartTest()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-300 text-slate-900 hover:text-albiazul-950 font-display font-black text-xs sm:text-sm transition-all duration-150 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md active:scale-95">
+            <span class="text-base">🔄</span>
+            <span>Volver a jugar de nuevo, culiau</span>
+          </button>
+          <button onclick="goToStartScreen()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-700 hover:text-slate-950 font-display font-extrabold text-xs sm:text-sm transition-all duration-150 flex items-center justify-center space-x-2 shadow-2xs hover:shadow-xs active:scale-95">
+            <span class="text-base">🏠</span>
+            <span>Pantalla de inicio</span>
           </button>
         </div>
 
@@ -751,28 +1008,495 @@
           </div>
         </div>
 
-        <!-- CTA SUGERIR ÍDOLO POR INSTAGRAM DIRECT -->
-        <div class="mt-4 pb-4 text-center max-w-md mx-auto">
-          <p class="text-xs text-slate-500 font-medium mb-2">
-            ¿Querés sugerir un ídolo albiazul o contarnos una anécdota para el Oráculo?
+        <!-- MENSAJE DE COMUNIDAD Y FIDELIZACIÓN CON LA FILIAL -->
+        <div class="mt-4 pb-4 text-center max-w-md mx-auto space-y-2.5">
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">
+            ¿Querés dejarnos un <strong>"gracias"</strong> o charlar con la Filial? Escribinos al Instagram, ¡pero la
+            mejor manera de aportar al proyecto es compartir tu <strong>Toco de FiguriTas</strong> en tus redes y grupos
+            de WhatsApp!
           </p>
-          <a href="https://ig.me/m/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 text-xs font-black transition active:scale-95 shadow-sm">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-            <span>Escribinos un mensaje directo al Instagram</span>
-          </a>
+          <div class="flex items-center flex-wrap justify-center gap-2 pt-1">
+            <a href="https://www.instagram.com/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 text-xs font-black transition active:scale-95 shadow-2xs">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+              <span>Hablar al Instagram</span>
+            </a>
+            <button onclick="openModalPedirFigurita()"
+              class="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#B95D0E] border border-orange-200 text-xs font-black transition active:scale-95 shadow-2xs">
+              <span>💡</span>
+              <span>Pedir una FiguriTa</span>
+            </button>
+          </div>
         </div>
 
       </div>
 
+    </div>
+
+    <!-- PANTALLA 3: MITOCO DE FIGURITAS (COLECCIÓN Y LOS 3 MAZOTES) -->
+    <div id="mitocoScreen" class="w-full hidden flex-col items-center py-2 animate-fadeIn">
+
+      <!-- BANNER MODO INVITADO: COMPARATIVA ENTRE EL TOCO DEL AMIGO Y EL MÍO -->
+      <div id="guestMitocoBanner"
+        class="w-full hidden mb-6 p-4 sm:p-6 rounded-3xl bg-gradient-to-br from-blue-950 via-albiazul-900 to-blue-950 text-white border-2 border-sky-400/50 shadow-2xl relative overflow-hidden animate-fadeIn">
+        
+        <!-- Encabezado del Duelo / Comparación -->
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+          <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-sky-400/20 text-sky-300 border border-sky-300/30 backdrop-blur-xs">
+            <span>⚔️</span>
+            <span>Duelo de Tocos Albiazules</span>
+          </div>
+          <span id="cmpMatchCountBadge" class="text-[11px] font-black text-emerald-300 bg-emerald-950/70 px-2.5 py-1 rounded-full border border-emerald-400/40">
+            🎯 Coinciden en 0 FiguriTas
+          </span>
+        </div>
+
+        <h3 id="guestMitocoTitle" class="font-display font-black text-xl sm:text-2xl text-white">
+          Estás viendo el Toco de FiguriTas de <strong id="guestMitocoNombre" class="text-sky-300">un Matador</strong>
+        </h3>
+        <p id="guestMitocoSubtitle" class="text-xs text-slate-200 mt-1 max-w-xl">
+          Comparativa directa con tu colección actual (<span id="guestMitocoMyCount" class="font-bold text-white">0 FiguriTas</span> descubiertas):
+        </p>
+
+        <!-- Cuadro Scoreboard: Totales frente a frente -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 my-4">
+          <!-- Tarjeta Cancha -->
+          <div class="p-3 rounded-2xl bg-emerald-950/60 border border-emerald-400/40 text-left shadow-xs">
+            <div class="flex items-center justify-between text-xs font-black text-emerald-300 mb-1">
+              <span>🏟️ MazoTe Cancha</span>
+              <span id="cmpCanchaDiffBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200 font-bold border border-emerald-400/30">0 dif.</span>
+            </div>
+            <div class="flex items-center justify-between text-xs text-white">
+              <span id="cmpCanchaOtherText">Otro: 0</span>
+              <span class="text-slate-400 font-bold">vs</span>
+              <span id="cmpCanchaMyText" class="font-black text-emerald-300">Vos: 0</span>
+            </div>
+          </div>
+
+          <!-- Tarjeta Video -->
+          <div class="p-3 rounded-2xl bg-amber-950/60 border border-amber-400/40 text-left shadow-xs">
+            <div class="flex items-center justify-between text-xs font-black text-amber-300 mb-1">
+              <span>📺 MazoTe Video</span>
+              <span id="cmpVideoDiffBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-200 font-bold border border-amber-400/30">0 dif.</span>
+            </div>
+            <div class="flex items-center justify-between text-xs text-white">
+              <span id="cmpVideoOtherText">Otro: 0</span>
+              <span class="text-slate-400 font-bold">vs</span>
+              <span id="cmpVideoMyText" class="font-black text-amber-300">Vos: 0</span>
+            </div>
+          </div>
+
+          <!-- Tarjeta Ni lo juno -->
+          <div class="p-3 rounded-2xl bg-rose-950/60 border border-rose-400/40 text-left shadow-xs">
+            <div class="flex items-center justify-between text-xs font-black text-rose-300 mb-1">
+              <span>❓ Ni lo juno</span>
+              <span id="cmpNoDiffBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-200 font-bold border border-rose-400/30">0 dif.</span>
+            </div>
+            <div class="flex items-center justify-between text-xs text-white">
+              <span id="cmpNoOtherText">Otro: 0</span>
+              <span class="text-slate-400 font-bold">vs</span>
+              <span id="cmpNoMyText" class="font-black text-rose-300">Vos: 0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desglose de FiguriTas de diferencia -->
+        <div class="mt-2 text-left pt-2 border-t border-white/10">
+          <div class="text-[11px] font-black uppercase tracking-wider text-sky-200 mb-2">
+            🔎 Tocá un mazo para ver qué FiguriTas tienen de diferencia:
+          </div>
+          <!-- Selector de pestañas -->
+          <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs font-black">
+            <button id="tabCmpCancha" onclick="selectComparisonTab('cancha')"
+              class="px-3 py-1.5 rounded-xl bg-white/20 text-white font-black border border-white/40 shadow-xs flex items-center space-x-1.5 transition active:scale-95 text-xs">
+              <span>🏟️ Cancha</span>
+              <span id="tabCountCmpCancha" class="text-[10px] bg-emerald-400/30 text-emerald-200 px-1.5 py-0.2 rounded-full font-bold">0</span>
+            </button>
+            <button id="tabCmpVideo" onclick="selectComparisonTab('video')"
+              class="px-3 py-1.5 rounded-xl bg-white/5 text-slate-300 font-bold border border-white/10 hover:bg-white/10 flex items-center space-x-1.5 transition active:scale-95 text-xs">
+              <span>📺 Video</span>
+              <span id="tabCountCmpVideo" class="text-[10px] bg-amber-400/30 text-amber-200 px-1.5 py-0.2 rounded-full font-bold">0</span>
+            </button>
+            <button id="tabCmpNo" onclick="selectComparisonTab('no')"
+              class="px-3 py-1.5 rounded-xl bg-white/5 text-slate-300 font-bold border border-white/10 hover:bg-white/10 flex items-center space-x-1.5 transition active:scale-95 text-xs">
+              <span>❓ Ni lo juno</span>
+              <span id="tabCountCmpNo" class="text-[10px] bg-rose-400/30 text-rose-200 px-1.5 py-0.2 rounded-full font-bold">0</span>
+            </button>
+            <button id="tabCmpMatch" onclick="selectComparisonTab('match')"
+              class="px-3 py-1.5 rounded-xl bg-white/5 text-slate-300 font-bold border border-white/10 hover:bg-white/10 flex items-center space-x-1.5 transition active:scale-95 text-xs">
+              <span>🎯 Coincidencias</span>
+              <span id="tabCountCmpMatch" class="text-[10px] bg-sky-400/30 text-sky-200 px-1.5 py-0.2 rounded-full font-bold">0</span>
+            </button>
+          </div>
+          <!-- Contenedor dinámico de chips de figuritas -->
+          <div id="cmpDetailsContainer" class="pt-3 min-h-[50px]">
+            <!-- Renderizado dinámicamente -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ENCABEZADO DE MITOCO -->
+      <div class="text-center my-3 px-2">
+        <div
+          class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase bg-blue-100 text-albiazul-900 border border-blue-200">
+          <span>🃏</span>
+          <span>Álbum Albiazul · Colección Oficial</span>
+        </div>
+        <h2 id="mitocoScreenTitle"
+          class="font-display font-black text-2xl sm:text-3xl text-albiazul-950 mt-1 uppercase tracking-tight">
+          MiToco de FiguriTas
+        </h2>
+        <p id="mitocoScreenSubtitle" class="text-xs text-slate-500 font-semibold mt-0.5">
+          Tus ídolos, DTs y personajes de la T organizados en tus 3 MazoTes
+        </p>
+      </div>
+
+      <!-- RESUMEN DE PROGRESO Y LOS 3 MAZOTES (Solo visible en Toco propio) -->
+      <div id="mitocoSummaryTotalsBox"
+        class="w-full bg-white/95 backdrop-blur-sm border-2 border-slate-200 rounded-3xl p-4 sm:p-6 shadow-xl mb-6 text-slate-800">
+
+        <!-- Barra de progreso global del Toco -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
+            <span id="mitocoProgressText">Coleccionadas: 0 de 27 FiguriTas</span>
+            <span id="mitocoProgressPercent" class="text-blue-700 font-black">0%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="mitocoProgressBar"
+              class="h-full bg-gradient-to-r from-blue-700 via-sky-500 to-[#339136] transition-all duration-300"
+              style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Los 3 MazoTes en tarjetas interactivas -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+          <!-- MazoTe Cancha -->
+          <div onclick="scrollToMazote('cancha')"
+            class="p-2.5 sm:p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-300/80 cursor-pointer hover:bg-emerald-100/60 transition active:scale-95 shadow-2xs">
+            <span class="block text-[10px] sm:text-xs font-bold text-emerald-800 uppercase tracking-tight">🏟️ MazoTe
+              Cancha</span>
+            <span id="mitocoCountCancha" class="font-display font-black text-xl sm:text-3xl text-emerald-950">0</span>
+            <span class="block text-[9px] text-emerald-600 font-semibold hidden sm:block">Vistos en vivo</span>
+          </div>
+
+          <!-- MazoTe Video -->
+          <div onclick="scrollToMazote('video')"
+            class="p-2.5 sm:p-3 rounded-2xl bg-amber-50 border-2 border-amber-300/80 cursor-pointer hover:bg-amber-100/60 transition active:scale-95 shadow-2xs">
+            <span class="block text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-tight">📺 MazoTe
+              Video</span>
+            <span id="mitocoCountVideo" class="font-display font-black text-xl sm:text-3xl text-amber-950">0</span>
+            <span class="block text-[9px] text-amber-600 font-semibold hidden sm:block">Por video / tele</span>
+          </div>
+
+          <!-- MazoTe Ni lo juno -->
+          <div onclick="scrollToMazote('no')"
+            class="p-2.5 sm:p-3 rounded-2xl bg-rose-50 border-2 border-rose-300/80 cursor-pointer hover:bg-rose-100/60 transition active:scale-95 shadow-2xs">
+            <span class="block text-[10px] sm:text-xs font-bold text-rose-800 uppercase tracking-tight">❓ Ni lo
+              juno</span>
+            <span id="mitocoCountNo" class="font-display font-black text-xl sm:text-3xl text-rose-950">0</span>
+            <span class="block text-[9px] text-rose-600 font-semibold hidden sm:block">Por conocer</span>
+          </div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS DE MITOCO -->
+        <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
+          <button onclick="consultarAmadeoDesdeToco()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 hover:from-blue-900 hover:to-albiazul-950 text-white font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-blue-950/25 active:scale-95 transition border border-sky-400/40">
+            <span class="text-base">🔮</span>
+            <span>Consejos de Don Amadeo</span>
+          </button>
+
+          <button onclick="openModalCompartirMitoco()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-emerald-900/20 active:scale-95 transition border border-emerald-400">
+            <span class="text-base">📤</span>
+            <span>Compartir MiToco por WhatsApp</span>
+          </button>
+
+          <button onclick="openModalPedirFigurita()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-[#F48138] to-[#B95D0E] hover:from-[#B95D0E] hover:to-[#F48138] text-white font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-orange-900/20 active:scale-95 transition border border-orange-300">
+            <span class="text-base">💡</span>
+            <span>Pedir una FiguriTa</span>
+          </button>
+
+          <button onclick="startGame()"
+            class="w-full sm:w-auto px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white font-display font-extrabold text-xs sm:text-sm flex items-center justify-center space-x-2 active:scale-95 transition border border-blue-400 shadow-md">
+            <span class="text-base">✨</span>
+            <span id="mitocoBtnDescubrir">Descubrir FiguriTas</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BANNER DE FIGURITAS PENDIENTES (Si aún quedan sin clasificar) -->
+      <div id="mitocoPendingBanner"
+        class="hidden w-full max-w-xl mx-auto mb-6 p-3.5 rounded-2xl bg-blue-50/90 border-2 border-blue-200 text-slate-800 flex items-center justify-between text-xs shadow-sm">
+        <div class="flex items-center space-x-2">
+          <span class="text-lg">⭐</span>
+          <span>Tenés <strong id="mitocoPendingBannerCount" class="text-blue-900 font-black">0</strong> FiguriTas
+            pendientes en tu mazo principal</span>
+        </div>
+        <button onclick="startGame()"
+          class="px-3.5 py-1.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-black text-[11px] transition active:scale-95 shadow-xs">
+          Descubrirlas ➔
+        </button>
+      </div>
+
+      <!-- LOS 3 MAZOTES DE FIGURITAS (FAN-OUT PHOTO STACK & SOLITARIO LOOP) -->
+      <div id="mitocoMazotesContainer"
+        class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto items-start">
+
+        <!-- COLUMNA 1: MAZOTE CANCHA -->
+        <div id="colMazoTeCancha"
+          class="flex flex-col items-center bg-white/60 p-3 sm:p-4 rounded-3xl border-2 border-emerald-200/80 shadow-md">
+          <!-- Encabezado del MazoTe -->
+          <div class="w-full flex items-center justify-between px-1 mb-3">
+            <div class="flex items-center space-x-1.5">
+              <span class="text-lg">🏟️</span>
+              <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wide text-emerald-950">MazoTe
+                Cancha</span>
+            </div>
+            <span id="badgeCountCancha"
+              class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+              0 FiguriTas
+            </span>
+          </div>
+
+          <!-- Contenedor del Stack Fan-out -->
+          <div id="stackContainerCancha" class="mazote-stack-container w-full" onclick="cycleMazoTe('cancha', 1)">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
+          <!-- Controles de Navegación del Mazo (Solitario Loop) -->
+          <div class="w-full max-w-[280px] mt-3.5 flex items-center justify-between px-1 text-xs">
+            <button onclick="cycleMazoTe('cancha', -1)"
+              class="w-8 h-8 rounded-xl bg-white hover:bg-emerald-50 border-2 border-emerald-200 text-emerald-800 font-black flex items-center justify-center transition active:scale-90 shadow-2xs"
+              title="FiguriTa anterior">
+              ◀
+            </button>
+            <div class="text-center">
+              <span id="counterCancha" class="font-display font-black text-xs text-emerald-950 block">0 de 0</span>
+              <span class="text-[9px] text-slate-400 font-semibold block">Tocá la carta para pasar</span>
+            </div>
+            <button onclick="cycleMazoTe('cancha', 1)"
+              class="w-8 h-8 rounded-xl bg-white hover:bg-emerald-50 border-2 border-emerald-200 text-emerald-800 font-black flex items-center justify-center transition active:scale-90 shadow-2xs"
+              title="Siguiente FiguriTa (loop)">
+              ▶
+            </button>
+          </div>
+
+          <!-- Botones Flecha: Mover FiguriTa a los otros 2 MazoTes (Solo editable en Toco propio) -->
+          <div class="mazote-transfer-box w-full max-w-[280px] mt-3 pt-2.5 border-t border-slate-200 flex items-center gap-2">
+            <button onclick="transferCard('cancha', 'video')"
+              class="flex-1 py-2 px-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-display font-extrabold text-[11px] flex items-center justify-center space-x-1 transition active:scale-95 shadow-2xs"
+              title="Mover esta FiguriTa a MazoTe Video">
+              <span>➔</span>
+              <span>📺 A Video</span>
+            </button>
+            <button onclick="transferCard('cancha', 'no')"
+              class="flex-1 py-2 px-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-300 text-rose-900 font-display font-extrabold text-[11px] flex items-center justify-center space-x-1 transition active:scale-95 shadow-2xs"
+              title="Mover esta FiguriTa a Ni lo juno">
+              <span>➔</span>
+              <span>❓ Ni lo juno</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- COLUMNA 2: MAZOTE VIDEO -->
+        <div id="colMazoTeVideo"
+          class="flex flex-col items-center bg-white/60 p-3 sm:p-4 rounded-3xl border-2 border-amber-200/80 shadow-md">
+          <!-- Encabezado del MazoTe -->
+          <div class="w-full flex items-center justify-between px-1 mb-3">
+            <div class="flex items-center space-x-1.5">
+              <span class="text-lg">📺</span>
+              <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wide text-amber-950">MazoTe
+                Video</span>
+            </div>
+            <span id="badgeCountVideo"
+              class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300">
+              0 FiguriTas
+            </span>
+          </div>
+
+          <!-- Contenedor del Stack Fan-out -->
+          <div id="stackContainerVideo" class="mazote-stack-container w-full" onclick="cycleMazoTe('video', 1)">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
+          <!-- Controles de Navegación del Mazo (Solitario Loop) -->
+          <div class="w-full max-w-[280px] mt-3.5 flex items-center justify-between px-1 text-xs">
+            <button onclick="cycleMazoTe('video', -1)"
+              class="w-8 h-8 rounded-xl bg-white hover:bg-amber-50 border-2 border-amber-200 text-amber-800 font-black flex items-center justify-center transition active:scale-90 shadow-2xs"
+              title="FiguriTa anterior">
+              ◀
+            </button>
+            <div class="text-center">
+              <span id="counterVideo" class="font-display font-black text-xs text-amber-950 block">0 de 0</span>
+              <span class="text-[9px] text-slate-400 font-semibold block">Tocá la carta para pasar</span>
+            </div>
+            <button onclick="cycleMazoTe('video', 1)"
+              class="w-8 h-8 rounded-xl bg-white hover:bg-amber-50 border-2 border-amber-200 text-amber-800 font-black flex items-center justify-center transition active:scale-90 shadow-2xs"
+              title="Siguiente FiguriTa (loop)">
+              ▶
+            </button>
+          </div>
+
+          <!-- Botones Flecha: Mover FiguriTa a los otros 2 MazoTes (Solo editable en Toco propio) -->
+          <div class="mazote-transfer-box w-full max-w-[280px] mt-3 pt-2.5 border-t border-slate-200 flex items-center gap-2">
+            <button onclick="transferCard('video', 'cancha')"
+              class="flex-1 py-2 px-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 font-display font-extrabold text-[11px] flex items-center justify-center space-x-1 transition active:scale-95 shadow-2xs"
+              title="Mover esta FiguriTa a MazoTe Cancha">
+              <span>➔</span>
+              <span>🏟️ A Cancha</span>
+            </button>
+            <button onclick="transferCard('video', 'no')"
+              class="flex-1 py-2 px-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-300 text-rose-900 font-display font-extrabold text-[11px] flex items-center justify-center space-x-1 transition active:scale-95 shadow-2xs"
+              title="Mover esta FiguriTa a Ni lo juno">
+              <span>➔</span>
+              <span>❓ Ni lo juno</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- COLUMNA 3: MAZOTE NI LO JUNO -->
+        <div id="colMazoTeNo"
+          class="flex flex-col items-center bg-white/60 p-3 sm:p-4 rounded-3xl border-2 border-rose-200/80 shadow-md">
+          <!-- Encabezado del MazoTe -->
+          <div class="w-full flex items-center justify-between px-1 mb-3">
+            <div class="flex items-center space-x-1.5">
+              <span class="text-lg">❓</span>
+              <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wide text-rose-950">MazoTe Ni
+                lo juno</span>
+            </div>
+            <span id="badgeCountNo"
+              class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-800 border border-rose-300">
+              0 FiguriTas
+            </span>
+          </div>
+
+          <!-- Contenedor del Stack Fan-out -->
+          <div id="stackContainerNo" class="mazote-stack-container w-full" onclick="cycleMazoTe('no', 1)">
+            <!-- Renderizado dinámicamente -->
+          </div>
+
+          <!-- Controles de Navegación del Mazo (Solitario Loop) -->
+          <div class="w-full max-w-[280px] mt-3.5 flex items-center justify-between px-1 text-xs">
+            <button onclick="cycleMazoTe('no', -1)"
+              class="w-8 h-8 rounded-xl bg-white hover:bg-rose-50 border-2 border-rose-200 text-rose-800 font-black flex items-center justify-center transition active:scale-90 shadow-2xs"
+              title="FiguriTa anterior">
+              ◀
+            </button>
+            <div class="text-center">
+              <span id="counterNo" class="font-display font-black text-xs text-rose-950 block">0 de 0</span>
+              <span class="text-[9px] text-slate-400 font-semibold block">Tocá la carta para pasar</span>
+            </div>
+            <button onclick="cycleMazoTe('no', 1)"
+              class="w-8 h-8 rounded-xl bg-white hover:bg-rose-50 border-2 border-rose-200 text-rose-800 font-black flex items-center justify-center transition active:scale-90 shadow-2xs"
+              title="Siguiente FiguriTa (loop)">
+              ▶
+            </button>
+          </div>
+
+          <!-- Botones Flecha: Mover FiguriTa a los otros 2 MazoTes (Solo editable en Toco propio) -->
+          <div class="mazote-transfer-box w-full max-w-[280px] mt-3 pt-2.5 border-t border-slate-200 flex items-center gap-2">
+            <button onclick="transferCard('no', 'cancha')"
+              class="flex-1 py-2 px-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-emerald-900 font-display font-extrabold text-[11px] flex items-center justify-center space-x-1 transition active:scale-95 shadow-2xs"
+              title="Mover esta FiguriTa a MazoTe Cancha">
+              <span>➔</span>
+              <span>🏟️ A Cancha</span>
+            </button>
+            <button onclick="transferCard('no', 'video')"
+              class="flex-1 py-2 px-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-display font-extrabold text-[11px] flex items-center justify-center space-x-1 transition active:scale-95 shadow-2xs"
+              title="Mover esta FiguriTa a MazoTe Video">
+              <span>➔</span>
+              <span>📺 A Video</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ACCIONES INFERIORES EN MODO INVITADO (Recién aquí van los botones propios del jugador actual) -->
+      <div id="guestBottomActionsContainer"
+        class="hidden w-full max-w-4xl mx-auto mt-8 p-5 sm:p-6 rounded-3xl bg-white/95 border-2 border-slate-200 shadow-xl flex flex-col items-center text-center animate-fadeIn">
+        <div
+          class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-50 text-albiazul-900 border border-blue-200 mb-2">
+          <span>🃏</span>
+          <span>Tu Colección Albiazul Actual</span>
+        </div>
+        <h3 class="font-display font-black text-lg sm:text-xl text-albiazul-950">
+          ¿Qué querés hacer con tu propio Toco?
+        </h3>
+        <p id="guestBottomActionsSubtitle" class="text-xs text-slate-500 font-semibold mt-0.5 mb-4">
+          Tenés 15 FiguriTas coleccionadas y pendientes por descubrir.
+        </p>
+
+        <div class="w-full flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
+          <!-- 1. Ver mi propio Toco -->
+          <button onclick="switchToMyOwnToco()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 hover:from-blue-900 hover:to-albiazul-950 text-white font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-blue-950/20 active:scale-95 transition border border-sky-400/40">
+            <span>🃏</span>
+            <span id="btnGuestBottomSwitchOwn">Ver Mi Propio Toco</span>
+          </button>
+
+          <!-- 2. Descubrir mis FiguriTas / pendientes -->
+          <button onclick="guestStartOwnTest()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-gradient-to-r from-[#F48138] to-[#B95D0E] hover:from-[#B95D0E] hover:to-[#F48138] text-white font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-lg shadow-orange-900/20 active:scale-95 transition border border-orange-300">
+            <span>⚽</span>
+            <span id="btnGuestBottomPlay">¡Descubrir mis FiguriTas!</span>
+          </button>
+
+          <!-- 3. Consejos de Don Amadeo -->
+          <button onclick="consultarAmadeoDesdeTocoPropio()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-blue-50 hover:bg-blue-100 text-albiazul-900 font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 active:scale-95 transition border border-blue-200 shadow-xs">
+            <span>🔮</span>
+            <span>Consejos de Don Amadeo</span>
+          </button>
+
+          <!-- 4. Compartir Mi Propio Toco -->
+          <button onclick="openModalCompartirMitoco()"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-md shadow-emerald-900/20 active:scale-95 transition border border-emerald-400">
+            <span>📤</span>
+            <span>Compartir Mi Toco</span>
+          </button>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-200 w-full flex items-center justify-center space-x-4 text-xs font-bold text-slate-600">
+          <button onclick="goToStartScreen()" class="hover:text-blue-900 transition flex items-center space-x-1">
+            <span>🏠</span>
+            <span>Volver a Portada</span>
+          </button>
+          <span class="text-slate-300">•</span>
+          <button onclick="openModalPedirFigurita()" class="text-[#B95D0E] hover:text-orange-700 transition flex items-center space-x-1">
+            <span>💡</span>
+            <span>¿Falta algún ídolo o DT? Pedir FiguriTa</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BOTONES INFERIORES EN MODO PROPIO -->
+      <div id="mitocoBottomNormalActions" class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
+        <button onclick="goToStartScreen()"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-300 text-slate-800 font-display font-black text-xs sm:text-sm transition flex items-center justify-center space-x-2 shadow-sm active:scale-95">
+          <span>🏠</span>
+          <span>Volver a Portada</span>
+        </button>
+        <button onclick="openModalPedirFigurita()"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-orange-50 hover:bg-orange-100 border border-orange-200 text-[#B95D0E] font-display font-black text-xs sm:text-sm transition flex items-center justify-center space-x-2 shadow-sm active:scale-95">
+          <span>💡</span>
+          <span>¿Falta algún ídolo o DT? Pedir FiguriTa</span>
+        </button>
+      </div>
+
+    </div>
+
   </main>
 
-  <!-- Notificación Toast -->
+  <!-- Notificación Toast (Aceleración GPU + Easing) -->
   <div id="toast"
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-albiazul-950 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 border border-white/30">
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-3 bg-albiazul-950 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xl opacity-0 pointer-events-none transition-[transform,opacity] duration-200 ease-out z-50 border border-white/30">
     ¡Copiado, fiera!
   </div>
 
@@ -818,6 +1542,462 @@
           <span>¡JUGAR!</span>
           <span>➔</span>
         </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL 1: PEDIR FIGURITA (DIRECTO A FIRESTORE + FIDELIZACIÓN) -->
+  <div id="modalPedirFigurita"
+    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div
+      class="relative w-full max-w-[440px] bg-white border-2 border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+
+      <!-- Cabecera del modal -->
+      <div
+        class="w-full px-5 py-3.5 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 border-b border-sky-400/30 flex items-center justify-between text-white">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">💡</span>
+          <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wider">Pedir una FiguriTa</span>
+        </div>
+        <button onclick="closeModalPedirFigurita()"
+          class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-black transition active:scale-90"
+          title="Cerrar ventana">
+          ✕
+        </button>
+      </div>
+
+      <!-- Contenido scrolleable -->
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+
+        <!-- Estado Formulario -->
+        <div id="formPedirFiguritaContainer">
+          <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">
+            ¿Falta algún ídolo histórico, un DT recordado o un personaje que tenés grabado en el corazón?
+            <strong>Don Amadeo</strong> prepara parches periódicamente con nuevas FiguriTas.
+          </p>
+
+          <form id="formPedirFigurita" onsubmit="enviarPedidoFigurita(event)" class="space-y-3 text-left">
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">
+                ¿A quién querés pedir? <span class="text-rose-600">*</span>
+              </label>
+              <input type="text" id="inputPedirNombre" required
+                placeholder="Nombre del Jugador, DT o Personaje (ej: Diego Garay)"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-black uppercase text-slate-700 mb-1">Rol / Categoría</label>
+                <select id="selectPedirTipo"
+                  class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-blue-600 font-medium">
+                  <option value="idolo">Ídolo Histórico</option>
+                  <option value="dt">DT / Técnico</option>
+                  <option value="culto">Jugador de Culto</option>
+                  <option value="femenino">Las Matadoras</option>
+                  <option value="moderno">Era Moderna</option>
+                  <option value="otro">Personaje / Otro</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-[10px] font-black uppercase text-slate-700 mb-1">Época o Década</label>
+                <input type="text" id="inputPedirDecada" placeholder="ej: Años 90, 2004, 2016..."
+                  class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">
+                ¿Por qué tiene que estar? (Anécdota o recuerdo)
+              </label>
+              <textarea id="inputPedirMotivo" rows="2"
+                placeholder="Un gol inolvidable, una final, una atajada, un clásico que nos dio..."
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium resize-none"></textarea>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100">
+              <div class="flex items-center space-x-1.5 text-blue-950 mb-1">
+                <span class="text-sm">📸</span>
+                <span class="text-[11px] font-black uppercase tracking-tight">
+                  Dejá tu Instagram para figurar en la FiguriTa y avisarte del parche
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-500 mb-2 leading-relaxed">
+                Si tu sugerencia entra en el próximo parche, la FiguriTa llevará tu mención oficial: <strong
+                  class="text-orange-600 font-bold">"Pedida por @tu_usuario"</strong> y te etiquetamos en historias de
+                la Filial.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] font-bold uppercase text-slate-700 mb-0.5">
+                    Tu Instagram (@usuario) <span class="text-rose-600">*</span>
+                  </label>
+                  <input type="text" id="inputPedirInstagram" required placeholder="@tu_usuario_de_ig"
+                    class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold uppercase text-slate-700 mb-0.5">Tu Nombre o Apodo</label>
+                  <input type="text" id="inputPedirSolicitante" placeholder="ej: Denis de Chaco"
+                    class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium">
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-3">
+              <button type="submit" id="btnSubmitPedirFigurita"
+                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#F48138] to-[#B95D0E] hover:from-[#B95D0E] hover:to-[#F48138] text-white font-display font-black text-xs uppercase tracking-wider shadow-md border border-orange-300 transition active:scale-95 flex items-center justify-center space-x-2">
+                <span>⚽</span>
+                <span>¡Mandar pedido al Oráculo!</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Estado Éxito tras enviar -->
+        <div id="successPedirFiguritaContainer" class="hidden text-center py-4 space-y-3">
+          <div
+            class="w-14 h-14 mx-auto rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl shadow-inner border border-emerald-200">
+            🎉
+          </div>
+          <h4 class="font-display font-black text-lg text-albiazul-950 uppercase tracking-tight">
+            ¡Anotadísimo para el próximo parche!
+          </h4>
+          <p class="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
+            Don Amadeo ya tomó nota en su libreta matadora. Lanzamos actualizaciones con nuevas FiguriTas
+            periódicamente.
+          </p>
+          <div id="successPedirFiguritaCreditoMsg"
+            class="p-2.5 rounded-xl bg-orange-50 border border-orange-200 text-xs text-[#B95D0E] font-bold">
+            Tu crédito en la carta: Pedida por @usuario
+          </div>
+          <div class="p-3.5 rounded-2xl bg-blue-50 border border-blue-200 text-slate-800 text-xs">
+            <span class="block font-bold text-blue-900 mb-1">¡Enterate apenas publiquemos la FiguriTa!</span>
+            <p class="text-[11px] text-slate-600 mb-3">
+              Seguinos en nuestro Instagram oficial de la <strong>Filial Chaco T</strong>:
+            </p>
+            <a href="https://www.instagram.com/talleresfilialchaco" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-black text-xs transition active:scale-95 shadow-sm">
+              <span>📸</span>
+              <span>Seguir a @talleresfilialchaco</span>
+            </a>
+          </div>
+          <button onclick="closeModalPedirFigurita()"
+            class="mt-2 px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+            Listo, volver al juego
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: TOCO DE FIGURITAS COMPLETO (TODAS DESCUBIERTAS) -->
+  <div id="modalTocoCompleto"
+    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div
+      class="relative w-full max-w-[420px] bg-white border-2 border-emerald-400 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] text-center p-5 sm:p-6 space-y-4">
+      <div
+        class="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-3xl shadow-inner border border-emerald-200">
+        🏆
+      </div>
+      <div>
+        <h3 class="font-display font-black text-lg sm:text-xl text-albiazul-950 uppercase tracking-tight">
+          ¡Completaste tu Toco de FiguriTas!
+        </h3>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+          Ya respondiste y descubriste las <strong id="tocoCompletoTotalCount">27</strong> FiguriTas de la colección en
+          tu Toco. Podés organizar tus MazoTes, pedir nuevas o volver a responder todas.
+        </p>
+      </div>
+
+      <div class="space-y-2 pt-1 text-left">
+        <button onclick="closeModalTocoCompleto(); openMitocoScreen();"
+          class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-albiazul-950 to-blue-800 hover:from-blue-900 hover:to-albiazul-950 text-white font-display font-black text-xs uppercase tracking-wider shadow-md transition active:scale-95 flex items-center justify-center space-x-2">
+          <span>🃏</span>
+          <span>Ver MiToco y mis 3 MazoTes</span>
+        </button>
+
+        <button onclick="closeModalTocoCompleto(); consultarAmadeoDesdeToco();"
+          class="w-full py-2.5 px-4 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-950 font-display font-black text-xs uppercase tracking-wider transition active:scale-95 border border-indigo-200 flex items-center justify-center space-x-2">
+          <span>🔮</span>
+          <span>Ver Consejos de Don Amadeo</span>
+        </button>
+
+        <button onclick="closeModalTocoCompleto(); startGame(true);"
+          class="w-full py-2.5 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-display font-black text-xs uppercase tracking-wider transition active:scale-95 border border-slate-300 flex items-center justify-center space-x-2">
+          <span>🔄</span>
+          <span>Volver a responder todas de nuevo</span>
+        </button>
+
+        <button onclick="closeModalTocoCompleto(); openModalPedirFigurita();"
+          class="w-full py-2.5 px-4 rounded-2xl bg-orange-50 hover:bg-orange-100 text-[#B95D0E] font-display font-black text-xs uppercase tracking-wider transition active:scale-95 border border-orange-200 flex items-center justify-center space-x-2">
+          <span>💡</span>
+          <span>Pedir una FiguriTa para el próximo parche</span>
+        </button>
+      </div>
+
+      <button onclick="closeModalTocoCompleto()"
+        class="text-[11px] font-bold text-slate-400 hover:text-slate-600 transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: COMPARTIR MITOCO (FIRESTORE + WHATSAPP) -->
+  <div id="modalCompartirMitoco"
+    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div
+      class="relative w-full max-w-[440px] bg-white border-2 border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+
+      <!-- Cabecera del modal -->
+      <div
+        class="w-full px-5 py-3.5 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-emerald-900 border-b border-emerald-400/30 flex items-center justify-between text-white">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">📤</span>
+          <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wider">Compartir MiToco</span>
+        </div>
+        <button onclick="closeModalCompartirMitoco()"
+          class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-black transition active:scale-90"
+          title="Cerrar ventana">
+          ✕
+        </button>
+      </div>
+
+      <!-- Contenido scrolleable -->
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 text-slate-800">
+
+        <!-- Estado inicial: Crear enlace -->
+        <div id="formCompartirContainer">
+          <p class="text-xs text-slate-600 font-medium leading-relaxed mb-3">
+            Mostrale a los grupos de WhatsApp y amigos tu <strong>Toco de FiguriTas</strong> con tus 3 MazoTes:
+          </p>
+
+          <!-- Resumen de tarjetas en badges -->
+          <div class="grid grid-cols-3 gap-1.5 p-2.5 rounded-2xl bg-slate-50 border border-slate-200 mb-4 text-center">
+            <div class="text-emerald-800">
+              <span class="block text-[9px] font-bold uppercase">🏟️ Cancha</span>
+              <span id="shareCountCancha" class="font-display font-black text-sm">0</span>
+            </div>
+            <div class="text-amber-800">
+              <span class="block text-[9px] font-bold uppercase">📺 Video</span>
+              <span id="shareCountVideo" class="font-display font-black text-sm">0</span>
+            </div>
+            <div class="text-rose-800">
+              <span class="block text-[9px] font-bold uppercase">❓ Ni lo juno</span>
+              <span id="shareCountNo" class="font-display font-black text-sm">0</span>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-left">
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">
+                ¿Cómo te llamás, matador? <span class="text-rose-600">*</span>
+              </label>
+              <input type="text" id="inputShareNombre" placeholder="Tu Nombre o Apodo (ej: Denis de Resistencia)"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">
+                WhatsApp o Email <span class="text-slate-400 font-normal">(Opcional, para avisarte nuevos
+                  parches)</span>
+              </label>
+              <input type="text" id="inputShareContacto" placeholder="ej: 3624... o email@..."
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 font-medium">
+            </div>
+
+            <button type="button" id="btnGenerarEnlaceShare" onclick="generarEnlaceCompartir()"
+              class="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 text-white font-display font-black text-xs uppercase tracking-wider shadow-md border border-emerald-400 transition active:scale-95 flex items-center justify-center space-x-2">
+              <span>🚀</span>
+              <span>Generar Enlace de MiToco</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado éxito: Botones directos de compartir -->
+        <div id="successCompartirContainer" class="hidden text-center space-y-4">
+          <div
+            class="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center space-x-2">
+            <span>✅</span>
+            <span>¡Tu Toco está listo para compartir!</span>
+          </div>
+
+          <!-- Botón Verde WhatsApp gigante -->
+          <a id="btnShareWhatsAppLink" href="#" target="_blank" rel="noopener noreferrer"
+            class="w-full py-3.5 px-4 rounded-2xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-display font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2.5 transition active:scale-95 border-2 border-emerald-300">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+            </svg>
+            <span>Enviar por WhatsApp a un amigo</span>
+          </a>
+
+          <!-- Copiar enlace directo -->
+          <div class="flex items-center space-x-2 pt-1">
+            <input type="text" id="inputShareLinkUrl" readonly
+              class="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-700 select-all font-mono">
+            <button onclick="copiarEnlaceMitoco()"
+              class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-black transition active:scale-95 flex-shrink-0">
+              Copiar
+            </button>
+          </div>
+
+          <button onclick="closeModalCompartirMitoco()"
+            class="text-xs text-slate-500 hover:text-slate-700 font-bold underline pt-2">
+            Cerrar ventana
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL 3: MINI ADMIN DE FIGURITAS (SOLO ACCESIBLE EN ENTORNO LOCALHOST) -->
+  <div id="modalAdminLocal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div
+      class="relative w-full max-w-2xl bg-white border-2 border-purple-400 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+
+      <!-- Cabecera Admin -->
+      <div
+        class="w-full px-5 py-3.5 bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 border-b border-purple-400/30 flex items-center justify-between text-white">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">🛠️</span>
+          <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wider">Mini Admin · FiguriTas
+            (Localhost)</span>
+        </div>
+        <button onclick="closeModalAdmin()"
+          class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-black transition active:scale-90"
+          title="Cerrar Admin">
+          ✕
+        </button>
+      </div>
+
+      <!-- Contenido Admin -->
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 text-slate-800 space-y-4">
+
+        <div
+          class="p-3 bg-purple-50 rounded-2xl border border-purple-200 text-xs text-purple-950 flex items-center justify-between">
+          <span>Esta herramienta te permite dar de alta nuevas FiguriTas directamente en <strong>idolos.json</strong> o
+            en Firestore.</span>
+          <button onclick="descargarIdolosJson()"
+            class="px-2.5 py-1 rounded-lg bg-purple-800 text-white font-bold text-[10px] hover:bg-purple-900 transition flex-shrink-0 ml-2">
+            📥 Descargar JSON
+          </button>
+        </div>
+
+        <!-- Formulario de Alta / Edición -->
+        <form id="formAdminFigurita" onsubmit="guardarFiguritaAdmin(event)" class="space-y-3 text-left">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Nombre Completo *</label>
+              <input type="text" id="adminNombre" required placeholder="ej: Daniel Willington, Diego Garay..."
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Apodo</label>
+              <input type="text" id="adminNickname" placeholder="ej: El Gran Daniel, El Hacha..."
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-[10px] font-black uppercase text-slate-700 mb-1">Era Histórica</label>
+              <select id="adminEra" onchange="onAdminEraChange(this.value)"
+                class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+                <option value="era70">era70 (Años 70 · Era de Oro)</option>
+                <option value="era90">era90 (Años 90 · Mística Conmebol)</option>
+                <option value="era50">era50 (Años 50/60 · Mística Wanora)</option>
+                <option value="eraResurreccion">eraResurreccion (Resurrección y Ascenso)</option>
+                <option value="eraModerna">eraModerna (Era Moderna y Femenino)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] font-black uppercase text-slate-700 mb-1">Título de la Era</label>
+              <input type="text" id="adminEraTitle" value="Años 70 · Era de Oro"
+                class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+            <div>
+              <label class="block text-[10px] font-black uppercase text-slate-700 mb-1">Década / Años</label>
+              <input type="text" id="adminDecade" placeholder="ej: 1995 - 2001"
+                class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Biografía / Reseña *</label>
+            <textarea id="adminDesc" rows="2" required
+              placeholder="Reseña emotiva de sus logros, partidos memorables o anécdota..."
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium resize-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Ruta o URL de Imagen *</label>
+              <input type="text" id="adminImage" required placeholder="ej: imagenes/fotos_idolos/Garay.jpg o URL"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Hashtags (separados por
+                coma)</label>
+              <input type="text" id="adminHashtags" placeholder="#ClasicoDelSiglo, #Golazo, #Magia"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Pedida por (Crédito /
+                Instagram)</label>
+              <input type="text" id="adminPedidoPor" placeholder="ej: @talleresfilialchaco o @usuario"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+            <div>
+              <label class="block text-[11px] font-black uppercase text-slate-700 mb-1">Búsqueda recomendada para
+                Google</label>
+              <input type="text" id="adminSearchQuery"
+                placeholder="ej: Diego Garay mejores jugadas goles Talleres de Cordoba"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs text-slate-900 focus:outline-none focus:border-purple-600 font-medium">
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="pt-2 flex flex-wrap items-center gap-2">
+            <button type="submit" id="btnAdminGuardarLocal"
+              class="flex-1 py-2.5 px-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-black text-xs transition active:scale-95 shadow-sm">
+              💾 Guardar en idolos.json (Servidor Local)
+            </button>
+            <button type="button" onclick="guardarFiguritaFirestoreAdmin()"
+              class="py-2.5 px-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-black text-xs transition active:scale-95 shadow-sm">
+              ☁️ Guardar en Firestore
+            </button>
+            <button type="button" onclick="limpiarFormAdmin()"
+              class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+              Limpiar
+            </button>
+          </div>
+        </form>
+
+        <!-- Listado de FiguriTas Existentes -->
+        <div class="pt-4 border-t border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <h5 class="font-display font-black text-xs uppercase tracking-wider text-slate-700">
+              FiguriTas en el mazo (<span id="adminTotalCount">0</span>)
+            </h5>
+            <input type="text" id="adminListSearch" oninput="filtrarListaAdmin(this.value)" placeholder="Filtrar..."
+              class="px-2.5 py-1 text-[11px] rounded-lg border border-slate-200">
+          </div>
+          <div id="adminListContainer" class="max-h-48 overflow-y-auto space-y-1.5 divide-y divide-slate-100">
+            <!-- Renderizado dinámicamente -->
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -884,6 +2064,27 @@
 
     /* Base de datos de jugadores: cargada dinámicamente desde idolos.json */
     let playerDeck = [];
+    let activeGameDeck = [];
+
+    function prepareActiveGameDeck(forceAll = false) {
+      const album = getMiToco();
+      if (forceAll) {
+        activeGameDeck = [...playerDeck];
+      } else {
+        const pending = playerDeck.filter(p => !album[p.name]);
+        activeGameDeck = pending.length > 0 ? pending : [...playerDeck];
+      }
+    }
+
+    // Verificación de disponibilidad de imagen en el navegador
+    function verifyImageExists(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+    }
 
     // Precarga integral de imágenes en memoria para eliminar retrasos de red durante la partida
     function preloadAllImages() {
@@ -904,9 +2105,28 @@
         }
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
-          playerDeck = data;
+          // Filtrar estrictamente solo aquellos ídolos con imagen real cargada y disponible
+          const validationResults = await Promise.all(
+            data.map(async (player) => {
+              if (!player.image) return null;
+              const exists = await verifyImageExists(player.image);
+              if (exists) return player;
+              console.warn(`[Oráculo] Omitiendo ídolo por foto no disponible: ${player.name} (${player.image})`);
+              return null;
+            })
+          );
+          playerDeck = validationResults.filter(Boolean);
+
+          // Actualizar contador visual en la portada
+          const heroCountEl = document.getElementById('heroIdolsCount');
+          if (heroCountEl) {
+            heroCountEl.innerText = `${playerDeck.length} Ídolos`;
+          }
+
           preloadAllImages();
+          prepareActiveGameDeck(false);
           renderCard();
+          updateMiTocoStats();
         } else {
           throw new Error('idolos.json no contiene un array válido');
         }
@@ -933,11 +2153,11 @@
     // Bitácora de elecciones
     let sessionHistory = [];
 
-    // Votos por Era
+    // Votos por Era (con soporte para era50, era70, era90, eraResurreccion, eraModerna)
     const votesRegistry = {
-      cancha: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 },
-      video: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 },
-      no: { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 }
+      cancha: { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 },
+      video: { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 },
+      no: { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 }
     };
 
     // Elementos DOM - Carta Activa
@@ -971,30 +2191,33 @@
     let startY = 0;
     let currentX = 0;
     let currentY = 0;
+    let dragStartTime = 0;
 
+    /* Configuración de gestos con Pointer Events y Pointer Capture (Apple Fluid Motion) */
     function setupGestures() {
-      activeCardEl.addEventListener('touchstart', onTouchStart, { passive: true });
-      window.addEventListener('touchmove', onTouchMove, { passive: false });
-      window.addEventListener('touchend', onTouchEnd);
-
-      activeCardEl.addEventListener('mousedown', onMouseDown);
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
+      activeCardEl.addEventListener('pointerdown', onPointerDown);
+      activeCardEl.addEventListener('pointermove', onPointerMove);
+      activeCardEl.addEventListener('pointerup', onPointerUp);
+      activeCardEl.addEventListener('pointercancel', onPointerCancel);
     }
 
-    function onTouchStart(e) {
+    function onPointerDown(e) {
       if (isTransitioning) return;
-      if (e.touches.length !== 1) return;
+      if (e.button !== undefined && e.button !== 0) return; // Solo botón primario
       isDragging = true;
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
+      startX = e.clientX;
+      startY = e.clientY;
+      currentX = 0;
+      currentY = 0;
+      dragStartTime = performance.now();
+      try { activeCardEl.setPointerCapture(e.pointerId); } catch (err) { }
       activeCardEl.classList.remove('card-transition');
     }
 
-    function onTouchMove(e) {
+    function onPointerMove(e) {
       if (!isDragging || isTransitioning) return;
-      currentX = e.touches[0].clientX - startX;
-      currentY = e.touches[0].clientY - startY;
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
 
       if (Math.abs(currentX) > 10 || Math.abs(currentY) > 10) {
         if (e.cancelable) e.preventDefault();
@@ -1003,33 +2226,20 @@
       applyCardTransform(currentX, currentY);
     }
 
-    function onTouchEnd() {
+    function onPointerUp(e) {
       if (!isDragging) return;
       isDragging = false;
+      try { activeCardEl.releasePointerCapture(e.pointerId); } catch (err) { }
       if (isTransitioning) return;
       finalizeDrag(currentX, currentY);
     }
 
-    function onMouseDown(e) {
-      if (isTransitioning) return;
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      activeCardEl.classList.remove('card-transition');
-    }
-
-    function onMouseMove(e) {
-      if (!isDragging || isTransitioning) return;
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      applyCardTransform(currentX, currentY);
-    }
-
-    function onMouseUp() {
+    function onPointerCancel(e) {
       if (!isDragging) return;
       isDragging = false;
+      try { activeCardEl.releasePointerCapture(e.pointerId); } catch (err) { }
       if (isTransitioning) return;
-      finalizeDrag(currentX, currentY);
+      finalizeDrag(0, 0);
     }
 
     function applyCardTransform(x, y) {
@@ -1059,11 +2269,16 @@
       badgeNo.style.opacity = 0;
       badgeVideo.style.opacity = 0;
 
-      if (x > 85) {
+      const elapsed = Math.max(performance.now() - dragStartTime, 1);
+      const vx = x / elapsed;
+      const vy = y / elapsed;
+
+      // Detección por distancia (>80px) o por velocidad de flick (Math.abs(v) > 0.45px/ms)
+      if (x > 80 || (vx > 0.45 && x > 25)) {
         triggerDecision('cancha');
-      } else if (x < -85) {
+      } else if (x < -80 || (vx < -0.45 && x < -25)) {
         triggerDecision('no');
-      } else if (y < -85 && Math.abs(x) < 70) {
+      } else if ((y < -80 || (vy < -0.45 && y < -25)) && Math.abs(x) < 70) {
         triggerDecision('video');
       } else {
         activeCardEl.classList.add('card-transition');
@@ -1078,11 +2293,16 @@
 
     function triggerDecision(type) {
       if (isTransitioning) return; // BLOQUEO: Evita doble registro mientras la carta viaja
-      if (currentCardIndex >= playerDeck.length) return;
+      if (!activeGameDeck || currentCardIndex >= activeGameDeck.length) return;
 
       isTransitioning = true;
 
-      const player = playerDeck[currentCardIndex];
+      // Feedback háptico en dispositivos táctiles (Apple Design / Multimodal)
+      if (navigator.vibrate) {
+        try { navigator.vibrate(12); } catch (e) { }
+      }
+
+      const player = activeGameDeck[currentCardIndex];
       votesRegistry[type][player.era]++;
       votesProcessed++;
 
@@ -1092,11 +2312,12 @@
         decision: type
       });
       saveCurrentBufferToStorage();
+      saveMiTocoItem(player.name, type);
 
       // Efecto sonoro
-      if (type === 'cancha') playTone(523.25, 'triangle', 0.22);
-      else if (type === 'video') playTone(440.00, 'sine', 0.22);
-      else playTone(329.63, 'sawtooth', 0.2);
+      if (type === 'cancha') playTone(523.25, 'triangle', 0.2);
+      else if (type === 'video') playTone(440.00, 'sine', 0.2);
+      else playTone(329.63, 'sawtooth', 0.18);
 
       // Clases visuales de arrastre para la carta saliente
       activeCardEl.classList.add('card-transition');
@@ -1117,7 +2338,7 @@
 
       setTimeout(() => {
         currentCardIndex++;
-        if (currentCardIndex >= playerDeck.length) {
+        if (currentCardIndex >= activeGameDeck.length) {
           finishAndConsult();
           isTransitioning = false;
         } else {
@@ -1131,7 +2352,7 @@
           activeCardEl.style.transition = '';
           isTransitioning = false;
         }
-      }, 260);
+      }, 220); // Sincronizado exactamente con 220ms del CSS
     }
 
     function resetCardVisuals() {
@@ -1143,28 +2364,52 @@
     }
 
     function renderCard() {
-      if (currentCardIndex >= playerDeck.length) return;
+      if (!activeGameDeck || currentCardIndex >= activeGameDeck.length) return;
 
       // 1. Renderizar Carta Activa (Frontal)
-      const p = playerDeck[currentCardIndex];
+      const p = activeGameDeck[currentCardIndex];
       cardPlayerNameEl.innerText = p.name;
-      cardPlayerNickEl.innerText = `"${p.nickname}"`;
-      cardBadgeEraEl.innerText = p.eraTitle;
+      cardPlayerNickEl.innerText = p.nickname ? `"${p.nickname}"` : '';
+      cardBadgeEraEl.innerText = p.eraTitle || p.decade;
       cardDecadeEl.innerText = p.decade;
       cardPlayerBioEl.innerText = p.desc;
       cardImageEl.src = p.image;
 
+      // Badge Pedida por / Atribución
+      const cardBadgePedidoPorEl = document.getElementById('cardBadgePedidoPor');
+      const cardPedidoPorHandleEl = document.getElementById('cardPedidoPorHandle');
+      if (cardBadgePedidoPorEl && cardPedidoPorHandleEl) {
+        if (p.pedidoPor) {
+          cardPedidoPorHandleEl.innerText = p.pedidoPor;
+          cardBadgePedidoPorEl.classList.remove('hidden');
+        } else {
+          cardBadgePedidoPorEl.classList.add('hidden');
+        }
+      }
+
       // 2. Renderizar Carta Siguiente (Debajo, ya pre-cargada)
       const nextIndex = currentCardIndex + 1;
       if (nextCardEl) {
-        if (nextIndex < playerDeck.length) {
-          const nextP = playerDeck[nextIndex];
+        if (nextIndex < activeGameDeck.length) {
+          const nextP = activeGameDeck[nextIndex];
           nextCardPlayerNameEl.innerText = nextP.name;
-          nextCardPlayerNickEl.innerText = `"${nextP.nickname}"`;
-          nextCardBadgeEraEl.innerText = nextP.eraTitle;
+          nextCardPlayerNickEl.innerText = nextP.nickname ? `"${nextP.nickname}"` : '';
+          nextCardBadgeEraEl.innerText = nextP.eraTitle || nextP.decade;
           nextCardDecadeEl.innerText = nextP.decade;
           nextCardPlayerBioEl.innerText = nextP.desc;
           nextCardImageEl.src = nextP.image;
+
+          const nextCardBadgePedidoPorEl = document.getElementById('nextCardBadgePedidoPor');
+          const nextCardPedidoPorHandleEl = document.getElementById('nextCardPedidoPorHandle');
+          if (nextCardBadgePedidoPorEl && nextCardPedidoPorHandleEl) {
+            if (nextP.pedidoPor) {
+              nextCardPedidoPorHandleEl.innerText = nextP.pedidoPor;
+              nextCardBadgePedidoPorEl.classList.remove('hidden');
+            } else {
+              nextCardBadgePedidoPorEl.classList.add('hidden');
+            }
+          }
+
           nextCardEl.style.display = 'flex';
           nextCardEl.style.transform = 'scale(0.95) translateY(12px)';
         } else {
@@ -1173,9 +2418,17 @@
       }
 
       const currentNum = currentCardIndex + 1;
-      const total = playerDeck.length;
-      progressTextEl.innerText = `Revisando el muñeco ${currentNum} de ${total}`;
-      const percentage = Math.round((currentNum / total) * 100);
+      const totalInRound = activeGameDeck.length;
+      const toco = getMiToco();
+      const totalToco = Object.keys(toco).length;
+
+      if (totalInRound < playerDeck.length) {
+        progressTextEl.innerText = `Descubriendo FiguriTa ${currentNum} de ${totalInRound} (${totalToco} ya en tu Toco)`;
+      } else {
+        progressTextEl.innerText = `Descubriendo FiguriTa ${currentNum} de ${totalInRound}`;
+      }
+
+      const percentage = Math.round((currentNum / totalInRound) * 100);
       progressBarEl.style.width = `${percentage}%`;
     }
 
@@ -1194,7 +2447,7 @@
 
     function finishAndConsult() {
       playTone(659.25, 'triangle', 0.45);
-      document.getElementById('deckScreen').classList.add('hidden');
+      hideAllScreens();
       document.getElementById('resultScreen').classList.remove('hidden');
 
       const topCancha = getDominantEra('cancha');
@@ -1213,6 +2466,8 @@
       let pCancha = "";
       if (topCancha.count === 0) {
         pCancha = "¡Pero mirá vos, negro! Se ve que todavía no tuviste la suerte de pisar los escalones de cemento de la Boutique o del Kempes, o te queda lejazo por vivir en el Chaco. Pero sabé una cosa: la pasión por la T no sabe de distancias. Ya llevás la camiseta albiazul cosida al pecho con el mismo aguante que el que no falta ni un domingo a la popular.";
+      } else if (topCancha.era === 'era50') {
+        pCancha = "¡Pero qué orgullo de la vieja guardia, culiau! Tuviste el privilegio supremo de ver en vivo los bailes del Miguel 'La Wanora' Romero en la vieja Boutique cuando Talleres ganaba campeonato tras campeonato en la Liga Cordobesa y llenaba canchas en todo el país. ¡Sos historia viva del fútbol cordobés, varón!";
       } else if (topCancha.era === 'era70') {
         pCancha = "¡Qué pedazo de prócer que sos, culiau! Tuviste el orgullo inmenso de hacer temblar la Boutique y copar el Chateau cuando el Daniel Willington la acariciaba con guante blanco y el Luis Galván no dejaba pasar ni el viento. Te cagaste de gusto viendo al Talleres del 77 que bailó a la República entera y le puso la firma cordobesa a la Selección campeona del mundo. ¡Caminar la cancha en esa época es una locura hermosa, hermano!";
       } else if (topCancha.era === 'era90') {
@@ -1232,6 +2487,8 @@
       let pVideo = "";
       if (topVideo.count === 0) {
         pVideo = "Tu amor por la T es puro instinto y presente, fiera. Te recomiendo muy mucho que te pongas a vichar videos viejos en YouTube con un buen fernet en mano: te vas a emocionar al ver cómo nació esta mística.";
+      } else if (topVideo.era === 'era50') {
+        pVideo = "¡Qué locura hermosa ponerte a buscar archivos de los años 50 y 60! Descubrir las hazañas de La Wanora Romero, el máximo artillero con 163 goles, demuestra que tenés un paladar negro de aquellos y sabés dónde empezó a gestarse la mística de barrio Jardín.";
       } else if (topVideo.era === 'era70') {
         pVideo = "¡Muy mucho te felicito por la curiosidad, negro! Ponerse a buscar grabaciones viejas del Daniel Willington, el Mariscal Galván y el Rana Valencia demuestra que no te conformás con el hoy: sabés que para entender lo gigante que es Talleres hay que haber visto cómo acariciaban la redonda esos monstruos sagrados.";
       } else if (topVideo.era === 'era90') {
@@ -1249,6 +2506,8 @@
       let pNo = "";
       if (topNo.count === 0) {
         pNo = "¡Conocé' el paño de punta a punta, varón! No se te escapa una sola figurita de barrio Jardín. Sos una enciclopedia viviente del club, culiau.";
+      } else if (topNo.era === 'era50') {
+        pNo = "No te aflijás si se te escapan leyendas de los años 50 o 60 como La Wanora Romero. Pasaron más de seis décadas y muchos relatos quedaron en el boca a boca de los abuelos. Esta es la excusa perfecta para descubrir a los pioneros que fundaron el orgullo albiazul.";
       } else if (topNo.era === 'era70') {
         pNo = "¿Qué lo que pasó con los próceres de los 70, che? Te resultan medio lejanos, y está perfecto, no te vamo' a cagar a pedos por eso. En esos años rompimos el centralismo de Buenos Aires con fútbol champagne y metimos tres campeones del mundo en el 78. Íte a buscarlos que te vas a caer de espaldas con lo que jugaban.";
       } else if (topNo.era === 'era90') {
@@ -1419,7 +2678,7 @@
           decisionBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-800 border border-rose-300">❓ No lo vi</span>`;
         }
 
-        const tagsHtml = item.player.hashtags
+        const tagsHtml = (item.player.hashtags || [])
           .map(tag => `<span class="inline-block bg-blue-50 text-blue-700 font-semibold px-1.5 py-0.5 rounded text-[9px] mr-1 mb-1 border border-blue-100">${tag}</span>`)
           .join('');
 
@@ -1486,27 +2745,1681 @@
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.innerText = message;
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      toast.classList.add('opacity-100');
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
       setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0', 'pointer-events-none');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
       }, 2200);
     }
 
-    function startGame() {
+    function startGame(forceAll = false) {
       closeVideoTutorialModal();
       initAudio();
+
+      // Si venía navegando en modo invitado, limpiar estado para jugar con sus propias cartas
+      if (guestMitocoData) {
+        guestMitocoData = null;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+        const banner = document.getElementById('guestMitocoBanner');
+        if (banner) banner.classList.add('hidden');
+        const titleEl = document.getElementById('mitocoScreenTitle');
+        if (titleEl) titleEl.innerText = 'MiToco de FiguriTas';
+        const subEl = document.getElementById('mitocoScreenSubtitle');
+        if (subEl) subEl.innerText = 'Tus ídolos, DTs y personajes de la T organizados en tus 3 MazoTes';
+      }
+
+      // Sincronizar badges de cabecera con el conteo real del jugador local
+      updateMiTocoStats();
+
+      if (!Array.isArray(playerDeck) || playerDeck.length === 0) {
+        showToast('Cargando FiguriTas...');
+        return;
+      }
+
+      const album = getMiToco();
+      if (forceAll) {
+        activeGameDeck = [...playerDeck];
+      } else {
+        const pending = playerDeck.filter(p => !album[p.name]);
+        if (pending.length === 0) {
+          activeGameDeck = [...playerDeck];
+        } else {
+          activeGameDeck = pending;
+        }
+      }
+
+      currentCardIndex = 0;
+      votesProcessed = 0;
+      sessionHistory = [];
+      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch (e) { }
+      votesRegistry.cancha = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.video = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.no = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+
+      btnStopEl.classList.add('opacity-0', 'pointer-events-none', 'translate-y-1');
+      btnStopEl.classList.remove('opacity-100', 'translate-y-0');
+
       // Acorde triunfal de bienvenida con tres notas albiazules
       playTone(523.25, 'triangle', 0.15);
       setTimeout(() => playTone(659.25, 'triangle', 0.2), 100);
       setTimeout(() => playTone(783.99, 'triangle', 0.28), 200);
 
-      document.getElementById('startScreen').classList.add('hidden');
-      document.getElementById('resultScreen').classList.add('hidden');
+      hideAllScreens();
       document.getElementById('deckScreen').classList.remove('hidden');
 
+      resetCardVisuals();
+      renderCard();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function abrirModalTocoCompleto() {
+      const modal = document.getElementById('modalTocoCompleto');
+      const countEl = document.getElementById('tocoCompletoTotalCount');
+      if (countEl) countEl.innerText = playerDeck.length;
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+      } else {
+        if (confirm(`¡Completaste tu Toco! Ya descubriste las ${playerDeck.length} FiguriTas de la T.\n\n¿Querés volver a responderlas todas desde el principio?`)) {
+          startGame(true);
+        } else {
+          openMitocoScreen();
+        }
+      }
+    }
+
+    function closeModalTocoCompleto() {
+      const modal = document.getElementById('modalTocoCompleto');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.remove('opacity-100');
+      }
+    }
+
+    /* Ocultar todas las pantallas del juego */
+    function hideAllScreens() {
+      const screens = ['startScreen', 'deckScreen', 'resultScreen', 'mitocoScreen'];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+    }
+
+    /* Detección de entorno local para habilitar Mini Admin */
+    function isLocalhost() {
+      const h = window.location.hostname;
+      return h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.');
+    }
+
+    /* Helper singleton para Firebase Firestore modular */
+    let _firebaseDbInstance = null;
+    async function getFirebaseDb() {
+      if (_firebaseDbInstance) return _firebaseDbInstance;
+      if (!window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.apiKey) return null;
+      try {
+        const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js");
+        const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+        const app = getApps().length === 0 ? initializeApp(window.FIREBASE_CONFIG) : getApps()[0];
+        _firebaseDbInstance = getFirestore(app);
+        return _firebaseDbInstance;
+      } catch (err) {
+        console.warn('[Firebase] Error inicializando Firestore:', err);
+        return null;
+      }
+    }
+
+    /* =========================================================
+       SISTEMA "MITOCO DE FIGURITAS" Y LOS 3 MAZOTES
+       ========================================================= */
+    const MITOCO_STORAGE_KEY = 'oraculo_mitoco_album';
+    let guestMitocoData = null; // Datos si se visualiza el Toco compartido de un amigo
+
+    // Índices activos para la navegación estilo Solitario en cada uno de los 3 MazoTes
+    const mitocoIndices = {
+      cancha: 0,
+      video: 0,
+      no: 0
+    };
+
+    function getMiToco() {
+      try {
+        const raw = localStorage.getItem(MITOCO_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveMiTocoItem(playerName, decision) {
+      if (!playerName) return;
+      try {
+        const album = getMiToco();
+        album[playerName] = {
+          decision: decision,
+          updatedAt: Date.now()
+        };
+        localStorage.setItem(MITOCO_STORAGE_KEY, JSON.stringify(album));
+        updateMiTocoStats();
+      } catch (e) {
+        console.warn('Error guardando en MiToco:', e);
+      }
+    }
+
+    // Calcula estadísticas EXCLUSIVAS del jugador local (almacenado en este navegador)
+    function getMyMiTocoStats() {
+      const myAlbum = getMiToco();
+      const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+      let c = 0, v = 0, n = 0;
+      allPlayers.forEach(p => {
+        const item = myAlbum[p.name];
+        if (item) {
+          const dec = typeof item === 'string' ? item : item.decision;
+          if (dec === 'cancha') c++;
+          else if (dec === 'video') v++;
+          else if (dec === 'no') n++;
+        }
+      });
+      const totalCalificadas = c + v + n;
+      const countPending = Math.max(0, allPlayers.length - totalCalificadas);
+      const percent = allPlayers.length > 0 ? Math.round((totalCalificadas / allPlayers.length) * 100) : 0;
+      return {
+        cancha: c,
+        video: v,
+        no: n,
+        totalCalificadas,
+        countPending,
+        percent,
+        totalDeck: allPlayers.length
+      };
+    }
+
+    // Clasifica el mazo completo en los 3 MazoTes y pendientes (del Toco actualmente en vista)
+    function getMazotesDecks() {
+      const album = guestMitocoData ? (guestMitocoData.album || {}) : getMiToco();
+      const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+
+      const decks = {
+        cancha: [],
+        video: [],
+        no: [],
+        pendientes: []
+      };
+
+      allPlayers.forEach(p => {
+        const item = album[p.name];
+        if (item) {
+          const dec = typeof item === 'string' ? item : item.decision;
+          if (dec === 'cancha') decks.cancha.push(p);
+          else if (dec === 'video') decks.video.push(p);
+          else if (dec === 'no') decks.no.push(p);
+          else decks.pendientes.push(p);
+        } else {
+          decks.pendientes.push(p);
+        }
+      });
+
+      return decks;
+    }
+
+    // =========================================================
+    // COMPARADOR DE TOCOS (MODO INVITADO: AMIGO VS. MÍO)
+    // =========================================================
+    let currentComparisonTab = 'cancha';
+    let currentComparisonData = null;
+
+    function computeTocoComparison() {
+      if (!guestMitocoData) return null;
+
+      const otherAlbum = guestMitocoData.album || {};
+      const myAlbum = getMiToco();
+      const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+      const otherName = guestMitocoData.nombre || 'Un Matador';
+
+      let otherCancha = 0, otherVideo = 0, otherNo = 0;
+      let myCancha = 0, myVideo = 0, myNo = 0;
+
+      const coinciden = [];
+      const soloOtroCancha = [];
+      const soloYoCancha = [];
+      const soloOtroVideo = [];
+      const soloYoVideo = [];
+      const soloOtroNo = [];
+      const soloYoNo = [];
+
+      allPlayers.forEach(p => {
+        const oItem = otherAlbum[p.name];
+        const oDec = oItem ? (typeof oItem === 'string' ? oItem : oItem.decision) : null;
+        if (oDec === 'cancha') otherCancha++;
+        else if (oDec === 'video') otherVideo++;
+        else if (oDec === 'no') otherNo++;
+
+        const mItem = myAlbum[p.name];
+        const mDec = mItem ? (typeof mItem === 'string' ? mItem : mItem.decision) : null;
+        if (mDec === 'cancha') myCancha++;
+        else if (mDec === 'video') myVideo++;
+        else if (mDec === 'no') myNo++;
+
+        if (oDec && mDec && oDec === mDec) {
+          coinciden.push({ player: p, decision: oDec });
+        }
+
+        // Cancha
+        if (oDec === 'cancha' && mDec !== 'cancha') {
+          soloOtroCancha.push({ player: p, myDec: mDec });
+        } else if (mDec === 'cancha' && oDec !== 'cancha') {
+          soloYoCancha.push({ player: p, otherDec: oDec });
+        }
+
+        // Video
+        if (oDec === 'video' && mDec !== 'video') {
+          soloOtroVideo.push({ player: p, myDec: mDec });
+        } else if (mDec === 'video' && oDec !== 'video') {
+          soloYoVideo.push({ player: p, otherDec: oDec });
+        }
+
+        // Ni lo juno
+        if (oDec === 'no' && mDec !== 'no') {
+          soloOtroNo.push({ player: p, myDec: mDec });
+        } else if (mDec === 'no' && oDec !== 'no') {
+          soloYoNo.push({ player: p, otherDec: oDec });
+        }
+      });
+
+      return {
+        otherName,
+        otherTotals: { cancha: otherCancha, video: otherVideo, no: otherNo, total: otherCancha + otherVideo + otherNo },
+        myTotals: { cancha: myCancha, video: myVideo, no: myNo, total: myCancha + myVideo + myNo },
+        coinciden,
+        soloOtroCancha,
+        soloYoCancha,
+        soloOtroVideo,
+        soloYoVideo,
+        soloOtroNo,
+        soloYoNo
+      };
+    }
+
+    function selectComparisonTab(tab) {
+      currentComparisonTab = tab;
+      const cmp = currentComparisonData;
+      if (!cmp) return;
+
+      const tabs = ['cancha', 'video', 'no', 'match'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tabCmp' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) {
+          if (t === tab) {
+            btn.className = 'px-3 py-1.5 rounded-xl bg-white/20 text-white font-black border border-white/40 shadow-xs flex items-center space-x-1.5 transition active:scale-95 text-xs';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-xl bg-white/5 text-slate-300 font-bold border border-white/10 hover:bg-white/10 flex items-center space-x-1.5 transition active:scale-95 text-xs';
+          }
+        }
+      });
+
+      const container = document.getElementById('cmpDetailsContainer');
+      if (!container) return;
+
+      let html = '';
+
+      if (tab === 'cancha') {
+        const otherList = cmp.soloOtroCancha;
+        const myList = cmp.soloYoCancha;
+
+        if (otherList.length === 0 && myList.length === 0) {
+          html = `<div class="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200 text-center">
+            ✨ <strong>¡Coincidencia total en Cancha!</strong> Ambos vieron exactamente los mismos ídolos en vivo en el Kempes/Boutique.
+          </div>`;
+        } else {
+          if (otherList.length > 0) {
+            html += `<div class="mb-3">
+              <div class="flex items-center space-x-1.5 text-xs font-black text-amber-300 mb-2">
+                <span>👀</span>
+                <span>${cmp.otherName} vio en Cancha pero vos no (${otherList.length}):</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                ${otherList.map(item => {
+                  const myStateText = item.myDec === 'video' ? '📺 en video' : (item.myDec === 'no' ? '❓ ni lo junás' : '⭐ pendiente');
+                  return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-amber-500/20 text-amber-100 border border-amber-400/40 text-[11px] font-bold shadow-2xs">
+                    <span>${item.player.name}</span>
+                    <span class="text-[9px] text-amber-200/70 font-normal">(${myStateText})</span>
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }
+
+          if (myList.length > 0) {
+            html += `<div>
+              <div class="flex items-center space-x-1.5 text-xs font-black text-emerald-300 mb-2">
+                <span>🏟️</span>
+                <span>Vos viste en Cancha pero ${cmp.otherName} no (${myList.length}):</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                ${myList.map(item => {
+                  const otherStateText = item.otherDec === 'video' ? '📺 en video' : (item.otherDec === 'no' ? '❓ no lo juna' : '⭐ pendiente');
+                  return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-100 border border-emerald-400/40 text-[11px] font-bold shadow-2xs">
+                    <span>${item.player.name}</span>
+                    <span class="text-[9px] text-emerald-200/70 font-normal">(${otherStateText})</span>
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }
+        }
+      } else if (tab === 'video') {
+        const otherList = cmp.soloOtroVideo;
+        const myList = cmp.soloYoVideo;
+
+        if (otherList.length === 0 && myList.length === 0) {
+          html = `<div class="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200 text-center">
+            ✨ <strong>¡Sin diferencias en Video!</strong> Tienen las mismas FiguriTas conocidas por tele o resumen.
+          </div>`;
+        } else {
+          if (otherList.length > 0) {
+            html += `<div class="mb-3">
+              <div class="flex items-center space-x-1.5 text-xs font-black text-amber-300 mb-2">
+                <span>📺</span>
+                <span>${cmp.otherName} vio en Video y vos no (${otherList.length}):</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                ${otherList.map(item => {
+                  const myStateText = item.myDec === 'cancha' ? '🏟️ en cancha' : (item.myDec === 'no' ? '❓ ni lo junás' : '⭐ pendiente');
+                  return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-amber-500/20 text-amber-100 border border-amber-400/40 text-[11px] font-bold shadow-2xs">
+                    <span>${item.player.name}</span>
+                    <span class="text-[9px] text-amber-200/70 font-normal">(${myStateText})</span>
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }
+
+          if (myList.length > 0) {
+            html += `<div>
+              <div class="flex items-center space-x-1.5 text-xs font-black text-amber-200 mb-2">
+                <span>📺</span>
+                <span>Vos viste en Video y ${cmp.otherName} no (${myList.length}):</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                ${myList.map(item => {
+                  const otherStateText = item.otherDec === 'cancha' ? '🏟️ en cancha' : (item.otherDec === 'no' ? '❓ no lo juna' : '⭐ pendiente');
+                  return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-amber-500/20 text-amber-100 border border-amber-400/40 text-[11px] font-bold shadow-2xs">
+                    <span>${item.player.name}</span>
+                    <span class="text-[9px] text-amber-200/70 font-normal">(${otherStateText})</span>
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }
+        }
+      } else if (tab === 'no') {
+        const otherList = cmp.soloOtroNo;
+        const myList = cmp.soloYoNo;
+
+        if (otherList.length === 0 && myList.length === 0) {
+          html = `<div class="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200 text-center">
+            ✨ <strong>¡Sin diferencias!</strong> No hay discrepancias en FiguriTas por conocer.
+          </div>`;
+        } else {
+          if (otherList.length > 0) {
+            html += `<div class="mb-3">
+              <div class="flex items-center space-x-1.5 text-xs font-black text-rose-300 mb-2">
+                <span>❓</span>
+                <span>${cmp.otherName} no juna pero vos sí (${otherList.length}):</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                ${otherList.map(item => {
+                  const myStateText = item.myDec === 'cancha' ? '🏟️ viste en cancha' : (item.myDec === 'video' ? '📺 viste en video' : '⭐ pendiente');
+                  return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-rose-500/20 text-rose-100 border border-rose-400/40 text-[11px] font-bold shadow-2xs">
+                    <span>${item.player.name}</span>
+                    <span class="text-[9px] text-rose-200/70 font-normal">(${myStateText})</span>
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }
+
+          if (myList.length > 0) {
+            html += `<div>
+              <div class="flex items-center space-x-1.5 text-xs font-black text-rose-300 mb-2">
+                <span>❓</span>
+                <span>Vos no junás pero ${cmp.otherName} sí (${myList.length}):</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                ${myList.map(item => {
+                  const otherStateText = item.otherDec === 'cancha' ? '🏟️ vio en cancha' : (item.otherDec === 'video' ? '📺 vio en video' : '⭐ pendiente');
+                  return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl bg-rose-500/20 text-rose-100 border border-rose-400/40 text-[11px] font-bold shadow-2xs">
+                    <span>${item.player.name}</span>
+                    <span class="text-[9px] text-rose-200/70 font-normal">(${otherStateText})</span>
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }
+        }
+      } else if (tab === 'match') {
+        const list = cmp.coinciden;
+        if (list.length === 0) {
+          html = `<div class="p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-200 text-center">
+            Todavía no coinciden en ninguna FiguriTa. ¡Diferencia generacional total, culiau!
+          </div>`;
+        } else {
+          const iconMap = { cancha: '🏟️', video: '📺', no: '❓' };
+          html = `<div class="mb-2">
+            <div class="flex items-center space-x-1.5 text-xs font-black text-sky-300 mb-2">
+              <span>🎯</span>
+              <span>Coinciden exactamente con la misma elección (${list.length} FiguriTas):</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${list.map(item => {
+                const icon = iconMap[item.decision] || '⚽';
+                const bgClass = item.decision === 'cancha' ? 'bg-emerald-500/20 text-emerald-100 border-emerald-400/30' : (item.decision === 'video' ? 'bg-amber-500/20 text-amber-100 border-amber-400/30' : 'bg-rose-500/20 text-rose-100 border-rose-400/30');
+                return `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl ${bgClass} border text-[11px] font-bold shadow-2xs">
+                  <span>${icon}</span>
+                  <span>${item.player.name}</span>
+                </span>`;
+              }).join('')}
+            </div>
+          </div>`;
+        }
+      }
+
+      container.innerHTML = html;
+    }
+
+    function renderTocoComparison() {
+      const cmp = computeTocoComparison();
+      if (!cmp) return;
+      currentComparisonData = cmp;
+
+      const myStats = getMyMiTocoStats();
+
+      const nomEl = document.getElementById('guestMitocoNombre');
+      if (nomEl) nomEl.innerText = cmp.otherName;
+      const myCountEl = document.getElementById('guestMitocoMyCount');
+      if (myCountEl) myCountEl.innerText = `${myStats.totalCalificadas} FiguriTas`;
+
+      const matchEl = document.getElementById('cmpMatchCountBadge');
+      if (matchEl) matchEl.innerText = `🎯 Coinciden en ${cmp.coinciden.length} FiguriTas`;
+
+      // Scoreboard cards
+      const diffCancha = cmp.soloOtroCancha.length + cmp.soloYoCancha.length;
+      const elCanchaBadge = document.getElementById('cmpCanchaDiffBadge');
+      if (elCanchaBadge) elCanchaBadge.innerText = `${diffCancha} dif.`;
+      const elCanchaOther = document.getElementById('cmpCanchaOtherText');
+      if (elCanchaOther) elCanchaOther.innerText = `${cmp.otherName}: ${cmp.otherTotals.cancha}`;
+      const elCanchaMy = document.getElementById('cmpCanchaMyText');
+      if (elCanchaMy) elCanchaMy.innerText = `Vos: ${cmp.myTotals.cancha}`;
+
+      const diffVideo = cmp.soloOtroVideo.length + cmp.soloYoVideo.length;
+      const elVideoBadge = document.getElementById('cmpVideoDiffBadge');
+      if (elVideoBadge) elVideoBadge.innerText = `${diffVideo} dif.`;
+      const elVideoOther = document.getElementById('cmpVideoOtherText');
+      if (elVideoOther) elVideoOther.innerText = `${cmp.otherName}: ${cmp.otherTotals.video}`;
+      const elVideoMy = document.getElementById('cmpVideoMyText');
+      if (elVideoMy) elVideoMy.innerText = `Vos: ${cmp.myTotals.video}`;
+
+      const diffNo = cmp.soloOtroNo.length + cmp.soloYoNo.length;
+      const elNoBadge = document.getElementById('cmpNoDiffBadge');
+      if (elNoBadge) elNoBadge.innerText = `${diffNo} dif.`;
+      const elNoOther = document.getElementById('cmpNoOtherText');
+      if (elNoOther) elNoOther.innerText = `${cmp.otherName}: ${cmp.otherTotals.no}`;
+      const elNoMy = document.getElementById('cmpNoMyText');
+      if (elNoMy) elNoMy.innerText = `Vos: ${cmp.myTotals.no}`;
+
+      // Tab count badges
+      const tcCan = document.getElementById('tabCountCmpCancha');
+      if (tcCan) tcCan.innerText = diffCancha;
+      const tcVid = document.getElementById('tabCountCmpVideo');
+      if (tcVid) tcVid.innerText = diffVideo;
+      const tcNo = document.getElementById('tabCountCmpNo');
+      if (tcNo) tcNo.innerText = diffNo;
+      const tcMatch = document.getElementById('tabCountCmpMatch');
+      if (tcMatch) tcMatch.innerText = cmp.coinciden.length;
+
+      // Render tab details
+      selectComparisonTab(currentComparisonTab || 'cancha');
+    }
+
+    function consultarAmadeoDesdeTocoPropio() {
+      switchToMyOwnToco();
+      consultarAmadeoDesdeToco();
+    }
+
+    function updateMiTocoStats() {
+      const myStats = getMyMiTocoStats();
+      const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+      const totalDeck = allPlayers.length;
+
+      // 1. Badge del Header: SIEMPRE muestra el número real de FiguriTas del jugador local
+      const headerBadge = document.getElementById('headerMitocoBadge');
+      if (headerBadge) {
+        headerBadge.innerText = myStats.totalCalificadas;
+      }
+
+      // 2. Tarjeta y botón en Portada (startScreen): SIEMPRE reflejan el Toco propio
+      const startBox = document.getElementById('startScreenMitocoBox');
+      const startBadge = document.getElementById('startMitocoCountBadge');
+      if (startBox && startBadge) {
+        if (myStats.totalCalificadas > 0 && !guestMitocoData) {
+          startBox.classList.remove('hidden');
+          startBadge.innerText = `${myStats.totalCalificadas} FiguriTas`;
+        } else {
+          startBox.classList.add('hidden');
+        }
+      }
+
+      const btnStartText = document.getElementById('btnStartGameText');
+      if (btnStartText) {
+        if (myStats.countPending === 0 && totalDeck > 0) {
+          btnStartText.innerText = '¡VOLVER A RESPONDER TODAS!';
+        } else if (myStats.totalCalificadas > 0) {
+          btnStartText.innerText = `¡DESCUBRIR PENDIENTES (${myStats.countPending})!`;
+        } else {
+          btnStartText.innerText = '¡DESCUBRIR FIGURITAS!';
+        }
+      }
+
+      // 3. Manejo de Pantalla en Modo Invitado vs Modo Propio
+      const isGuest = !!guestMitocoData;
+      const guestBanner = document.getElementById('guestMitocoBanner');
+      const summaryTotalsBox = document.getElementById('mitocoSummaryTotalsBox');
+      const guestBottomBox = document.getElementById('guestBottomActionsContainer');
+      const normalBottomBox = document.getElementById('mitocoBottomNormalActions');
+
+      if (isGuest) {
+        if (guestBanner) guestBanner.classList.remove('hidden');
+        renderTocoComparison();
+        if (summaryTotalsBox) summaryTotalsBox.classList.add('hidden');
+        if (guestBottomBox) guestBottomBox.classList.remove('hidden');
+        if (normalBottomBox) normalBottomBox.classList.add('hidden');
+
+        const btnSwitchOwn = document.getElementById('btnGuestBottomSwitchOwn');
+        if (btnSwitchOwn) btnSwitchOwn.innerText = `Ver Mi Propio Toco (${myStats.totalCalificadas})`;
+
+        const btnPlay = document.getElementById('btnGuestBottomPlay');
+        if (btnPlay) {
+          if (myStats.countPending === 0 && totalDeck > 0) {
+            btnPlay.innerText = '⚽ ¡Repasar todas mis FiguriTas!';
+          } else if (myStats.totalCalificadas > 0) {
+            btnPlay.innerText = `⚽ Descubrir mis pendientes (${myStats.countPending})`;
+          } else {
+            btnPlay.innerText = '⚽ ¡Armá tu propio Toco ahora, culiau!';
+          }
+        }
+
+        const subBottom = document.getElementById('guestBottomActionsSubtitle');
+        if (subBottom) {
+          subBottom.innerText = `Tenés ${myStats.totalCalificadas} FiguriTas coleccionadas y ${myStats.countPending} pendientes por descubrir.`;
+        }
+      } else {
+        if (guestBanner) guestBanner.classList.add('hidden');
+        if (summaryTotalsBox) summaryTotalsBox.classList.remove('hidden');
+        if (guestBottomBox) guestBottomBox.classList.add('hidden');
+        if (normalBottomBox) normalBottomBox.classList.remove('hidden');
+      }
+
+      // 4. Estadísticas del mazo visualizado (del invitado o propio)
+      const displayDecks = getMazotesDecks();
+      const countCancha = displayDecks.cancha.length;
+      const countVideo = displayDecks.video.length;
+      const countNo = displayDecks.no.length;
+      const totalCalificadas = countCancha + countVideo + countNo;
+      const percent = totalDeck > 0 ? Math.round((totalCalificadas / totalDeck) * 100) : 0;
+
+      const elCancha = document.getElementById('mitocoCountCancha');
+      const elVideo = document.getElementById('mitocoCountVideo');
+      const elNo = document.getElementById('mitocoCountNo');
+      const elText = document.getElementById('mitocoProgressText');
+      const elPercent = document.getElementById('mitocoProgressPercent');
+      const elBar = document.getElementById('mitocoProgressBar');
+
+      if (elCancha) elCancha.innerText = countCancha;
+      if (elVideo) elVideo.innerText = countVideo;
+      if (elNo) elNo.innerText = countNo;
+      if (elText) {
+        if (isGuest) {
+          elText.innerText = `Colección de ${guestMitocoData.nombre || 'tu amigo'}: ${totalCalificadas} de ${totalDeck} FiguriTas`;
+        } else {
+          elText.innerText = `Coleccionadas: ${totalCalificadas} de ${totalDeck} FiguriTas`;
+        }
+      }
+      if (elPercent) elPercent.innerText = `${percent}%`;
+      if (elBar) elBar.style.width = `${percent}%`;
+
+      // Badges superiores de cada columna de MazoTe
+      const bCan = document.getElementById('badgeCountCancha');
+      const bVid = document.getElementById('badgeCountVideo');
+      const bNo = document.getElementById('badgeCountNo');
+      if (bCan) bCan.innerText = `${countCancha} FiguriTas`;
+      if (bVid) bVid.innerText = `${countVideo} FiguriTas`;
+      if (bNo) bNo.innerText = `${countNo} FiguriTas`;
+
+      // Banner de pendientes (solo visible en Toco propio si hay pendientes)
+      const pendingBanner = document.getElementById('mitocoPendingBanner');
+      const pendingCountEl = document.getElementById('mitocoPendingBannerCount');
+      if (pendingBanner && pendingCountEl) {
+        if (!isGuest && myStats.countPending > 0) {
+          pendingBanner.classList.remove('hidden');
+          pendingCountEl.innerText = myStats.countPending;
+        } else {
+          pendingBanner.classList.add('hidden');
+        }
+      }
+
+      // Actualizar contadores en modal compartir (siempre corresponden al Toco propio)
+      const shCan = document.getElementById('shareCountCancha');
+      const shVid = document.getElementById('shareCountVideo');
+      const shNo = document.getElementById('shareCountNo');
+      if (shCan) shCan.innerText = myStats.cancha;
+      if (shVid) shVid.innerText = myStats.video;
+      if (shNo) shNo.innerText = myStats.no;
+
+      // Actualizar botón en pantalla MiToco (en resumen propio)
+      const mitocoBtnDescubrir = document.getElementById('mitocoBtnDescubrir');
+      if (mitocoBtnDescubrir) {
+        if (isGuest) {
+          mitocoBtnDescubrir.innerText = myStats.totalCalificadas > 0 ? `Descubrir mis pendientes (${myStats.countPending})` : 'Descubrir mis FiguriTas';
+        } else if (myStats.countPending === 0) {
+          mitocoBtnDescubrir.innerText = 'Repasar todas';
+        } else {
+          mitocoBtnDescubrir.innerText = `Descubrir pendientes (${myStats.countPending})`;
+        }
+      }
+    }
+
+    function openMyOwnToco() {
+      if (guestMitocoData) {
+        switchToMyOwnToco();
+      } else {
+        openMitocoScreen();
+      }
+    }
+
+    function switchToMyOwnToco() {
+      guestMitocoData = null;
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+      const banner = document.getElementById('guestMitocoBanner');
+      if (banner) banner.classList.add('hidden');
+      const summaryTotalsBox = document.getElementById('mitocoSummaryTotalsBox');
+      if (summaryTotalsBox) summaryTotalsBox.classList.remove('hidden');
+
+      const titleEl = document.getElementById('mitocoScreenTitle');
+      if (titleEl) titleEl.innerText = 'MiToco de FiguriTas';
+      const subEl = document.getElementById('mitocoScreenSubtitle');
+      if (subEl) subEl.innerText = 'Tus ídolos, DTs y personajes de la T organizados en tus 3 MazoTes';
+
+      openMitocoScreen();
+    }
+
+    function openMitocoScreen() {
+      hideAllScreens();
+      document.getElementById('mitocoScreen').classList.remove('hidden');
+      updateMiTocoStats();
+      renderMitocoMazos();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Acceso directo al Veredicto / Consejos de Don Amadeo desde MiToco
+    function consultarAmadeoDesdeToco() {
+      const album = guestMitocoData ? (guestMitocoData.album || {}) : getMiToco();
+      const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+
+      votesRegistry.cancha = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.video = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.no = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      sessionHistory = [];
+
+      allPlayers.forEach(p => {
+        const item = album[p.name];
+        if (item) {
+          const dec = typeof item === 'string' ? item : item.decision;
+          if (['cancha', 'video', 'no'].includes(dec) && p.era) {
+            votesRegistry[dec][p.era] = (votesRegistry[dec][p.era] || 0) + 1;
+            sessionHistory.push({ player: p, decision: dec });
+          }
+        }
+      });
+
+      if (sessionHistory.length === 0) {
+        showToast('Primero calificá algunas FiguriTas para que Don Amadeo te dé su veredicto');
+        return;
+      }
+
+      finishAndConsult();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Scroll suave y resalto del MazoTe seleccionado al tocar los pills superiores
+    function scrollToMazote(type) {
+      const map = { cancha: 'colMazoTeCancha', video: 'colMazoTeVideo', no: 'colMazoTeNo' };
+      const el = document.getElementById(map[type]);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('ring-4', 'ring-blue-400');
+        setTimeout(() => el.classList.remove('ring-4', 'ring-blue-400'), 1200);
+      }
+    }
+
+    // Alias para compatibilidad
+    function filterMitoco(filter) {
+      if (filter && ['cancha', 'video', 'no'].includes(filter)) {
+        scrollToMazote(filter);
+      }
+    }
+
+    // Navegar / rotar cartas de un MazoTe en loop estilo Solitario
+    function cycleMazoTe(type, direction = 1, e = null) {
+      if (e) {
+        e.stopPropagation();
+      }
+      const decks = getMazotesDecks();
+      const deck = decks[type];
+      if (!deck || deck.length <= 1) return;
+
+      mitocoIndices[type] = (mitocoIndices[type] + direction + deck.length) % deck.length;
+
+      // Sonido analógico sutil de deslizar carta
+      playTone(587.33, 'triangle', 0.08);
+
+      renderSingleMazo(type, deck);
+
+      // Disparar micro-animación de deslizamiento solitario en la carta superior
+      const cap = type.charAt(0).toUpperCase() + type.slice(1);
+      const container = document.getElementById('stackContainer' + cap);
+      if (container) {
+        const topCard = container.querySelector('.mazote-card-layer-top');
+        if (topCard) {
+          topCard.classList.remove('solitaire-cycle-anim');
+          void topCard.offsetWidth; // Forzar reflow para reiniciar la animación
+          topCard.classList.add('solitaire-cycle-anim');
+        }
+      }
+    }
+
+    // Transferir la carta activa de un MazoTe hacia otro con los botones flecha
+    function transferCard(sourceType, targetType, e = null) {
+      if (e) {
+        e.stopPropagation();
+      }
+      if (guestMitocoData) return;
+
+      const decks = getMazotesDecks();
+      const sourceDeck = decks[sourceType];
+      if (!sourceDeck || sourceDeck.length === 0) return;
+
+      const curIdx = mitocoIndices[sourceType] || 0;
+      const card = sourceDeck[curIdx];
+      if (!card) return;
+
+      saveMiTocoItem(card.name, targetType);
+
+      // Sonido feedback por tipo de mazo destino
+      if (targetType === 'cancha') playTone(523.25, 'triangle', 0.15);
+      else if (targetType === 'video') playTone(440.00, 'sine', 0.15);
+      else playTone(329.63, 'sawtooth', 0.15);
+
+      const nombresMazo = { cancha: 'MazoTe Cancha 🏟️', video: 'MazoTe Video 📺', no: 'MazoTe Ni lo juno ❓' };
+      showToast(`FiguriTa "${card.name}" movida a ${nombresMazo[targetType]}`);
+
+      // Ajustar índice de mazo origen si se vacía o se superaba el nuevo total
+      const remainingSource = sourceDeck.length - 1;
+      if (mitocoIndices[sourceType] >= remainingSource) {
+        mitocoIndices[sourceType] = Math.max(0, remainingSource - 1);
+      }
+
+      // En el mazo destino, colocar el índice en la nueva carta agregada
+      const targetDeckLength = (decks[targetType] || []).length;
+      mitocoIndices[targetType] = targetDeckLength;
+
+      updateMiTocoStats();
+      renderMitocoMazos();
+
+      // Destacar visualmente la columna destino
+      const targetCap = targetType.charAt(0).toUpperCase() + targetType.slice(1);
+      const targetCol = document.getElementById('colMazoTe' + targetCap);
+      if (targetCol) {
+        targetCol.classList.add('ring-4', 'ring-emerald-400');
+        setTimeout(() => targetCol.classList.remove('ring-4', 'ring-emerald-400'), 800);
+      }
+    }
+
+    // Renderiza los 3 MazoTes en simultáneo
+    function renderMitocoMazos() {
+      const decks = getMazotesDecks();
+      renderSingleMazo('cancha', decks.cancha);
+      renderSingleMazo('video', decks.video);
+      renderSingleMazo('no', decks.no);
+
+      // Ocultar botones de transferir cartas si estamos en modo invitado (solo repasar, no cambiar de mazo)
+      document.querySelectorAll('.mazote-transfer-box').forEach(el => {
+        if (guestMitocoData) {
+          el.classList.add('hidden');
+        } else {
+          el.classList.remove('hidden');
+        }
+      });
+    }
+
+    // Alias para compatibilidad
+    function renderMitoco() {
+      renderMitocoMazos();
+    }
+
+    // Renderiza un MazoTe individual con estética Fan-out Stack & Pokémon Holo Card
+    function renderSingleMazo(type, deck) {
+      const cap = type.charAt(0).toUpperCase() + type.slice(1);
+      const container = document.getElementById('stackContainer' + cap);
+      const badgeCount = document.getElementById('badgeCount' + cap);
+      const counterEl = document.getElementById('counter' + cap);
+      const colEl = document.getElementById('colMazoTe' + cap);
+
+      if (!container) return;
+
+      const totalCards = deck.length;
+      if (badgeCount) badgeCount.innerText = `${totalCards} FiguriTas`;
+
+      // Habilitar o deshabilitar botones según disponibilidad de cartas y modo invitado
+      if (colEl) {
+        const transferBtns = colEl.querySelectorAll('button[onclick*="transferCard"]');
+        transferBtns.forEach(btn => {
+          if (totalCards === 0 || guestMitocoData) {
+            btn.disabled = true;
+            btn.classList.add('opacity-40', 'cursor-not-allowed', 'pointer-events-none');
+          } else {
+            btn.disabled = false;
+            btn.classList.remove('opacity-40', 'cursor-not-allowed', 'pointer-events-none');
+          }
+        });
+
+        const navBtns = colEl.querySelectorAll('button[onclick*="cycleMazoTe"]');
+        navBtns.forEach(btn => {
+          if (totalCards <= 1) {
+            btn.disabled = true;
+            btn.classList.add('opacity-30', 'pointer-events-none');
+          } else {
+            btn.disabled = false;
+            btn.classList.remove('opacity-30', 'pointer-events-none');
+          }
+        });
+      }
+
+      // Estado vacío
+      if (totalCards === 0) {
+        if (counterEl) counterEl.innerText = '0 de 0';
+        const emptyConfig = {
+          cancha: { icon: '🏟️', border: 'border-emerald-300', bg: 'bg-emerald-50/50', text: 'text-emerald-900', label: 'MazoTe Cancha Vacío' },
+          video: { icon: '📺', border: 'border-amber-300', bg: 'bg-amber-50/50', text: 'text-amber-900', label: 'MazoTe Video Vacío' },
+          no: { icon: '❓', border: 'border-rose-300', bg: 'bg-rose-50/50', text: 'text-rose-900', label: 'MazoTe Ni lo juno Vacío' }
+        }[type];
+
+        container.innerHTML = `
+          <div class="w-full h-full rounded-3xl border-2 border-dashed ${emptyConfig.border} ${emptyConfig.bg} flex flex-col items-center justify-center p-6 text-center select-none cursor-default">
+            <span class="text-4xl mb-2 opacity-60">${emptyConfig.icon}</span>
+            <span class="font-display font-black text-xs uppercase ${emptyConfig.text}">${emptyConfig.label}</span>
+            <p class="text-[10px] text-slate-500 mt-1 max-w-[200px] leading-snug">
+              Todavía no pusiste cartas acá. Usá las flechas de los otros MazoTes para pasar FiguriTas a este mazo.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      // Ajuste de límites del índice activo
+      if (mitocoIndices[type] >= totalCards) {
+        mitocoIndices[type] = totalCards - 1;
+      }
+      if (mitocoIndices[type] < 0) {
+        mitocoIndices[type] = 0;
+      }
+      const curIdx = mitocoIndices[type];
+
+      if (counterEl) counterEl.innerText = `${curIdx + 1} de ${totalCards}`;
+
+      const card = deck[curIdx];
+
+      // Construcción del Fan-out Stack
+      let layersHtml = '';
+
+      // Capa trasera 2 (3 o más cartas en el mazo)
+      if (totalCards >= 3) {
+        layersHtml += `
+          <div class="mazote-stack-card mazote-card-layer-back-2 bg-gradient-to-br from-albiazul-950 via-slate-900 to-blue-950 border-2 border-white/20 shadow-md flex items-center justify-center pointer-events-none" style="z-index: 1;">
+            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center p-2.5 border border-white/20 shadow-inner">
+              <img src="imagenes/logo_filial_chaco.png" alt="Talleres" class="w-full h-full object-contain opacity-75">
+            </div>
+            <div class="absolute inset-x-0 bottom-3 text-center">
+              <span class="text-[9px] font-black uppercase text-blue-200/50 tracking-widest">FIGURITAS DE LA T</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // Capa trasera 1 (2 o más cartas en el mazo)
+      if (totalCards >= 2) {
+        layersHtml += `
+          <div class="mazote-stack-card mazote-card-layer-back-1 bg-gradient-to-br from-blue-950 via-slate-900 to-albiazul-950 border-2 border-white/30 shadow-lg flex items-center justify-center pointer-events-none" style="z-index: 2;">
+            <div class="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center p-3 border border-white/25 shadow-inner">
+              <img src="imagenes/logo_filial_chaco.png" alt="Talleres" class="w-full h-full object-contain opacity-85">
+            </div>
+            <div class="absolute inset-x-0 bottom-3.5 text-center">
+              <span class="text-[9px] font-black uppercase text-blue-100/70 tracking-widest">TALLERES DE CÓRDOBA</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // Badge de quien pidió la FiguriTa si corresponde
+      let pedidoBadgeHtml = '';
+      if (card.pedidoPor) {
+        pedidoBadgeHtml = `
+          <span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-full text-[9px] font-black bg-orange-100/90 text-[#B95D0E] border border-orange-300 shadow-2xs" title="Pedida por ${card.pedidoPor}">
+            <span>🙋</span>
+            <span class="truncate max-w-[110px]">${card.pedidoPor}</span>
+          </span>
+        `;
+      }
+
+      // Badge de estado actual
+      const badgeMazoHtml = {
+        cancha: `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">🏟️ Cancha</span>`,
+        video: `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300">📺 Video</span>`,
+        no: `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-800 border border-rose-300">❓ Ni lo juno</span>`
+      }[type];
+
+      // Capa Frontal Activa (Pokémon Holo Sheen)
+      layersHtml += `
+        <div class="mazote-stack-card mazote-card-layer-top holo-border-${type} bg-white flex flex-col justify-between p-3.5 shadow-xl transition-all" style="z-index: 3;">
+          <!-- Shimmer iridiscente / Holo Foil estilo Pokémon Card -->
+          <div class="holo-sheen"></div>
+
+          <!-- Cabecera de la FiguriTa -->
+          <div class="relative z-10 flex items-center justify-between gap-1 mb-2">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-900 border border-blue-200">
+                ${card.eraTitle || card.decade}
+              </span>
+              ${pedidoBadgeHtml}
+            </div>
+            ${badgeMazoHtml}
+          </div>
+
+          <!-- Ventana de foto Pokémon Card con Bezel Metálico -->
+          <div class="relative z-10 w-full h-[190px] rounded-2xl overflow-hidden bg-slate-950 border-2 border-slate-200/90 shadow-inner group">
+            <img src="${card.image}" alt="${card.name}"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none"
+              onerror="this.src='imagenes/logo_filial_chaco.png'">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+            <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase bg-black/65 backdrop-blur-xs text-yellow-300 border border-yellow-400/50">
+              ★ FIGURITA
+            </span>
+            <span class="absolute bottom-1.5 left-2 text-[10px] text-white/90 font-black tracking-wide drop-shadow">
+              ${card.decade || ''}
+            </span>
+          </div>
+
+          <!-- Ficha de Datos del Jugador / Ídolo -->
+          <div class="relative z-10 pt-2 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="font-display font-black text-xs sm:text-sm text-albiazul-950 uppercase tracking-tight leading-tight truncate" title="${card.name}">
+                ${card.name}
+              </h4>
+              <p class="text-[10px] text-[#B95D0E] font-bold italic truncate">
+                ${card.nickname ? `"${card.nickname}"` : card.decade}
+              </p>
+              <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5 leading-snug">
+                ${card.desc}
+              </p>
+            </div>
+
+            <!-- Pie de carta interactivo -->
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] text-slate-400 font-bold">
+              <span>🃏 ${curIdx + 1}/${totalCards}</span>
+              <span class="text-blue-700 font-black flex items-center space-x-1">
+                <span>🔄 Toca para pasar</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = layersHtml;
+    }
+
+    function changeMitocoCardStatus(playerName, newStatus) {
+      if (guestMitocoData) return;
+      saveMiTocoItem(playerName, newStatus);
+
+      if (newStatus === 'cancha') playTone(523.25, 'triangle', 0.15);
+      else if (newStatus === 'video') playTone(440.00, 'sine', 0.15);
+      else playTone(329.63, 'sawtooth', 0.15);
+
+      const nombresMazo = { cancha: 'En Cancha', video: 'En Video', no: 'Ni lo juno' };
+      showToast(`FiguriTa movida a "${nombresMazo[newStatus]}"`);
+      renderMitocoMazos();
+    }
+
+    /* =========================================================
+       MODAL: PEDIR FIGURITA (DIRECTO A FIRESTORE)
+       ========================================================= */
+    function openModalPedirFigurita() {
+      const modal = document.getElementById('modalPedirFigurita');
+      const formBox = document.getElementById('formPedirFiguritaContainer');
+      const successBox = document.getElementById('successPedirFiguritaContainer');
+      if (formBox) formBox.classList.remove('hidden');
+      if (successBox) successBox.classList.add('hidden');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+      }
+    }
+
+    function closeModalPedirFigurita() {
+      const modal = document.getElementById('modalPedirFigurita');
+      if (modal) {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    async function enviarPedidoFigurita(e) {
+      e.preventDefault();
+      const nombre = (document.getElementById('inputPedirNombre').value || '').trim();
+      if (!nombre) return;
+
+      const tipo = document.getElementById('selectPedirTipo').value || 'idolo';
+      const decada = (document.getElementById('inputPedirDecada').value || '').trim();
+      const motivo = (document.getElementById('inputPedirMotivo').value || '').trim();
+      const rawIg = (document.getElementById('inputPedirInstagram')?.value || '').trim();
+      const instagram = rawIg ? (rawIg.startsWith('@') ? rawIg : '@' + rawIg) : '';
+      const solicitante = (document.getElementById('inputPedirSolicitante')?.value || '').trim();
+
+      const btn = document.getElementById('btnSubmitPedirFigurita');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = 'Enviando...';
+      }
+
+      const payload = {
+        nombre: nombre,
+        tipo: tipo,
+        decada: decada,
+        motivo: motivo,
+        instagram: instagram,
+        contacto: instagram,
+        solicitante: solicitante || 'Hincha Anónimo',
+        creditoCarta: instagram || solicitante || 'Hincha Albiazul',
+        fechaIso: new Date().toISOString(),
+        fechaLocal: new Date().toLocaleString('es-AR')
+      };
+
+      // Respaldo en localStorage
+      try {
+        const localPedidos = JSON.parse(localStorage.getItem('oraculo_pedidos_locales') || '[]');
+        localPedidos.push(payload);
+        localStorage.setItem('oraculo_pedidos_locales', JSON.stringify(localPedidos));
+      } catch (err) { }
+
+      // Envío a Firestore si está disponible
+      try {
+        const db = await getFirebaseDb();
+        if (db) {
+          const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+          await addDoc(collection(db, "pedidos_figuritas"), {
+            ...payload,
+            timestampServidor: serverTimestamp()
+          });
+        }
+      } catch (dbErr) {
+        console.warn('[Pedidos] Guardado en buffer local (Firestore no respondió):', dbErr);
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = '⚽ ¡Mandar pedido al Oráculo!';
+      }
+
+      // Actualizar mensaje de crédito en el modal de éxito
+      const creditoMsgEl = document.getElementById('successPedirFiguritaCreditoMsg');
+      if (creditoMsgEl) {
+        const tag = instagram || solicitante || '@hincha';
+        creditoMsgEl.innerText = `Tu crédito oficial en la FiguriTa: "Pedida por ${tag}"`;
+      }
+
+      // Mostrar pantalla de felicitaciones y fidelización
+      document.getElementById('formPedirFiguritaContainer').classList.add('hidden');
+      document.getElementById('successPedirFiguritaContainer').classList.remove('hidden');
+      document.getElementById('formPedirFigurita').reset();
+    }
+
+    /* =========================================================
+       MODAL: COMPARTIR MITOCO (FIRESTORE + WHATSAPP)
+       ========================================================= */
+    function openModalCompartirMitoco() {
+      const modal = document.getElementById('modalCompartirMitoco');
+      const formBox = document.getElementById('formCompartirContainer');
+      const successBox = document.getElementById('successCompartirContainer');
+
+      // Precargar nombre almacenado previamente si existe
+      const savedNombre = localStorage.getItem('oraculo_mi_nombre_share');
+      if (savedNombre) {
+        const inputNom = document.getElementById('inputShareNombre');
+        if (inputNom && !inputNom.value) inputNom.value = savedNombre;
+      }
+
+      // Si ya tiene un código generado previamente, mostrar directamente enlace
+      const existingCode = localStorage.getItem('oraculo_mi_codigo_share');
+      if (existingCode) {
+        prepararVistaCompartirExitosa(existingCode);
+      } else {
+        if (formBox) formBox.classList.remove('hidden');
+        if (successBox) successBox.classList.add('hidden');
+      }
+
+      updateMiTocoStats();
+
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+      }
+    }
+
+    function closeModalCompartirMitoco() {
+      const modal = document.getElementById('modalCompartirMitoco');
+      if (modal) {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    // Codifica de forma ultracompacta las decisiones del Toco en la URL (sin depender de Firestore)
+    function encodeTocoToUrlPayload(nombre, album) {
+      const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+      const decMap = { cancha: '1', video: '2', no: '3' };
+      const dStr = allPlayers.map(p => {
+        const item = album[p.name];
+        const dec = item ? (typeof item === 'string' ? item : item.decision) : null;
+        return decMap[dec] || '0';
+      }).join('');
+
+      const raw = JSON.stringify({ n: nombre, d: dStr });
+      try {
+        return btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      } catch (e) {
+        return encodeURIComponent(raw);
+      }
+    }
+
+    function decodeTocoFromUrlPayload(tStr) {
+      if (!tStr) return null;
+      try {
+        let jsonStr;
+        if (tStr.startsWith('{')) {
+          jsonStr = tStr;
+        } else {
+          let b64 = tStr.replace(/-/g, '+').replace(/_/g, '/');
+          while (b64.length % 4) b64 += '=';
+          jsonStr = decodeURIComponent(escape(atob(b64)));
+        }
+        const parsed = JSON.parse(jsonStr);
+        const nombre = parsed.n || 'Un Matador';
+        const dStr = parsed.d || '';
+        const allPlayers = Array.isArray(playerDeck) ? playerDeck : [];
+        const album = {};
+        let countC = 0, countV = 0, countN = 0;
+
+        allPlayers.forEach((p, idx) => {
+          const char = dStr[idx] || '0';
+          if (char === '1') { album[p.name] = { decision: 'cancha' }; countC++; }
+          else if (char === '2') { album[p.name] = { decision: 'video' }; countV++; }
+          else if (char === '3') { album[p.name] = { decision: 'no' }; countN++; }
+        });
+
+        return {
+          nombre: nombre,
+          totales: {
+            cancha: countC,
+            video: countV,
+            no: countN,
+            total: countC + countV + countN
+          },
+          album: album
+        };
+      } catch (err) {
+        console.warn('Error decodificando Toco payload:', err);
+        return null;
+      }
+    }
+
+    async function generarEnlaceCompartir() {
+      const inputNom = document.getElementById('inputShareNombre');
+      const inputCon = document.getElementById('inputShareContacto');
+      const nombre = (inputNom.value || '').trim() || 'Un Matador Albiazul';
+      const contacto = (inputCon.value || '').trim();
+
+      const btn = document.getElementById('btnGenerarEnlaceShare');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = 'Generando enlace...';
+      }
+
+      // Guardar nombre localmente para recordar
+      localStorage.setItem('oraculo_mi_nombre_share', nombre);
+
+      // Generar ID único corto
+      const code = 'm_' + Math.random().toString(36).substring(2, 8);
+      const album = getMiToco();
+
+      let countC = 0, countV = 0, countN = 0;
+      Object.values(album).forEach(item => {
+        const dec = typeof item === 'string' ? item : item.decision;
+        if (dec === 'cancha') countC++;
+        else if (dec === 'video') countV++;
+        else if (dec === 'no') countN++;
+      });
+
+      const payload = {
+        codigo: code,
+        nombre: nombre,
+        contacto: contacto,
+        fechaIso: new Date().toISOString(),
+        totales: {
+          cancha: countC,
+          video: countV,
+          no: countN,
+          total: (countC + countV + countN)
+        },
+        album: album
+      };
+
+      // Guardar en caché local para que cualquier enlace ?c=code en esta máquina abra al instante
+      try {
+        localStorage.setItem('oraculo_shared_' + code, JSON.stringify(payload));
+        localStorage.setItem('oraculo_mi_codigo_share', code);
+      } catch (e) { }
+
+      // Intentar guardar en Firestore de forma silenciosa (si las reglas lo permiten)
+      try {
+        const db = await getFirebaseDb();
+        if (db) {
+          const { collection, doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+          await setDoc(doc(collection(db, "mitocos_compartidos"), code), {
+            ...payload,
+            timestampServidor: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.warn('[Compartir] Falló Firestore (usando fallback directo por URL):', err);
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = '🚀 Generar Enlace de MiToco';
+      }
+
+      prepararVistaCompartirExitosa(code);
+    }
+
+    function prepararVistaCompartirExitosa(code) {
+      const origin = window.location.origin;
+      const album = getMiToco();
+      const nombre = localStorage.getItem('oraculo_mi_nombre_share') || 'Un Matador';
+      const tPayload = encodeTocoToUrlPayload(nombre, album);
+
+      // Enlace universal: incluye el payload compacto 't' y el código 'c'
+      const shareUrl = `${origin}/?t=${tPayload}&c=${code}`;
+
+      const linkInput = document.getElementById('inputShareLinkUrl');
+      if (linkInput) linkInput.value = shareUrl;
+
+      let countC = 0, countV = 0, countN = 0;
+      Object.values(album).forEach(item => {
+        const dec = typeof item === 'string' ? item : item.decision;
+        if (dec === 'cancha') countC++;
+        else if (dec === 'video') countV++;
+        else if (dec === 'no') countN++;
+      });
+
+      const mensajeWhatsApp = `¡Mirá mi *Toco de FiguriTas de Talleres* con Don Amadeo! 🏟️ Vi a ${countC} en Cancha, 📺 a ${countV} en Video y ❓ a ${countN} por conocer. ¿Vos a cuántos viste? Mirá mi Toco acá: ${shareUrl}`;
+
+      const waBtn = document.getElementById('btnShareWhatsAppLink');
+      if (waBtn) {
+        waBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensajeWhatsApp)}`;
+      }
+
+      document.getElementById('formCompartirContainer').classList.add('hidden');
+      document.getElementById('successCompartirContainer').classList.remove('hidden');
+    }
+
+    function copiarEnlaceMitoco() {
+      const input = document.getElementById('inputShareLinkUrl');
+      if (input) {
+        input.select();
+        document.execCommand('copy');
+        showToast('¡Enlace de tu Toco copiado al portapapeles!');
+      }
+    }
+
+    /* =========================================================
+       MODO INVITADO: CARGAR TOCO COMPARTIDO POR UN AMIGO (?t=... o ?c=...)
+       ========================================================= */
+    async function checkGuestUrlParam() {
+      const params = new URLSearchParams(window.location.search);
+      const tParam = params.get('t');
+      const code = params.get('c') || params.get('mitoco');
+
+      if (!tParam && !code) return;
+
+      // 1. Decodificar inmediatamente el token ultra-compacto si viene en la URL
+      if (tParam) {
+        const decoded = decodeTocoFromUrlPayload(tParam);
+        if (decoded && Object.keys(decoded.album || {}).length > 0) {
+          applyGuestData(decoded);
+          return;
+        }
+      }
+
+      // 2. Si vino solo código 'c', buscar en caché local (si fue generado en este navegador)
+      if (code) {
+        try {
+          const cached = localStorage.getItem('oraculo_shared_' + code);
+          if (cached) {
+            const parsed = JSON.parse(cached);
+            if (parsed && parsed.album) {
+              applyGuestData(parsed);
+              return;
+            }
+          }
+          // Caso especial: si es el código propio que recién generó en esta máquina
+          if (code === localStorage.getItem('oraculo_mi_codigo_share')) {
+            const myAlbum = getMiToco();
+            const myName = localStorage.getItem('oraculo_mi_nombre_share') || 'Un Matador';
+            let c = 0, v = 0, n = 0;
+            Object.values(myAlbum).forEach(item => {
+              const dec = typeof item === 'string' ? item : item.decision;
+              if (dec === 'cancha') c++;
+              else if (dec === 'video') v++;
+              else if (dec === 'no') n++;
+            });
+            applyGuestData({
+              nombre: myName,
+              totales: { cancha: c, video: v, no: n, total: c + v + n },
+              album: myAlbum
+            });
+            return;
+          }
+        } catch (e) { }
+
+        // 3. Fallback a Firestore
+        try {
+          const db = await getFirebaseDb();
+          if (db) {
+            const { collection, doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+            const snap = await getDoc(doc(collection(db, "mitocos_compartidos"), code));
+            if (snap.exists()) {
+              applyGuestData(snap.data());
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('[GuestMode] Falló carga de Firestore:', err);
+        }
+      }
+    }
+
+    function applyGuestData(data) {
+      guestMitocoData = data;
+
+      const scrTitle = document.getElementById('mitocoScreenTitle');
+      if (scrTitle) scrTitle.innerText = `Toco de FiguriTas de ${guestMitocoData.nombre || 'un Matador'}`;
+      const scrSub = document.getElementById('mitocoScreenSubtitle');
+      if (scrSub) scrSub.innerText = `Repasá sus 3 MazoTes carta por carta:`;
+
+      openMitocoScreen();
+    }
+
+    function guestStartOwnTest() {
+      switchToMyOwnToco();
+      startGame();
+    }
+
+    /* =========================================================
+       MINI ADMIN LOCALHOST (GESTIÓN DE idolos.json & FIRESTORE)
+       ========================================================= */
+    function initAdminVisibility() {
+      if (isLocalhost()) {
+        const btnAdmin = document.getElementById('btnHeaderAdmin');
+        if (btnAdmin) btnAdmin.classList.remove('hidden');
+      }
+    }
+
+    function openModalAdmin() {
+      const modal = document.getElementById('modalAdminLocal');
+      renderAdminFiguritasList();
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+      }
+    }
+
+    function closeModalAdmin() {
+      const modal = document.getElementById('modalAdminLocal');
+      if (modal) {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function onAdminEraChange(val) {
+      const titles = {
+        era70: 'Años 70 · Era de Oro',
+        era90: 'Años 90 · Mística Conmebol',
+        era50: 'Años 50/60 · Mística Wanora',
+        eraResurreccion: 'Resurrección y Ascenso',
+        eraModerna: 'Era Moderna y Femenino'
+      };
+      const titleInput = document.getElementById('adminEraTitle');
+      if (titleInput) titleInput.value = titles[val] || val;
+    }
+
+    async function guardarFiguritaAdmin(e) {
+      e.preventDefault();
+      const name = (document.getElementById('adminNombre').value || '').trim();
+      if (!name) return;
+
+      const nickname = (document.getElementById('adminNickname').value || '').trim();
+      const era = document.getElementById('adminEra').value;
+      const eraTitle = (document.getElementById('adminEraTitle').value || '').trim();
+      const decade = (document.getElementById('adminDecade').value || '').trim();
+      const desc = (document.getElementById('adminDesc').value || '').trim();
+      const image = (document.getElementById('adminImage').value || '').trim();
+      const tagsRaw = (document.getElementById('adminHashtags').value || '').trim();
+      const searchQuery = (document.getElementById('adminSearchQuery').value || '').trim();
+
+      const hashtags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+      const pedidoPor = (document.getElementById('adminPedidoPor')?.value || '').trim();
+
+      const newFigurita = {
+        name,
+        nickname,
+        era,
+        eraTitle,
+        decade,
+        desc,
+        image,
+        hashtags,
+        searchQuery: searchQuery || `${name} Talleres de Cordoba historia`
+      };
+      if (pedidoPor) newFigurita.pedidoPor = pedidoPor;
+
+      try {
+        const res = await fetch('/api/admin/guardar-figurita', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newFigurita)
+        });
+
+        if (res.ok) {
+          showToast(`¡FiguriTa "${name}" guardada en idolos.json local!`);
+          await loadPlayerDeck();
+          renderAdminFiguritasList();
+          limpiarFormAdmin();
+        } else {
+          showToast('⚠️ Error guardando en servidor local');
+        }
+      } catch (err) {
+        console.warn('Error guardando en local:', err);
+        showToast('⚠️ No se pudo comunicar con /api/admin/guardar-figurita');
+      }
+    }
+
+    async function guardarFiguritaFirestoreAdmin() {
+      const name = (document.getElementById('adminNombre').value || '').trim();
+      if (!name) {
+        showToast('Completá al menos el nombre de la FiguriTa');
+        return;
+      }
+
+      const nickname = (document.getElementById('adminNickname').value || '').trim();
+      const era = document.getElementById('adminEra').value;
+      const eraTitle = (document.getElementById('adminEraTitle').value || '').trim();
+      const decade = (document.getElementById('adminDecade').value || '').trim();
+      const desc = (document.getElementById('adminDesc').value || '').trim();
+      const image = (document.getElementById('adminImage').value || '').trim();
+      const tagsRaw = (document.getElementById('adminHashtags').value || '').trim();
+      const hashtags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+      const pedidoPor = (document.getElementById('adminPedidoPor')?.value || '').trim();
+
+      const payload = {
+        name,
+        nickname,
+        era,
+        eraTitle,
+        decade,
+        desc,
+        image,
+        hashtags,
+        createdAt: new Date().toISOString()
+      };
+      if (pedidoPor) payload.pedidoPor = pedidoPor;
+
+      try {
+        const db = await getFirebaseDb();
+        if (db) {
+          const { collection, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+          await setDoc(doc(collection(db, "figuritas_extras"), name), payload);
+          showToast(`¡"${name}" guardada en Firestore (figuritas_extras)!`);
+        } else {
+          showToast('⚠️ Firebase no configurado en este entorno');
+        }
+      } catch (err) {
+        console.warn('Error en Firestore:', err);
+        showToast('⚠️ Error guardando en Firestore');
+      }
+    }
+
+    function descargarIdolosJson() {
+      if (!Array.isArray(playerDeck) || playerDeck.length === 0) return;
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(playerDeck, null, 4));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "idolos.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('📥 Descargando idolos.json actualizado...');
+    }
+
+    async function eliminarFiguritaAdmin(name) {
+      if (!confirm(`¿Seguro que querés eliminar a "${name}" de idolos.json?`)) return;
+      try {
+        const res = await fetch('/api/admin/eliminar-figurita', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+        if (res.ok) {
+          showToast(`FiguriTa "${name}" eliminada`);
+          await loadPlayerDeck();
+          renderAdminFiguritasList();
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    function limpiarFormAdmin() {
+      document.getElementById('formAdminFigurita').reset();
+      const pInput = document.getElementById('adminPedidoPor');
+      if (pInput) pInput.value = '';
+      onAdminEraChange('era70');
+    }
+
+    function editarFiguritaAdmin(name) {
+      const p = playerDeck.find(item => item.name === name);
+      if (!p) return;
+      document.getElementById('adminNombre').value = p.name || '';
+      document.getElementById('adminNickname').value = p.nickname || '';
+      document.getElementById('adminEra').value = p.era || 'era70';
+      document.getElementById('adminEraTitle').value = p.eraTitle || '';
+      document.getElementById('adminDecade').value = p.decade || '';
+      document.getElementById('adminDesc').value = p.desc || '';
+      document.getElementById('adminImage').value = p.image || '';
+      document.getElementById('adminHashtags').value = (p.hashtags || []).join(', ');
+      document.getElementById('adminSearchQuery').value = p.searchQuery || '';
+      const pInput = document.getElementById('adminPedidoPor');
+      if (pInput) pInput.value = p.pedidoPor || '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderAdminFiguritasList() {
+      const container = document.getElementById('adminListContainer');
+      const countEl = document.getElementById('adminTotalCount');
+      if (!container) return;
+
+      const list = Array.isArray(playerDeck) ? playerDeck : [];
+      if (countEl) countEl.innerText = list.length;
+
+      container.innerHTML = '';
+      list.forEach(p => {
+        const div = document.createElement('div');
+        div.className = "py-1.5 flex items-center justify-between text-xs";
+        div.innerHTML = `
+          <div class="flex items-center space-x-2 truncate">
+            <span class="font-bold text-slate-800">${p.name}</span>
+            <span class="text-[10px] text-slate-400">(${p.decade || p.era})</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <button onclick="editarFiguritaAdmin('${p.name.replace(/'/g, "\\'")}')"
+              class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 hover:bg-blue-100 text-[10px] font-bold">
+              Editar
+            </button>
+            <button onclick="eliminarFiguritaAdmin('${p.name.replace(/'/g, "\\'")}')"
+              class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 hover:bg-rose-100 text-[10px] font-bold">
+              ✕
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filtrarListaAdmin(query) {
+      const q = (query || '').toLowerCase().trim();
+      const container = document.getElementById('adminListContainer');
+      if (!container) return;
+      const rows = container.querySelectorAll('div.flex');
+      rows.forEach(r => {
+        if (!q || r.innerText.toLowerCase().includes(q)) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
     }
 
     /* Telemetría y Registro Anónimo en Buffer Local & Firebase Firestore */
@@ -1582,7 +4495,7 @@
         }).then(async docRef => {
           console.log('[Telemetry] Partida registrada en Firebase Firestore. ID:', docRef.id);
 
-          // Actualizar contador real con Firebase (Opción B: Base 50 + conteo en tiempo real)
+          // Actualizar contador real con Firebase
           try {
             const coll = collection(db, "respuestas_partidas");
             const countSnap = await getCountFromServer(coll);
@@ -1594,9 +4507,8 @@
             if (counterEl) {
               counterEl.innerText = totalHinchas.toLocaleString('es-AR');
             }
-            console.log(`[Telemetry] Censo actualizado con Firebase: ${BASE_HINCHAS_CENSO} base + ${totalDocs} partidas = ${totalHinchas}`);
           } catch (countErr) {
-            console.warn('[Telemetry] Error obteniendo conteo de Firestore (verificar reglas de lectura en Firebase Console):', countErr);
+            console.warn('[Telemetry] Error obteniendo conteo de Firestore:', countErr);
           }
         }).catch(err => {
           console.warn('[Telemetry] Error registrando en Firebase (quedó en localStorage):', err);
@@ -1607,53 +4519,52 @@
     }
 
     function goToStartScreen() {
+      if (guestMitocoData) {
+        guestMitocoData = null;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+        const banner = document.getElementById('guestMitocoBanner');
+        if (banner) banner.classList.add('hidden');
+        const titleEl = document.getElementById('mitocoScreenTitle');
+        if (titleEl) titleEl.innerText = 'MiToco de FiguriTas';
+        const subEl = document.getElementById('mitocoScreenSubtitle');
+        if (subEl) subEl.innerText = 'Tus ídolos, DTs y personajes de la T organizados en tus 3 MazoTes';
+      }
+
       isTransitioning = false;
       currentCardIndex = 0;
       votesProcessed = 0;
       sessionHistory = [];
       try { localStorage.removeItem('oraculo_partida_en_curso'); } catch (e) { }
-      votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
-      votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
-      votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.cancha = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.video = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
+      votesRegistry.no = { era50: 0, era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
 
       btnStopEl.classList.add('opacity-0', 'pointer-events-none', 'translate-y-1');
       btnStopEl.classList.remove('opacity-100', 'translate-y-0');
 
-      document.getElementById('deckScreen').classList.add('hidden');
-      document.getElementById('resultScreen').classList.add('hidden');
+      hideAllScreens();
       document.getElementById('startScreen').classList.remove('hidden');
 
+      updateMiTocoStats();
       resetCardVisuals();
       renderCard();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function restartTest() {
-      isTransitioning = false;
-      currentCardIndex = 0;
-      votesProcessed = 0;
-      sessionHistory = [];
-      try { localStorage.removeItem('oraculo_partida_en_curso'); } catch (e) { }
-      votesRegistry.cancha = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
-      votesRegistry.video = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
-      votesRegistry.no = { era70: 0, era90: 0, eraResurreccion: 0, eraModerna: 0 };
-
-      btnStopEl.classList.add('opacity-0', 'pointer-events-none', 'translate-y-1');
-      btnStopEl.classList.remove('opacity-100', 'translate-y-0');
-
-      document.getElementById('startScreen').classList.add('hidden');
-      document.getElementById('resultScreen').classList.add('hidden');
-      document.getElementById('deckScreen').classList.remove('hidden');
-
-      resetCardVisuals();
-      renderCard();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      startGame(true);
     }
 
     // Inicio de la app
     window.addEventListener('DOMContentLoaded', async () => {
       setupGestures();
       await loadPlayerDeck();
+
+      initAdminVisibility();
+      updateMiTocoStats();
+      await checkGuestUrlParam();
 
       // Cerrar modal de video al tocar fuera
       const modalEl = document.getElementById('videoTutorialModal');
@@ -1663,15 +4574,48 @@
         });
       }
 
+      // Cerrar modal de pedir figurita al tocar fuera
+      const modalPedir = document.getElementById('modalPedirFigurita');
+      if (modalPedir) {
+        modalPedir.addEventListener('click', (e) => {
+          if (e.target === modalPedir) closeModalPedirFigurita();
+        });
+      }
+
+      // Cerrar modal de compartir al tocar fuera
+      const modalShare = document.getElementById('modalCompartirMitoco');
+      if (modalShare) {
+        modalShare.addEventListener('click', (e) => {
+          if (e.target === modalShare) closeModalCompartirMitoco();
+        });
+      }
+
+      // Cerrar modal admin al tocar fuera
+      const modalAdm = document.getElementById('modalAdminLocal');
+      if (modalAdm) {
+        modalAdm.addEventListener('click', (e) => {
+          if (e.target === modalAdm) closeModalAdmin();
+        });
+      }
+
+      // Cerrar modal toco completo al tocar fuera
+      const modalCompl = document.getElementById('modalTocoCompleto');
+      if (modalCompl) {
+        modalCompl.addEventListener('click', (e) => {
+          if (e.target === modalCompl) closeModalTocoCompleto();
+        });
+      }
+
       // Atajos de teclado en PC / Desktop
       window.addEventListener('keydown', (e) => {
-        // Cerrar modal con Escape
+        // Cerrar modales con Escape
         if (e.key === 'Escape') {
-          const modal = document.getElementById('videoTutorialModal');
-          if (modal && !modal.classList.contains('pointer-events-none')) {
-            closeVideoTutorialModal();
-            return;
-          }
+          closeVideoTutorialModal();
+          closeModalPedirFigurita();
+          closeModalCompartirMitoco();
+          closeModalAdmin();
+          closeModalTocoCompleto();
+          return;
         }
 
         const startScreen = document.getElementById('startScreen');
