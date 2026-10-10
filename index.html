@@ -92,7 +92,6 @@
       user-select: none;
       -webkit-user-select: none;
       position: relative;
-      backdrop-filter: blur(0px) sepia(24%);
     }
 
     body::before {
@@ -1502,11 +1501,11 @@
 
   <!-- Modal de Video Mini-Tutorial -->
   <div id="videoTutorialModal"
-    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
 
     <!-- Contenedor del video con estilo teléfono/tarjeta albiazul -->
     <div
-      class="relative w-full max-w-[340px] sm:max-w-[360px] bg-albiazul-950 border-2 border-white/30 rounded-3xl shadow-2xl overflow-hidden flex flex-col items-center">
+      class="relative w-full max-w-[340px] sm:max-w-[360px] bg-albiazul-950 border-2 border-white/30 rounded-3xl shadow-2xl overflow-hidden flex flex-col items-center my-auto">
 
       <!-- Barra superior del modal -->
       <div class="w-full px-4 py-2.5 bg-albiazul-900/90 border-b border-sky-400/30 flex items-center justify-between">
@@ -1549,13 +1548,13 @@
 
   <!-- MODAL 1: PEDIR FIGURITA (DIRECTO A FIRESTORE + FIDELIZACIÓN) -->
   <div id="modalPedirFigurita"
-    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
     <div
-      class="relative w-full max-w-[440px] bg-white border-2 border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      class="relative w-full max-w-[440px] bg-white border-2 border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh] my-auto">
 
       <!-- Cabecera del modal -->
       <div
-        class="w-full px-5 py-3.5 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 border-b border-sky-400/30 flex items-center justify-between text-white">
+        class="w-full px-5 py-3.5 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-blue-900 border-b border-sky-400/30 flex items-center justify-between text-white flex-shrink-0">
         <div class="flex items-center space-x-2">
           <span class="text-base">💡</span>
           <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wider">Pedir una FiguriTa</span>
@@ -1568,7 +1567,7 @@
       </div>
 
       <!-- Contenido scrolleable -->
-      <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0">
 
         <!-- Estado Formulario -->
         <div id="formPedirFiguritaContainer">
@@ -1697,9 +1696,9 @@
 
   <!-- MODAL: TOCO DE FIGURITAS COMPLETO (TODAS DESCUBIERTAS) -->
   <div id="modalTocoCompleto"
-    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
     <div
-      class="relative w-full max-w-[420px] bg-white border-2 border-emerald-400 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] text-center p-5 sm:p-6 space-y-4">
+      class="relative w-full max-w-[420px] bg-white border-2 border-emerald-400 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh] my-auto text-center p-5 sm:p-6 space-y-4">
       <div
         class="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-3xl shadow-inner border border-emerald-200">
         🏆
@@ -1749,13 +1748,13 @@
 
   <!-- MODAL 2: COMPARTIR MITOCO (FIRESTORE + WHATSAPP) -->
   <div id="modalCompartirMitoco"
-    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
     <div
-      class="relative w-full max-w-[440px] bg-white border-2 border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      class="relative w-full max-w-[440px] bg-white border-2 border-slate-300 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh] my-auto">
 
       <!-- Cabecera del modal -->
       <div
-        class="w-full px-5 py-3.5 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-emerald-900 border-b border-emerald-400/30 flex items-center justify-between text-white">
+        class="w-full px-5 py-3.5 bg-gradient-to-r from-albiazul-950 via-albiazul-900 to-emerald-900 border-b border-emerald-400/30 flex items-center justify-between text-white flex-shrink-0">
         <div class="flex items-center space-x-2">
           <span class="text-base">📤</span>
           <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wider">Compartir MiToco</span>
@@ -1768,7 +1767,7 @@
       </div>
 
       <!-- Contenido scrolleable -->
-      <div class="p-4 sm:p-6 overflow-y-auto flex-1 text-slate-800">
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0 text-slate-800">
 
         <!-- Estado inicial: Crear enlace -->
         <div id="formCompartirContainer">
@@ -1859,13 +1858,13 @@
 
   <!-- MODAL 3: MINI ADMIN DE FIGURITAS (SOLO ACCESIBLE EN ENTORNO LOCALHOST) -->
   <div id="modalAdminLocal"
-    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
     <div
-      class="relative w-full max-w-2xl bg-white border-2 border-purple-400 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      class="relative w-full max-w-2xl bg-white border-2 border-purple-400 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh] my-auto">
 
       <!-- Cabecera Admin -->
       <div
-        class="w-full px-5 py-3.5 bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 border-b border-purple-400/30 flex items-center justify-between text-white">
+        class="w-full px-5 py-3.5 bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 border-b border-purple-400/30 flex items-center justify-between text-white flex-shrink-0">
         <div class="flex items-center space-x-2">
           <span class="text-base">🛠️</span>
           <span class="font-display font-black text-xs sm:text-sm uppercase tracking-wider">Mini Admin · FiguriTas
@@ -1879,7 +1878,7 @@
       </div>
 
       <!-- Contenido Admin -->
-      <div class="p-4 sm:p-6 overflow-y-auto flex-1 text-slate-800 space-y-4">
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0 text-slate-800 space-y-4">
 
         <div
           class="p-3 bg-purple-50 rounded-2xl border border-purple-200 text-xs text-purple-950 flex items-center justify-between">
@@ -2043,6 +2042,7 @@
       const modal = document.getElementById('videoTutorialModal');
       const player = document.getElementById('spotVideoPlayer');
       if (!modal || !player) return;
+      document.body.classList.add('overflow-hidden');
       modal.classList.remove('opacity-0', 'pointer-events-none');
       modal.classList.add('opacity-100');
       try {
@@ -2054,6 +2054,7 @@
     function closeVideoTutorialModal() {
       const modal = document.getElementById('videoTutorialModal');
       const player = document.getElementById('spotVideoPlayer');
+      document.body.classList.remove('overflow-hidden');
       if (!modal || !player) return;
       modal.classList.remove('opacity-100');
       modal.classList.add('opacity-0', 'pointer-events-none');
@@ -2820,6 +2821,7 @@
       const countEl = document.getElementById('tocoCompletoTotalCount');
       if (countEl) countEl.innerText = playerDeck.length;
       if (modal) {
+        document.body.classList.add('overflow-hidden');
         modal.classList.remove('opacity-0', 'pointer-events-none');
         modal.classList.add('opacity-100');
       } else {
@@ -2833,6 +2835,7 @@
 
     function closeModalTocoCompleto() {
       const modal = document.getElementById('modalTocoCompleto');
+      document.body.classList.remove('overflow-hidden');
       if (modal) {
         modal.classList.add('opacity-0', 'pointer-events-none');
         modal.classList.remove('opacity-100');
@@ -3813,6 +3816,7 @@
       if (formBox) formBox.classList.remove('hidden');
       if (successBox) successBox.classList.add('hidden');
       if (modal) {
+        document.body.classList.add('overflow-hidden');
         modal.classList.remove('opacity-0', 'pointer-events-none');
         modal.classList.add('opacity-100');
       }
@@ -3820,6 +3824,7 @@
 
     function closeModalPedirFigurita() {
       const modal = document.getElementById('modalPedirFigurita');
+      document.body.classList.remove('overflow-hidden');
       if (modal) {
         modal.classList.remove('opacity-100');
         modal.classList.add('opacity-0', 'pointer-events-none');
@@ -3923,6 +3928,7 @@
       updateMiTocoStats();
 
       if (modal) {
+        document.body.classList.add('overflow-hidden');
         modal.classList.remove('opacity-0', 'pointer-events-none');
         modal.classList.add('opacity-100');
       }
@@ -3930,6 +3936,7 @@
 
     function closeModalCompartirMitoco() {
       const modal = document.getElementById('modalCompartirMitoco');
+      document.body.classList.remove('overflow-hidden');
       if (modal) {
         modal.classList.remove('opacity-100');
         modal.classList.add('opacity-0', 'pointer-events-none');
@@ -4201,6 +4208,7 @@
       const modal = document.getElementById('modalAdminLocal');
       renderAdminFiguritasList();
       if (modal) {
+        document.body.classList.add('overflow-hidden');
         modal.classList.remove('opacity-0', 'pointer-events-none');
         modal.classList.add('opacity-100');
       }
@@ -4208,6 +4216,7 @@
 
     function closeModalAdmin() {
       const modal = document.getElementById('modalAdminLocal');
+      document.body.classList.remove('overflow-hidden');
       if (modal) {
         modal.classList.remove('opacity-100');
         modal.classList.add('opacity-0', 'pointer-events-none');
